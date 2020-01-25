@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/parent_navigation"
+        app:startDestination="@id/messageFragment">
+
+    <fragment
+            android:id="@+id/timeTableFragment"
+            android:name="com.cheise_proj.parent_feature.ui.timetable.TimeTableFragment"
+            android:label="TimeTable" />
+    <fragment
+            android:id="@+id/announcementFragment2"
+            android:name="com.cheise_proj.parent_feature.ui.announcement.AnnouncementFragment"
+            android:label="Announcement" />
+    <fragment
+            android:id="@+id/billFragment"
+            android:name="com.cheise_proj.parent_feature.ui.bill.BillFragment"
+            android:label="Bill" />
+    <fragment
+            android:id="@+id/circularFragment2"
+            android:name="com.cheise_proj.parent_feature.ui.circular.CircularFragment"
+            android:label="Circular" />
+    <fragment
+            android:id="@+id/messageFragment"
+            android:name="com.cheise_proj.parent_feature.ui.message.MessageFragment"
+            android:label="Messages" />
+    <fragment
+            android:id="@+id/passwordFragment"
+            android:name="com.cheise_proj.parent_feature.ui.password.PasswordFragment"
+            android:label="Change Password" />
+    <fragment
+            android:id="@+id/profileFragment2"
+            android:name="com.cheise_proj.parent_feature.ui.profile.ProfileFragment"
+            android:label="Profile" />
+    <fragment
+            android:id="@+id/reportFragment2"
+            android:name="com.cheise_proj.parent_feature.ui.report.ReportFragment"
+            android:label="Report" />
+    <fragment
+            android:id="@+id/teacherFragment"
+            android:name="com.cheise_proj.parent_feature.ui.teacher.TeacherFragment"
+            android:label="Class Teacher" />
+    <fragment
+            android:id="@+id/sendComplaintFragment"
+            android:name="com.cheise_proj.parent_feature.ui.complaint.SendComplaintFragment"
+            android:label="SendComplaint" />
+    <fragment
+            android:id="@+id/assignmentFragment"
+            android:name="com.cheise_proj.parent_feature.ui.assignment.AssignmentFragment"
+            android:label="Assignment" />
+</navigation>

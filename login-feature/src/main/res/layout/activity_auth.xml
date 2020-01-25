@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="outsideOverlay"
+        tools:context=".ui.auth.AuthActivity">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/large_size"
+                android:layout_marginEnd="@dimen/large_size"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:padding="8dp">
+
+                <TextView
+                        android:id="@+id/label_msg_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/label_login_msg"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold" />
+
+                <ImageView
+                        android:id="@+id/login_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/label_msg_title"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="100dp"
+                        android:transitionName="@string/trans_role_label"
+                        tools:ignore="ContentDescription"
+                        tools:src="@drawable/parents" />
+
+                <TextView
+                        android:id="@+id/tv_role"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/login_avatar"
+                        android:gravity="center"
+                        android:padding="@dimen/small_size"
+                        tools:text="@string/app_name" />
+
+                <EditText
+                        android:id="@+id/et_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_role"
+                        android:background="@drawable/square_edit_text"
+                        android:hint="@string/hint_input_username"
+                        android:inputType="textPersonName"
+                        android:padding="16dp"
+                        android:textColorHint="?attr/primaryTextColor"
+                        tools:ignore="Autofill" />
+
+                <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/et_username"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/square_edit_text"
+                        android:hint="@string/hint_input_password"
+                        android:inputType="textPassword"
+                        android:padding="16dp"
+                        android:textColorHint="?attr/primaryTextColor"
+                        tools:ignore="Autofill" />
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/et_password"
+                        android:layout_marginTop="16dp"
+                        android:padding="@dimen/medium_size"
+                        android:text="@string/label_button_login" />
+
+                <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/btn_login"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="@dimen/medium_size"
+                        android:visibility="gone"
+                        android:indeterminate="true" />
+
+                <TextView
+                        android:id="@+id/label_msg_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/btn_login"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:textColor="@android:color/holo_red_light"
+                        tools:text="@string/app_name" />
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mv"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:text="@string/label_corp_name" />
+
+    </RelativeLayout>
+</ScrollView>
+

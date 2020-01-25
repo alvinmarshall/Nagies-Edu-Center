@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">parent-feature</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_parent_navigation">ParentNavigationActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!--    menu nav-->
+    <string name="menu_message">Messages</string>
+    <string name="menu_circular">Circular</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_assignment">Assignment</string>
+    <string name="menu_report">Report</string>
+    <string name="menu_change_password">Change Password</string>
+    <string name="menu_reports_pdf">Report</string>
+    <string name="menu_announcement">Announcement</string>
+    <string name="menu_send_complaint">Send Complaint</string>
+    <string name="menu_bill">Bill</string>
+    <string name="menu_time_table">TimeTable</string>
+    <string name="menu_class_teacher">Class Teacher</string>
+</resources>

@@ -1,0 +1,21 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlin_version"
+
+    //Testing
+    testImplementation "junit:junit:$rootProject.junitVersion"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockito_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"
+
+    //inject
+    implementation "javax.inject:javax.inject:$rootProject.javaxInjectVersion"
+
+    implementation project(path: ':data')
+
+}
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.cheise_proj.login_feature">
+
+    <application>
+        <activity android:name=".ui.auth.AuthActivity" android:label="Login"/>
+        <activity android:name=".ui.role.RoleActivity" android:label="Role"/>
+    </application>
+
+</manifest>

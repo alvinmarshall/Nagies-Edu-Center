@@ -1,0 +1,4 @@
+apply plugin: 'kotlin'
+dependencies {
+    implementation"org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlin_version"
+}

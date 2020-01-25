@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".ui.role.RoleActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+
+
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/small_size"
+                app:cardElevation="@dimen/medium_size"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/medium_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/medium_size">
+
+                <LinearLayout
+                        android:id="@+id/btn_parent_role"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                            android:id="@+id/img_parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/medium_size"
+                            android:src="@drawable/parents"
+                            android:transitionName="@string/trans_role_label"
+                            tools:ignore="ContentDescription" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/label_parent_login"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/btn_teacher_role"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                            android:id="@+id/img_teacher"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/medium_size"
+                            android:src="@drawable/teachers"
+                            android:transitionName="@string/trans_role_label"
+                            tools:ignore="ContentDescription" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/label_teacher_login"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

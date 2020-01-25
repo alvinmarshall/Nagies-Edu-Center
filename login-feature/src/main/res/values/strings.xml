@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">login-feature</string>
+    <string name="label_teacher_login">Teacher</string>
+    <string name="label_parent_login">Parent</string>
+    <string name="user_role_extra">role</string>
+
+    <string name="hint_input_username">username</string>
+    <string name="hint_input_password">password</string>
+    <string name="label_button_login">login</string>
+    <string name="label_login_msg">Welcome to Nagie\'s Angels Educational Center</string>
+    <string name="label_terms_and_conditions">terms and conditions</string>
+    <string name="label_corp_name">Powered by Infordas Ghana Limited</string>
+    <string name="trans_role_label">label_transition_role</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3E50B4</color>
+    <color name="colorPrimaryDark">#2F3E9E</color>
+    <color name="colorAccent">#2699FB</color>
+
+    <!-- Light Themes colors -->
+    <color name="colorPrimaryTextLight">#2699FB</color>
+    <color name="colorSecondaryTextLight">@android:color/darker_gray</color>
+    <color name="colorCardLight">@android:color/white</color>
+    <color name="colorDrawableTintLight">#2699FB</color>
+    <color name="colorBackgroundLight">@android:color/white</color>
+    <color name="normal">#6090CAF9</color>
+    <color name="selected">#DCDCDC</color>
+
+    <color name="colorPrimaryTextDefaultMaterialLight">#DE000000</color>
+    <color name="colorSecondaryTextDefaultMaterialLight">#8A000000</color>
+
+    <color name="colorPrimaryTextDefaultMaterialDark">#FFFFFFFF</color>
+    <color name="colorSecondaryTextDefaultMaterialDark">#B3FFFFFF</color>
+
+    <color name="color_login_background">#E7E8FA</color>
+</resources>
