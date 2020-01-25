@@ -7,6 +7,7 @@ import com.cheise_proj.remote_source.mapper.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import sun.rmi.runtime.Log
+import java.util.*
 import javax.inject.Inject
 
 class RemoteSourceImpl @Inject constructor(
@@ -22,14 +23,17 @@ class RemoteSourceImpl @Inject constructor(
         username: String,
         password: String
     ): Observable<UserData> {
-        return apiService.getAuthenticateUser( role,LoginRequest(username,password))
+        return apiService.getAuthenticateUser(
+            role.toLowerCase(Locale.ENGLISH),
+            LoginRequest(username, password)
+        )
             .map {
                 println("auth user $it")
-            if (it.status == OK_STATUS) {
-                return@map userDtoDataMapper.dtoToData(it)
+                if (it.status == OK_STATUS) {
+                    return@map userDtoDataMapper.dtoToData(it)
+                }
+                return@map null
             }
-            return@map null
-        }
 
     }
 

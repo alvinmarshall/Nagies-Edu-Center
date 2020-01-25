@@ -56,6 +56,8 @@ dependencies {
     //Gson
     implementation "com.google.code.gson:gson:$rootProject.gson_version"
 
+    //Preference
+    implementation "androidx.preference:preference-ktx:$rootProject.pref_version"
 
     implementation project(path: ':parent-feature')
     implementation project(path: ':login-feature')

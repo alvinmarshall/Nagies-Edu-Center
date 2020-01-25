@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">parentApp</string>
+
+    <string name="pref_isLogin_key">user_login</string>
+    <string name="pref_login_username_key">login_username</string>
+    <string name="pref_login_name_key">login_name</string>
+    <string name="pref_login_level_key">login_level</string>
+    <string name="pref_login_user_role_key">login_user_role</string>
+    <string name="pref_login_user_token_key">user_token</string>
+    <string name="pref_login_avatar_key">user_avatar</string>
+    <string name="pref_login_uuid_key">login_user_uuid</string>
 </resources>

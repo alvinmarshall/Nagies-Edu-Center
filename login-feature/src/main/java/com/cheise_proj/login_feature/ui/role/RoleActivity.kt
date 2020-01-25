@@ -2,7 +2,6 @@ package com.cheise_proj.login_feature.ui.role
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import com.cheise_proj.login_feature.R
