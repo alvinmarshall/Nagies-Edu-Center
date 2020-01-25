@@ -13,7 +13,7 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.cheise_proj.login_feature.ui.role.RoleActivity">
+        <activity android:name="com.cheise_proj.login_feature.ui.role.RoleActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
