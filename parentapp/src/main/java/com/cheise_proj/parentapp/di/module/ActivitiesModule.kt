@@ -3,6 +3,7 @@ package com.cheise_proj.parentapp.di.module
 import com.cheise_proj.login_feature.di.LoginScope
 import com.cheise_proj.login_feature.ui.auth.AuthActivity
 import com.cheise_proj.login_feature.ui.role.RoleActivity
+import com.cheise_proj.login_feature.ui.splash.SplashActivity
 import com.cheise_proj.parent_feature.ParentNavigationActivity
 import com.cheise_proj.parentapp.di.module.login.LoginFeatureModule
 import com.cheise_proj.parentapp.di.module.parent.ParentFeatureModule
@@ -13,6 +14,10 @@ import javax.inject.Singleton
 
 @Module
 interface ActivitiesModule {
+    @ContributesAndroidInjector(modules = [LoginFeatureModule::class])
+    @LoginScope
+    fun provideSplashActivity():SplashActivity
+
     @ContributesAndroidInjector(modules = [LoginFeatureModule::class])
     @LoginScope
     fun provideRoleActivity(): RoleActivity

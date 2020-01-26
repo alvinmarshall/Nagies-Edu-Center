@@ -23,4 +23,5 @@
     <string name="menu_bill">Bill</string>
     <string name="menu_time_table">TimeTable</string>
     <string name="menu_class_teacher">Class Teacher</string>
+    <string name="label_menu_logout">logout</string>
 </resources>

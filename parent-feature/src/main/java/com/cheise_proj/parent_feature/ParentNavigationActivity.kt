@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -12,6 +13,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.cheise_proj.parent_feature.base.BaseActivity
 import com.google.android.material.navigation.NavigationView
+import javax.inject.Inject
 
 class ParentNavigationActivity : BaseActivity() {
     companion object {
@@ -21,6 +23,9 @@ class ParentNavigationActivity : BaseActivity() {
             return intent
         }
     }
+
+    @Inject
+    lateinit var navigation: ParentNavigation
 
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
@@ -49,8 +54,15 @@ class ParentNavigationActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.activity_parent_navigation_drawer, menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_logout -> navigation.logout(this)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

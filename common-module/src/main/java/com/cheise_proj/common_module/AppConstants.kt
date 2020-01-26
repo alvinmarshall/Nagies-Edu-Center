@@ -15,6 +15,7 @@ const val USER_FULL_NAME_PREF_KEY = "full_name_key"
 const val USER_LEVEL_NAME_PREF_KEY = "level_name_key"
 const val USER_IMAGE_URL_PREF_KEY = "image_url_key"
 const val USER_NAME_PREF_KEY = "username_key"
+const val AUTHORIZATION_HEADER = "Authorization"
 enum class DBEntities {
     ASSIGNMENT, REPORT, CIRCULAR, BILLING, TIME_TABLE
 }
