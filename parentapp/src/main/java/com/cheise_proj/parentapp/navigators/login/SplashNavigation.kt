@@ -28,6 +28,7 @@ class SplashNavigation @Inject constructor() : SplashNavigation {
                         ParentNavigationActivity
                             .getIntent(activity).putExtras(bundle)
                     )
+                    activity.finish()
                 }
                 else -> AlertDialog.Builder(activity).setMessage("Not Implemented").show()
             }
