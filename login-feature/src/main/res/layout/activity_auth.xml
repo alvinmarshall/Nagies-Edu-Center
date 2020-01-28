@@ -112,6 +112,8 @@
                         android:layout_marginTop="8dp"
                         android:gravity="center_horizontal"
                         android:padding="5dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:textColor="@android:color/holo_red_light"
                         tools:text="@string/app_name" />
             </RelativeLayout>

@@ -4,10 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.parentapp.di.key.ViewModelKey
+import com.cheise_proj.parentapp.preference.PreferenceImpl
+import com.cheise_proj.parentapp.utils.ServerPathUtils
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.mapper.PresentationMapper
 import com.cheise_proj.presentation.mapper.user.UserEntityMapper
 import com.cheise_proj.presentation.model.user.User
+import com.cheise_proj.presentation.utils.IPreference
+import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.viewmodel.user.UserViewModel
 import dagger.Binds
 import dagger.Module
@@ -27,6 +31,12 @@ class PresentationModule {
 
         @Binds
         fun bindUserEntityMapper(userEntityMapper: UserEntityMapper):PresentationMapper<User,UserEntity>
+
+        @Binds
+        fun bindPreferenceImpl(preferenceImpl: PreferenceImpl):IPreference
+
+        @Binds
+        fun bindServerPathImpl(serverPathUtils: ServerPathUtils):IServerPath
     }
 
 }

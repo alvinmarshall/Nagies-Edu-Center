@@ -11,4 +11,10 @@
     <string name="label_terms_and_conditions">terms and conditions</string>
     <string name="label_corp_name">Powered by Infordas Ghana Limited</string>
     <string name="trans_role_label">label_transition_role</string>
+
+    <string name="error_empty_input">Invalid input</string>
+    <string name="error_invalid_email">Invalid input</string>
+    <string name="error_invalid_credentials">Username or password incorrect</string>
+    <string name="error_no_network_connectivity">No internet connection</string>
+
 </resources>

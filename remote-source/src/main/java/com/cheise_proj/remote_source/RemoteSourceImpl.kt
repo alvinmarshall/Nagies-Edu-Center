@@ -6,7 +6,8 @@ import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
-import sun.rmi.runtime.Log
+import io.reactivex.functions.Function
+import java.util.*
 import javax.inject.Inject
 
 class RemoteSourceImpl @Inject constructor(
@@ -14,7 +15,8 @@ class RemoteSourceImpl @Inject constructor(
     private val userDtoDataMapper: UserDtoDataMapper
 ) : RemoteSource {
     companion object {
-        const val OK_STATUS = 200
+        const val NO_CONNECTIVITY = "No internet connection"
+        const val INVALID_CREDENTIALS = "username or password invalid"
     }
 
     override fun authenticateUser(
@@ -22,14 +24,33 @@ class RemoteSourceImpl @Inject constructor(
         username: String,
         password: String
     ): Observable<UserData> {
-        return apiService.getAuthenticateUser( role,LoginRequest(username,password))
+        return apiService.getAuthenticateUser(
+            role.toLowerCase(Locale.ENGLISH),
+            LoginRequest(username, password)
+        )
             .map {
-                println("auth user $it")
-            if (it.status == OK_STATUS) {
                 return@map userDtoDataMapper.dtoToData(it)
             }
-            return@map null
-        }
+            .toObservable()
+            .onErrorResumeNext(
+                Function {
+                    println("apiService.getAuthenticateUser error ${it.message}")
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            msg.contains("HTTP 401") -> {
+                                Observable.error(Throwable(INVALID_CREDENTIALS))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+
+                }
+            )
 
     }
 
