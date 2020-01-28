@@ -1,8 +1,10 @@
 package com.cheise_proj.remote_source
 
+import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.RemoteSource
 import com.cheise_proj.remote_source.api.ApiService
+import com.cheise_proj.remote_source.mapper.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
@@ -12,7 +14,8 @@ import javax.inject.Inject
 
 class RemoteSourceImpl @Inject constructor(
     private val apiService: ApiService,
-    private val userDtoDataMapper: UserDtoDataMapper
+    private val userDtoDataMapper: UserDtoDataMapper,
+    private val profileDtoDataMapper: ProfileDtoDataMapper
 ) : RemoteSource {
     companion object {
         const val NO_CONNECTIVITY = "No internet connection"
@@ -52,6 +55,16 @@ class RemoteSourceImpl @Inject constructor(
                 }
             )
 
+    }
+
+    override fun getProfile(): Observable<ProfileData> {
+        return apiService.getProfile()
+            .map {
+                println("dto ${it.student} \n ${it.teacher}")
+                if (it.student != null) return@map profileDtoDataMapper.dtoToData(it.student)
+                return@map profileDtoDataMapper.dtoToData(it.teacher)
+            }
+            .toObservable()
     }
 
 }

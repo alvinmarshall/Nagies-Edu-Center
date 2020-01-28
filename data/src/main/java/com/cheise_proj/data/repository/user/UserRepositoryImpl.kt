@@ -1,9 +1,10 @@
 package com.cheise_proj.data.repository.user
 
+import com.cheise_proj.data.mapper.user.ProfileDataEntityMapper
 import com.cheise_proj.data.mapper.user.UserDataEntityMapper
-import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
+import com.cheise_proj.domain.entity.user.ProfileEntity
 import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.domain.repository.UserRepository
 import io.reactivex.Observable
@@ -13,7 +14,8 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val remoteSource: RemoteSource,
     private val localSource: LocalSource,
-    private val userDataEntityMapper: UserDataEntityMapper
+    private val userDataEntityMapper: UserDataEntityMapper,
+    private val profileDataEntityMapper: ProfileDataEntityMapper
 ) : UserRepository {
     override fun authenticateUser(
         username: String,
@@ -35,5 +37,30 @@ class UserRepositoryImpl @Inject constructor(
                 }
             )
     }
+
+    override fun getStudentProfile(identifier: String): Observable<ProfileEntity> {
+        val remote = remoteSource.getProfile().map {
+            localSource.saveProfile(it)
+            profileDataEntityMapper.dataToEntity(it)
+        }
+        return localSource.getProfile(identifier).map {
+            profileDataEntityMapper.dataToEntity(it)
+        }.toObservable().onErrorResumeNext(
+            Function { remote }
+        )
+    }
+
+    override fun getTeacherProfile(identifier: String): Observable<ProfileEntity> {
+        val remote = remoteSource.getProfile().map {
+            localSource.saveProfile(it)
+            profileDataEntityMapper.dataToEntity(it)
+        }
+        return localSource.getProfile(identifier).map {
+            profileDataEntityMapper.dataToEntity(it)
+        }.toObservable().onErrorResumeNext(
+            Function { remote }
+        )
+    }
+
 
 }

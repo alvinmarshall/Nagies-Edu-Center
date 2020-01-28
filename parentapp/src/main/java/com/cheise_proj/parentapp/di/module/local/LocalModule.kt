@@ -2,6 +2,8 @@ package com.cheise_proj.parentapp.di.module.local
 
 import android.app.Application
 import androidx.room.Room
+import com.cheise_proj.data.mapper.user.ProfileDataEntityMapper
+import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.local_source.LocalSourceImpl
@@ -9,7 +11,9 @@ import com.cheise_proj.local_source.db.LocalDatabase
 import com.cheise_proj.local_source.db.LocalDatabase.Companion.DATABASE_NAME
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.LocalMapper
+import com.cheise_proj.local_source.mapper.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.UserLocalDataMapper
+import com.cheise_proj.local_source.model.ProfileLocal
 import com.cheise_proj.local_source.model.UserLocal
 import dagger.Binds
 import dagger.Module
@@ -25,6 +29,10 @@ class LocalModule {
 
         @Binds
         fun bindLocalSource(localSourceImpl: LocalSourceImpl): LocalSource
+
+        @Binds
+        fun bindProfileLocalDataMapper(profileLocalDataMapper: ProfileLocalDataMapper):
+                LocalMapper<ProfileLocal, ProfileData>
     }
 
     @Singleton

@@ -1,9 +1,12 @@
 package com.cheise_proj.parentapp.di.module.data
 
 import com.cheise_proj.data.mapper.base.DataMapper
+import com.cheise_proj.data.mapper.user.ProfileDataEntityMapper
 import com.cheise_proj.data.mapper.user.UserDataEntityMapper
+import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.repository.user.UserRepositoryImpl
+import com.cheise_proj.domain.entity.user.ProfileEntity
 import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.domain.repository.UserRepository
 import dagger.Binds
@@ -18,7 +21,11 @@ class DataModule {
                 DataMapper<UserData, UserEntity>
 
         @Binds
-        fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl):UserRepository
+        fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+
+        @Binds
+        fun bindProfileDataEntityMapper(profileDataEntityMapper: ProfileDataEntityMapper):
+                DataMapper<ProfileData, ProfileEntity>
     }
 
 }

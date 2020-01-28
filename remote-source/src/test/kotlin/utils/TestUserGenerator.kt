@@ -1,6 +1,6 @@
 package utils
 
-import com.cheise_proj.remote_source.model.dto.UserDto
+import com.cheise_proj.remote_source.model.dto.*
 
 object TestUserGenerator {
     fun user(): UserDto {
@@ -13,6 +13,41 @@ object TestUserGenerator {
             level = "test level",
             imageUrl = null,
             name = "test name"
+        )
+    }
+
+    fun getProfile(): ProfileDto {
+        return ProfileDto(
+            student = Profile1(
+                username = "test username",
+                name = "test name",
+                level = "test level",
+                imageUrl = "test image",
+                dob = "test dob",
+                adminDate = "test adminDate",
+                contact = "test contact",
+                faculty = "test faculty",
+                gender = "test gender",
+                guardian = "test guardian",
+                refNo = "test refNo",
+                section = "test section",
+                semester = "test semester"
+            ),
+            teacher = Profile2(
+                username = "test username",
+                name = "test name",
+                level = "test level",
+                imageUrl = "test image",
+                dob = "test dob",
+                adminDate = "test adminDate",
+                contact = "test contact",
+                faculty = "test faculty",
+                gender = "test gender",
+                guardian = "test guardian",
+                refNo = "test refNo",
+                section = "test section",
+                semester = "test semester"
+            )
         )
     }
 }
