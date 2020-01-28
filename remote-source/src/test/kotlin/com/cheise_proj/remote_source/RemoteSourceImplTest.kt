@@ -3,7 +3,7 @@ package com.cheise_proj.remote_source
 import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.request.LoginRequest
-import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,7 +37,7 @@ class RemoteSourceImplTest {
     fun `Authenticate parent role success`() {
         val response = TestUserGenerator.user()
         Mockito.`when`(apiService.getAuthenticateUser(parent, LoginRequest(username,password))).thenReturn(
-            Observable.just(response)
+            Single.just(response)
         )
         remoteSourceImpl.authenticateUser(parent, username, password).test()
             .assertSubscribed()
@@ -46,6 +46,20 @@ class RemoteSourceImplTest {
                 it.token == userDtoDataMapper.dataToDto(it).token
             }
             .assertComplete()
+        Mockito.verify(apiService, times(1))
+            .getAuthenticateUser(parent,LoginRequest(username,password))
+    }
+
+    @Test
+    fun `Authenticate parent role on error`() {
+        val errorMsg = "HTTP 401"
+        val actual = "username or password invalid"
+        Mockito.`when`(apiService.getAuthenticateUser(parent, LoginRequest(username,password))).thenReturn(
+            Single.error(Throwable(errorMsg))
+        )
+        remoteSourceImpl.authenticateUser(parent, username, password).test()
+            .assertSubscribed()
+            .assertErrorMessage(actual)
         Mockito.verify(apiService, times(1))
             .getAuthenticateUser(parent,LoginRequest(username,password))
     }

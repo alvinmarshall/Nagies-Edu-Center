@@ -114,12 +114,6 @@ class AuthActivity : DaggerAppCompatActivity() {
         label_msg_error.visibility = View.GONE
         msg?.let {
             label_msg_error.text = it
-            if (it.contains("Unable to resolve host")) {
-                label_msg_error.text = getString(R.string.error_no_network_connectivity)
-            }
-            if (it.contains("HTTP 401")) {
-                label_msg_error.text = getString(R.string.error_invalid_credentials)
-            }
             label_msg_error.visibility = View.VISIBLE
         }
     }
