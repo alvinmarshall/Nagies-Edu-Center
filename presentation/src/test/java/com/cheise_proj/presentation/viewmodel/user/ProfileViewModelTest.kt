@@ -47,14 +47,15 @@ class ProfileViewModelTest {
     @Test
     fun `Get student profile success`() {
         val identifier = "test identifier"
-        val actual = TestUserGenerator.getProfile()
+        val profile = TestUserGenerator.getProfile()
         Mockito.`when`(userRepository.getStudentProfile(identifier))
-            .thenReturn(Observable.just(profileEntityMapper.presentationToEntity(actual)))
+            .thenReturn(Observable.just(profileEntityMapper.presentationToEntity(profile)))
         val liveProfile = profileViewModel.getProfile(PARENT, identifier)
         liveProfile.observeForever { }
         assertTrue(
-            liveProfile.value?.status == STATUS.SUCCESS && liveProfile.value?.data == actual
+            liveProfile.value?.status == STATUS.SUCCESS
         )
+        assertNotNull(liveProfile.value?.data)
     }
 
     @Test
@@ -66,8 +67,9 @@ class ProfileViewModelTest {
         val liveProfile = profileViewModel.getProfile(TEACHER, identifier)
         liveProfile.observeForever { }
         assertTrue(
-            liveProfile.value?.status == STATUS.SUCCESS && liveProfile.value?.data == actual
+            liveProfile.value?.status == STATUS.SUCCESS
         )
+        assertNotNull(liveProfile.value?.data)
     }
 
     @Test
