@@ -4,14 +4,17 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.cheise_proj.common_module.DEV_INFORDAS_BASE_URL
 import com.cheise_proj.common_module.INFORDAS_BASE_URL
+import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.RemoteSource
 import com.cheise_proj.parentapp.BuildConfig
 import com.cheise_proj.parentapp.R
 import com.cheise_proj.remote_source.RemoteSourceImpl
 import com.cheise_proj.remote_source.api.ApiService
+import com.cheise_proj.remote_source.mapper.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.mapper.UserDtoDataMapper
+import com.cheise_proj.remote_source.model.dto.IProfileDto
 import com.cheise_proj.remote_source.model.dto.UserDto
 import dagger.Binds
 import dagger.Module
@@ -35,6 +38,10 @@ class RemoteModule {
 
         @Binds
         fun bindRemoteSource(remoteSourceImpl: RemoteSourceImpl): RemoteSource
+
+        @Binds
+        fun bindProfileDtoDataMapper(profileDtoDataMapper: ProfileDtoDataMapper):
+                RemoteMapper<IProfileDto, ProfileData>
     }
 
     @Suppress("SpellCheckingInspection")
@@ -67,15 +74,5 @@ class RemoteModule {
     private fun getBaseUrl(): String {
         if (BuildConfig.DEBUG) return DEV_INFORDAS_BASE_URL
         return INFORDAS_BASE_URL
-    }
-
-
-    @Provides
-    fun provideTokenService(context: Context, sharedPreferences: SharedPreferences): TokenService {
-        val token =
-            sharedPreferences
-                .getString(context.getString
-                    (R.string.pref_login_user_token_key), null) ?: ""
-        return TokenService(token)
     }
 }

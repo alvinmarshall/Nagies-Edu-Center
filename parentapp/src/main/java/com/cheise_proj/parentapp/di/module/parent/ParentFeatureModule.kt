@@ -2,9 +2,11 @@ package com.cheise_proj.parentapp.di.module.parent
 
 import com.cheise_proj.parent_feature.ParentNavigation
 import com.cheise_proj.parent_feature.di.ParentFragmentModule
+import com.cheise_proj.parent_feature.ui.profile.ProfileFragment
 import com.cheise_proj.parentapp.navigators.parent.ParentActivityNavigation
 import dagger.Binds
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 @Module(includes = [ParentFragmentModule::class, ParentFeatureModule.Binders::class])
 class ParentFeatureModule {

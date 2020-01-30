@@ -54,4 +54,21 @@ class UserViewModelTest {
             )
         }
     }
+
+    @Test
+    fun `Authenticate user failed`() {
+        val user = TestUserGenerator.user()
+        val errorMsg = "An error occurred"
+        with(user) {
+            Mockito.`when`(userRepository.authenticateUser(username, password, role)).thenReturn(
+                Observable.error(Throwable(errorMsg))
+            )
+
+            val liveUser = userViewModel.authenticateUser(username, password, role)
+            liveUser.observeForever { }
+            assertTrue(
+                liveUser.value?.status == STATUS.ERROR && liveUser.value?.message == errorMsg
+            )
+        }
+    }
 }

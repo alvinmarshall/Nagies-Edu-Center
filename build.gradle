@@ -58,7 +58,7 @@ buildscript {
         room_version = '2.2.3'
         rx_room_version = '1.1.1'
         archCoreTestVersion = '2.1.0'
-        lifecyle_version = '2.2.0-rc03'
+        lifecyle_version = '2.2.0'
         navigation_version = '2.2.0-rc04'
 
         //firebase version

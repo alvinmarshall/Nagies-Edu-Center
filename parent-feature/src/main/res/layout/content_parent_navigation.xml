@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/root"
-        android:background="@drawable/gradient_list_bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/app_bar_parent_navigation"
         tools:context=".ParentNavigationActivity">
@@ -16,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navGraph="@navigation/parent_navigation" app:defaultNavHost="true"
-            android:id="@+id/fragment_socket"/>
+            android:id="@+id/fragment_socket"
+            tools:ignore="FragmentTagUsage" />
 
 </FrameLayout>

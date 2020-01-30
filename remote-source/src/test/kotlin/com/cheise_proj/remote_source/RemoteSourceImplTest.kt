@@ -1,6 +1,7 @@
 package com.cheise_proj.remote_source
 
 import com.cheise_proj.remote_source.api.ApiService
+import com.cheise_proj.remote_source.mapper.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Single
@@ -19,6 +20,7 @@ class RemoteSourceImplTest {
 
     private lateinit var remoteSourceImpl: RemoteSourceImpl
     private lateinit var userDtoDataMapper: UserDtoDataMapper
+    private lateinit var profileDtoDataMapper: ProfileDtoDataMapper
     private val username = "test username"
     private val password = "test password"
     private val parent = "parent role"
@@ -30,7 +32,8 @@ class RemoteSourceImplTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         userDtoDataMapper = UserDtoDataMapper()
-        remoteSourceImpl = RemoteSourceImpl(apiService, userDtoDataMapper)
+        profileDtoDataMapper = ProfileDtoDataMapper()
+        remoteSourceImpl = RemoteSourceImpl(apiService, userDtoDataMapper,profileDtoDataMapper)
     }
 
     @Test
@@ -62,5 +65,33 @@ class RemoteSourceImplTest {
             .assertErrorMessage(actual)
         Mockito.verify(apiService, times(1))
             .getAuthenticateUser(parent,LoginRequest(username,password))
+    }
+
+    @Test
+    fun `Get student profile success`(){
+        val actual = TestUserGenerator.getProfile()
+        Mockito.`when`(apiService.getProfile()).thenReturn(Single.just(actual))
+        remoteSourceImpl.getProfile().test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == profileDtoDataMapper.dtoToData(actual.student!!)
+            }
+            .assertComplete()
+        Mockito.verify(apiService, times(1)).getProfile()
+    }
+
+    @Test
+    fun `Get teacher profile success`(){
+        val actual = TestUserGenerator.getProfile()
+        Mockito.`when`(apiService.getProfile()).thenReturn(Single.just(actual))
+        remoteSourceImpl.getProfile().test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == profileDtoDataMapper.dtoToData(actual.teacher)
+            }
+            .assertComplete()
+        Mockito.verify(apiService, times(1)).getProfile()
     }
 }
