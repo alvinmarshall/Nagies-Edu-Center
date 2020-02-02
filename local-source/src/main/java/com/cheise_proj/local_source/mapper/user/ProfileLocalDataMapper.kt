@@ -1,10 +1,12 @@
-package com.cheise_proj.local_source.mapper
+package com.cheise_proj.local_source.mapper.user
 
 import com.cheise_proj.data.model.user.ProfileData
-import com.cheise_proj.local_source.model.ProfileLocal
+import com.cheise_proj.local_source.mapper.base.LocalMapper
+import com.cheise_proj.local_source.model.user.ProfileLocal
 import javax.inject.Inject
 
-class ProfileLocalDataMapper @Inject constructor() : LocalMapper<ProfileLocal, ProfileData> {
+class ProfileLocalDataMapper @Inject constructor() :
+    LocalMapper<ProfileLocal, ProfileData> {
     override fun localToData(l: ProfileLocal): ProfileData {
         return ProfileData(
             username = l.username,

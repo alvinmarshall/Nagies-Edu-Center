@@ -1,4 +1,4 @@
-package com.cheise_proj.local_source.model
+package com.cheise_proj.local_source.model.user
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

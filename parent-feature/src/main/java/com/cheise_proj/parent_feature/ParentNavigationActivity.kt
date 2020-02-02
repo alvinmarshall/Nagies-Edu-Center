@@ -66,9 +66,11 @@ class ParentNavigationActivity : BaseActivity() {
         openNavigationMenu()
         connectionLiveData.observe(this, Observer {
             if (!it) {
+                root.background = baseContext.getDrawable(R.drawable.no_internet)
                 snack.setText("No internet connection")
                 snack.show()
             } else {
+                root.background = null
                 snack.dismiss()
 
             }

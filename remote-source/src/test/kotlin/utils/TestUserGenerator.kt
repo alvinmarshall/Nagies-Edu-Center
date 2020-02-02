@@ -1,6 +1,9 @@
 package utils
 
-import com.cheise_proj.remote_source.model.dto.*
+import com.cheise_proj.remote_source.model.dto.user.Profile1
+import com.cheise_proj.remote_source.model.dto.user.Profile2
+import com.cheise_proj.remote_source.model.dto.user.ProfileDto
+import com.cheise_proj.remote_source.model.dto.user.UserDto
 
 object TestUserGenerator {
     fun user(): UserDto {

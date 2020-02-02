@@ -1,4 +1,4 @@
-package com.cheise_proj.remote_source.model.dto
+package com.cheise_proj.remote_source.model.dto.user
 
 import com.google.gson.annotations.SerializedName
 
@@ -28,7 +28,7 @@ data class Profile1(
     override val guardian: String,
     override val dob: String
 
-) :IProfileDto
+) : IProfileDto
 
 data class Profile2(
     @SerializedName("ref")

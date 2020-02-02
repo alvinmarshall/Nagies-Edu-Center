@@ -1,10 +1,12 @@
-package com.cheise_proj.remote_source.mapper
+package com.cheise_proj.remote_source.mapper.user
 
 import com.cheise_proj.data.model.user.UserData
-import com.cheise_proj.remote_source.model.dto.UserDto
+import com.cheise_proj.remote_source.mapper.RemoteMapper
+import com.cheise_proj.remote_source.model.dto.user.UserDto
 import javax.inject.Inject
 
-class UserDtoDataMapper @Inject constructor(): RemoteMapper<UserDto, UserData> {
+class UserDtoDataMapper @Inject constructor() :
+    RemoteMapper<UserDto, UserData> {
     override fun dtoToData(t: UserDto): UserData {
         return UserData(
             username = "",
@@ -30,5 +32,13 @@ class UserDtoDataMapper @Inject constructor(): RemoteMapper<UserDto, UserData> {
             token = d.token
 
         )
+    }
+
+    override fun dtoToDataList(tList: List<UserDto>): List<UserData> {
+        throw NotImplementedError("not implemented")
+    }
+
+    override fun dataToDtoList(dList: List<UserData>): List<UserDto> {
+        throw NotImplementedError("not implemented")
     }
 }

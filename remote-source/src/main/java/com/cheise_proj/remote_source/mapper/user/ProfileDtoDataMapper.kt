@@ -1,14 +1,16 @@
-package com.cheise_proj.remote_source.mapper
+package com.cheise_proj.remote_source.mapper.user
 
 import com.cheise_proj.data.model.user.ProfileData
-import com.cheise_proj.remote_source.model.dto.IProfileDto
-import com.cheise_proj.remote_source.model.dto.Profile1
+import com.cheise_proj.remote_source.mapper.RemoteMapper
+import com.cheise_proj.remote_source.model.dto.user.IProfileDto
+import com.cheise_proj.remote_source.model.dto.user.Profile1
 import javax.inject.Inject
 
-class ProfileDtoDataMapper @Inject constructor() :RemoteMapper<IProfileDto, ProfileData> {
+class ProfileDtoDataMapper @Inject constructor() :
+    RemoteMapper<IProfileDto, ProfileData> {
     override fun dtoToData(t: IProfileDto): ProfileData {
         return ProfileData(
-            username = t.username ,
+            username = t.username,
             semester = t.semester,
             section = t.section,
             refNo = t.refNo,
@@ -26,7 +28,7 @@ class ProfileDtoDataMapper @Inject constructor() :RemoteMapper<IProfileDto, Prof
 
     override fun dataToDto(d: ProfileData): IProfileDto {
         return Profile1(
-            username = d.username ,
+            username = d.username,
             semester = d.semester,
             section = d.section,
             refNo = d.refNo,
@@ -40,6 +42,14 @@ class ProfileDtoDataMapper @Inject constructor() :RemoteMapper<IProfileDto, Prof
             level = d.level,
             name = d.name
         )
+    }
+
+    override fun dtoToDataList(tList: List<IProfileDto>): List<ProfileData> {
+        throw NotImplementedError("not implemented")
+    }
+
+    override fun dataToDtoList(dList: List<ProfileData>): List<IProfileDto> {
+        throw NotImplementedError("not implemented")
     }
 
 }

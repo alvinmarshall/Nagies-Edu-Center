@@ -1,4 +1,5 @@
 package com.cheise_proj.common_module
+const val STALE_MS: Long = 30 * 1000 // Data is stale after 30 seconds
 const val PARENT_ROLE = "Parent"
 const val TEACHER_ROLE = "Teacher"
 const val USER_SELECTED_ROLE_PREF_KEY = "USER_SELECTED_ROLE_PREF_KEY"

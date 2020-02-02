@@ -1,4 +1,4 @@
-package com.cheise_proj.remote_source.model.dto
+package com.cheise_proj.remote_source.model.dto.user
 
 import com.google.gson.annotations.SerializedName
 

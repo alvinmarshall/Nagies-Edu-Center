@@ -2,11 +2,9 @@ package com.cheise_proj.local_source.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.cheise_proj.local_source.model.ProfileLocal
-import com.cheise_proj.local_source.model.UserLocal
-import io.reactivex.Completable
+import com.cheise_proj.local_source.model.user.ProfileLocal
+import com.cheise_proj.local_source.model.user.UserLocal
 import io.reactivex.Single
 
 @Dao

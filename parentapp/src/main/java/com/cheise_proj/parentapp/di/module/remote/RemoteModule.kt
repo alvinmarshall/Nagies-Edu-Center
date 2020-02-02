@@ -1,32 +1,29 @@
 package com.cheise_proj.parentapp.di.module.remote
 
-import android.content.Context
-import android.content.SharedPreferences
 import com.cheise_proj.common_module.DEV_INFORDAS_BASE_URL
 import com.cheise_proj.common_module.INFORDAS_BASE_URL
+import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.RemoteSource
 import com.cheise_proj.parentapp.BuildConfig
-import com.cheise_proj.parentapp.R
 import com.cheise_proj.remote_source.RemoteSourceImpl
 import com.cheise_proj.remote_source.api.ApiService
-import com.cheise_proj.remote_source.mapper.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.RemoteMapper
-import com.cheise_proj.remote_source.mapper.UserDtoDataMapper
-import com.cheise_proj.remote_source.model.dto.IProfileDto
-import com.cheise_proj.remote_source.model.dto.UserDto
+import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
+import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
+import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
+import com.cheise_proj.remote_source.model.dto.message.MessageDto
+import com.cheise_proj.remote_source.model.dto.user.IProfileDto
+import com.cheise_proj.remote_source.model.dto.user.UserDto
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module(includes = [RemoteModule.Binders::class])
@@ -42,6 +39,9 @@ class RemoteModule {
         @Binds
         fun bindProfileDtoDataMapper(profileDtoDataMapper: ProfileDtoDataMapper):
                 RemoteMapper<IProfileDto, ProfileData>
+
+        @Binds
+        fun bindMessageDtoDataMapper(messageDtoDataMapper: MessageDtoDataMapper): RemoteMapper<MessageDto, MessageData>
     }
 
     @Suppress("SpellCheckingInspection")

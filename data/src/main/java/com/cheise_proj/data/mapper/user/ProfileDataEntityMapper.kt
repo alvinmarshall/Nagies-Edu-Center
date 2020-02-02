@@ -41,4 +41,12 @@ class ProfileDataEntityMapper @Inject constructor() : DataMapper<ProfileData, Pr
             name = e.name
         )
     }
+
+    override fun dataToEntityList(dList: List<ProfileData>): List<ProfileEntity> {
+        throw NotImplementedError("not implemented")
+    }
+
+    override fun entityToDataList(eList: List<ProfileEntity>): List<ProfileData> {
+        throw NotImplementedError("not implemented")
+    }
 }
