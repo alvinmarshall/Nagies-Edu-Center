@@ -13,6 +13,7 @@ const val DEV_SERVER_URL = "https://developers.nagies.infodasgh.com/api/v1/file/
 const val PERMISSION_PREF = "permission_pref"
 const val REQUEST_EXTERNAL_STORAGE = 100
 const val AUTHORIZATION_HEADER = "Authorization"
+const val DELAY_HANDLER: Long = 1000
 enum class DBEntities {
     ASSIGNMENT, REPORT, CIRCULAR, BILLING, TIME_TABLE
 }

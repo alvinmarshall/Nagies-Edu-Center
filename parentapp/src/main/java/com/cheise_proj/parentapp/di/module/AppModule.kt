@@ -9,12 +9,30 @@ import com.cheise_proj.parentapp.di.module.domain.DomainModule
 import com.cheise_proj.parentapp.di.module.local.LocalModule
 import com.cheise_proj.parentapp.di.module.presentation.PresentationModule
 import com.cheise_proj.parentapp.di.module.remote.RemoteModule
+import com.cheise_proj.parentapp.utils.ColorGeneratorImpl
+import com.cheise_proj.presentation.utils.IColorGenerator
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [DomainModule::class, PresentationModule::class, DataModule::class, RemoteModule::class, LocalModule::class])
+@Module(
+    includes = [
+        AppModule.Binders::class,
+        DomainModule::class,
+        PresentationModule::class,
+        DataModule::class,
+        RemoteModule::class,
+        LocalModule::class
+    ]
+)
 class AppModule {
+    @Module
+    interface Binders {
+        @Binds
+        fun bindColorGenerator(colorGeneratorImpl: ColorGeneratorImpl): IColorGenerator
+    }
+
     @Provides
     fun provideContext(application: Application): Context = application.baseContext
 

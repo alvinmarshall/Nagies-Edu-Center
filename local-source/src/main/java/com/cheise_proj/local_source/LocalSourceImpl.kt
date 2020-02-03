@@ -25,16 +25,18 @@ class LocalSourceImpl @Inject constructor(
     override fun saveMessages(messageDataList: List<MessageData>) {
         with(messageLocalDataMapper.dataToLocalList(messageDataList)) {
             println("saving Messages")
-            messageDao.saveMessages(this)
+            messageDao.clearAndInsertMessages(this)
         }
     }
 
     override fun getMessages(): Observable<List<MessageData>> {
+        println("getMessages")
         return messageDao.getMessages()
             .map { t: List<MessageLocal> -> messageLocalDataMapper.localToDataList(t) }
     }
 
     override fun getMessage(identifier: Int): Single<MessageData> {
+        println("getMessage")
         return messageDao.getMessage(identifier)
             .map { t: MessageLocal -> messageLocalDataMapper.localToData(t) }
     }

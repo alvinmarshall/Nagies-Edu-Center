@@ -10,7 +10,6 @@ import com.cheise_proj.parent_feature.utils.ConnectionLiveData
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.nav_header_parent_navigation.view.*
 import javax.inject.Inject
@@ -26,7 +25,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     lateinit var serverPath: IServerPath
 
     protected lateinit var connectionLiveData: ConnectionLiveData
-    private lateinit var snack: Snackbar
     fun setProfileData(navView: NavigationView) {
         val session = prefs.getUserSession()
         with(session) {

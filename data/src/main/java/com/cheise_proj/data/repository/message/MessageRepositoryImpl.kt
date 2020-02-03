@@ -27,16 +27,10 @@ class MessageRepositoryImpl @Inject constructor(
                 messageDataEntityMapper.dataToEntityList(t)
             }.onErrorResumeNext(Function {
                 println(it.localizedMessage)
-                Observable.just(listOf())
+                local
             })
 
-        return Observable
-            .mergeDelayError(local, remote)
-            .filter {
-                return@filter it.firstOrNull()?.isUpToDate() ?: false
-            }
-            .take(1) //pick local source
-
+        return remote.mergeWith(local).take(1).distinct()
     }
 
     override fun getMessage(identifier: Int): Observable<List<MessageEntity>> {

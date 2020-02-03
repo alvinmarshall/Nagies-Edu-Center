@@ -51,7 +51,7 @@ class MessageRepositoryImplTest {
     }
 
     @Test
-    fun `Get no data when remote fail success`() {
+    fun `Get local data when remote fail success`() {
         val errorMessage = "Unable to ping server address"
 
         Mockito.`when`(remoteSource.getMessages()).thenReturn(Observable.error(Throwable(errorMessage)))
@@ -59,7 +59,7 @@ class MessageRepositoryImplTest {
 
         messageRepositoryImpl.getMessages().test()
             .assertSubscribed()
-            .assertValueCount(0)
+            .assertValueCount(1)
             .assertComplete()
         Mockito.verify(remoteSource,times(1)).getMessages()
         Mockito.verify(localSource,times(1)).getMessages()

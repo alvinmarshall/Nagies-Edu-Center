@@ -132,9 +132,9 @@ class LocalSourceImplTest {
     @Test
     fun `Save messages to local success`() {
         val actual = TestMessageGenerator.getMessages()
-        Mockito.doNothing().`when`(messageDao).saveMessages(actual)
+        Mockito.doNothing().`when`(messageDao).clearAndInsertMessages(actual)
         localSourceImpl.saveMessages(messageLocalDataMapper.localToDataList(actual))
-        Mockito.verify(messageDao, times(1)).saveMessages(actual)
+        Mockito.verify(messageDao, times(1)).clearAndInsertMessages(actual)
     }
     //endregion
 

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".ui.message.MessageDetailFragment">
+
+
+   <ScrollView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+       <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+           <RelativeLayout
+                   android:id="@+id/avatar_background"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="12dp"
+                   android:layout_marginTop="12dp"
+                   android:padding="4dp"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintVertical_chainStyle="packed">
+
+               <ImageView
+                       android:id="@+id/avatar_image"
+                       android:layout_width="48dp"
+                       android:layout_height="48dp"
+                       android:scaleType="centerCrop"
+                       tools:ignore="ContentDescription"
+                       tools:src="@color/normal" />
+
+               <TextView
+                       android:id="@+id/tv_icon_text"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_centerInParent="true"
+                       android:maxLength="2"
+                       android:textAllCaps="true"
+                       android:textSize="20sp"
+                       tools:text="KD" />
+           </RelativeLayout>
+
+           <TextView
+                   android:transitionName="title"
+                   android:id="@+id/tv_title"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="12dp"
+                   android:layout_marginTop="4dp"
+                   android:layout_marginEnd="16dp"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:textAllCaps="true"
+                   android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                   android:textColor="#DE000000"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toEndOf="@+id/avatar_background"
+                   app:layout_constraintTop_toTopOf="@+id/avatar_background" />
+
+           <TextView
+                   android:id="@+id/tv_date"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="12dp"
+                   android:layout_marginEnd="16dp"
+                   android:layout_marginBottom="4dp"
+                   android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                   android:textColor="#8A000000"
+                   app:layout_constraintBottom_toBottomOf="@+id/avatar_background"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toEndOf="@+id/avatar_background" />
+
+           <TextView
+                   android:id="@+id/tv_content"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="16dp"
+                   android:layout_marginTop="16dp"
+                   android:layout_marginEnd="16dp"
+                   android:layout_marginBottom="16dp"
+                   android:ellipsize="end"
+                   android:maxLines="2"
+                   android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                   android:textColor="#DE000000"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+       </androidx.constraintlayout.widget.ConstraintLayout>
+   </ScrollView>
+</com.google.android.material.card.MaterialCardView>

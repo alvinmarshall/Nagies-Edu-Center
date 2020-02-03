@@ -24,7 +24,11 @@
     <fragment
             android:id="@+id/messageFragment"
             android:name="com.cheise_proj.parent_feature.ui.message.MessageFragment"
-            android:label="Messages" />
+            android:label="Messages" >
+        <action
+                android:id="@+id/action_messageFragment_to_messageDetailFragment"
+                app:destination="@id/messageDetailFragment" />
+    </fragment>
     <fragment
             android:id="@+id/passwordFragment"
             android:name="com.cheise_proj.parent_feature.ui.password.PasswordFragment"
@@ -49,4 +53,12 @@
             android:id="@+id/assignmentFragment"
             android:name="com.cheise_proj.parent_feature.ui.assignment.AssignmentFragment"
             android:label="Assignment" />
+    <fragment
+            android:id="@+id/messageDetailFragment"
+            android:name="com.cheise_proj.parent_feature.ui.message.MessageDetailFragment"
+            android:label="Detail">
+        <argument
+                android:name="identifier"
+                app:argType="integer" />
+    </fragment>
 </navigation>

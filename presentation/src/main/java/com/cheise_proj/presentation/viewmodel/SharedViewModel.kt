@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SharedViewModel :ViewModel(){
-    private val badgeValue:MutableLiveData<String> = MutableLiveData()
+    private val badgeValue:MutableLiveData<Pair<Int,Int?>> = MutableLiveData()
 
-    fun setBadgeValue(badge:String){
+    fun setBadgeValue(badge:Pair<Int,Int?>){
         badgeValue.value = badge
     }
 
-    fun getBadgeValue():LiveData<String> = badgeValue
+    fun getBadgeValue():LiveData<Pair<Int,Int?>> = badgeValue
 }
