@@ -7,6 +7,7 @@
     <dist:module dist:instant="true" />
 
     <application
+            android:name=".App"
             android:allowBackup="false"
             android:fullBackupContent="true"
             android:icon="@mipmap/ic_launcher"
@@ -17,7 +18,9 @@
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning"
             tools:targetApi="n">
-        <activity android:name=".MainActivity">
+        <activity
+                android:name="com.cheise_proj.login_feature.ui.splash.SplashActivity"
+                android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
