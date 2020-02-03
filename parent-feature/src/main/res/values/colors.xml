@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="normal">#6090CAF9</color>
+    <color name="selected">#DCDCDC</color>
+    <color name="msg_txt_header_color">#DE000000</color>
+    <color name="msg_txt_sub_header_color">#8A000000</color>
+</resources>

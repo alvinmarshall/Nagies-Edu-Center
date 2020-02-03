@@ -42,4 +42,11 @@ class ProfileEntityMapper @Inject constructor() :
             name = e.name
         )
     }
+
+    override fun presentationToEntityList(pList: List<Profile>): List<ProfileEntity> {
+        throw NotImplementedError("not implemented")
+    }
+
+    override fun entityToPresentationList(eList: List<ProfileEntity>): List<Profile> {
+        throw NotImplementedError("not implemented")    }
 }

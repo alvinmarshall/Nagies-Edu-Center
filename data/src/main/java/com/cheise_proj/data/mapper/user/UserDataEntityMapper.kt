@@ -31,4 +31,12 @@ class UserDataEntityMapper @Inject constructor() : DataMapper<UserData, UserEnti
             token = e.token
         )
     }
+
+    override fun dataToEntityList(dList: List<UserData>): List<UserEntity> {
+        throw NotImplementedError("not implemented")
+    }
+
+    override fun entityToDataList(eList: List<UserEntity>): List<UserData> {
+        throw NotImplementedError("not implemented")
+    }
 }

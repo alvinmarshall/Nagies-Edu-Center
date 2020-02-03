@@ -21,15 +21,12 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.cheise_proj.parent_feature.base.BaseActivity
-import com.cheise_proj.parent_feature.di.GlideApp
 import com.cheise_proj.parent_feature.utils.ConnectionLiveData
 import com.cheise_proj.presentation.viewmodel.SharedViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.content_parent_navigation.*
-import kotlinx.android.synthetic.main.nav_header_parent_navigation.view.*
 
 class ParentNavigationActivity : BaseActivity() {
     companion object {
@@ -66,9 +63,11 @@ class ParentNavigationActivity : BaseActivity() {
         openNavigationMenu()
         connectionLiveData.observe(this, Observer {
             if (!it) {
+                root.background = baseContext.getDrawable(R.drawable.no_internet)
                 snack.setText("No internet connection")
                 snack.show()
             } else {
+                root.background = null
                 snack.dismiss()
 
             }
@@ -78,12 +77,21 @@ class ParentNavigationActivity : BaseActivity() {
 
     private fun configureViewModel() {
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        sharedViewModel.getBadgeValue().observe(this, Observer {
+            setNavMenuBadge(it)
+        })
+    }
+
+    private fun setNavMenuBadge(badge: Pair<Int, Int?>?) {
+        when(badge?.first){
+            R.id.messageFragment -> messageBadge.text = "${badge.second}+"
+        }
+
     }
 
     private fun initNavBadge() {
         messageBadge =
             MenuItemCompat.getActionView(navView.menu.findItem(R.id.messageFragment)) as TextView
-        messageBadge.text = "100+"
         messageBadge.gravity = Gravity.CENTER_VERTICAL
         messageBadge.typeface = Typeface.DEFAULT_BOLD
         messageBadge.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))

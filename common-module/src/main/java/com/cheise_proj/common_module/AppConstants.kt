@@ -1,4 +1,5 @@
 package com.cheise_proj.common_module
+const val STALE_MS: Long = 30 * 1000 // Data is stale after 30 seconds
 const val PARENT_ROLE = "Parent"
 const val TEACHER_ROLE = "Teacher"
 const val USER_SELECTED_ROLE_PREF_KEY = "USER_SELECTED_ROLE_PREF_KEY"
@@ -12,6 +13,7 @@ const val DEV_SERVER_URL = "https://developers.nagies.infodasgh.com/api/v1/file/
 const val PERMISSION_PREF = "permission_pref"
 const val REQUEST_EXTERNAL_STORAGE = 100
 const val AUTHORIZATION_HEADER = "Authorization"
+const val DELAY_HANDLER: Long = 1000
 enum class DBEntities {
     ASSIGNMENT, REPORT, CIRCULAR, BILLING, TIME_TABLE
 }

@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cheise_proj.common_module.DELAY_HANDLER
 import com.cheise_proj.parent_feature.R
 import com.cheise_proj.parent_feature.base.BaseFragment
 import com.cheise_proj.parent_feature.di.GlideApp
@@ -27,7 +28,6 @@ class ProfileFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = ProfileFragment()
-        const val DELAY_HANDLER: Long = 1000
     }
 
     @Inject

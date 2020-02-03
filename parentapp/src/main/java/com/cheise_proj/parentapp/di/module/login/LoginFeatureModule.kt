@@ -6,6 +6,7 @@ import com.cheise_proj.login_feature.SplashNavigation
 import com.cheise_proj.login_feature.utils.LoginInputValidation
 import com.cheise_proj.parentapp.navigators.login.AuthActivityNavigation
 import com.cheise_proj.parentapp.navigators.login.RoleActivityNavigation
+import com.cheise_proj.parentapp.navigators.login.SplashNavigationImpl
 import com.cheise_proj.parentapp.validation.LoginInputValidationImpl
 import dagger.Binds
 import dagger.Module
@@ -15,7 +16,7 @@ class LoginFeatureModule {
     @Module
     interface Binders {
         @Binds
-        fun bindSplashActivityNavigation(splashNavigation: com.cheise_proj.parentapp.navigators.login.SplashNavigation): SplashNavigation
+        fun bindSplashActivityNavigation(splashNavigation: SplashNavigationImpl): SplashNavigation
 
         @Binds
         fun bindRoleActivityNavigation(roleActivityNavigation: RoleActivityNavigation): RoleNavigation
