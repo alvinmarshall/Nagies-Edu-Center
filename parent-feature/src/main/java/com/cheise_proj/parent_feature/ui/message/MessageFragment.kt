@@ -5,7 +5,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -49,17 +48,20 @@ class MessageFragment : BaseFragment() {
         return inflater.inflate(R.layout.message_fragment, container, false)
     }
 
+
     private val adapterClickListener = object : AdapterClickListener<Pair<Int?, TextView>> {
         override fun onClick(data: Pair<Int?, TextView>?) {
-            data?.first?.let {
-                val extra = FragmentNavigatorExtras(data.second to "title")
+            data?.let {
+                val imageView: TextView = it.second
+                val extra =
+                    FragmentNavigatorExtras(imageView to getString(R.string.message_title_transition))
                 val action =
-                    MessageFragmentDirections.actionMessageFragmentToMessageDetailFragment(it)
-                findNavController().navigate(action,extra)
+                    MessageFragmentDirections.actionMessageFragmentToMessageDetailFragment(
+                        identifier = it.first ?: 0
+                    )
+                findNavController().navigate(action, extra)
             }
         }
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

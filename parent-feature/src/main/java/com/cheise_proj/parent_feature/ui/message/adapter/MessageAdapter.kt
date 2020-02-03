@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.list_message.view.*
 
 class MessageAdapter :
     ListAdapter<Message, MessageVh>(MessageDiffCallback()) {
-    private var adapterClickListener: AdapterClickListener<Pair<Int?, TextView>>? = null
+    private var adapterClickListener: AdapterClickListener<Pair<Int?,TextView>>? = null
     private var generatorColor: IColorGenerator? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageVh {
         return MessageVh(
@@ -39,7 +40,7 @@ class MessageAdapter :
         generatorColor = colorGenerator
     }
 
-    fun setAdapterClickListener(callback: AdapterClickListener<Pair<Int?, TextView>>) {
+    fun setAdapterClickListener(callback: AdapterClickListener<Pair<Int?,TextView>>?) {
         adapterClickListener = callback
     }
 
@@ -49,19 +50,18 @@ class MessageVh(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(
         item: Message?,
         color: IColorGenerator?,
-        callback: AdapterClickListener<Pair<Int?, TextView>>?
+        callback: AdapterClickListener<Pair<Int?,TextView>>?
     ) {
-        itemView.tv_title.apply {
-            text = item?.sender
-            transitionName = "title"
-        }
+        itemView.tv_title.text = item?.sender
         itemView.tv_date.text = item?.date
         itemView.tv_content.text = item?.content
         itemView.avatar_image.apply {
             GlideApp.with(context).load(color?.getColor()).into(this)
         }
         itemView.tv_icon_text.text = GetFirstLettersOfStringsImpl.getLetters(item?.sender)
-        itemView.setOnClickListener { callback?.onClick(Pair(item?.uid, itemView.tv_title)) }
+        itemView.setOnClickListener {
+            ViewCompat.setTransitionName(it.tv_title,it.context.getString(R.string.message_title_transition))
+            callback?.onClick(Pair(item?.uid,it.tv_title)) }
     }
 
 }

@@ -10,8 +10,7 @@ import com.cheise_proj.parent_feature.ParentNavigationActivity
 import com.cheise_proj.parentapp.R
 import javax.inject.Inject
 
-@LoginScope
-class SplashNavigation @Inject constructor() : SplashNavigation {
+class SplashNavigationImpl @Inject constructor() : SplashNavigation {
     override fun goToRolePage(activity: Activity, bundle: Bundle?) {
         activity.startActivity(
             RoleActivity.getIntent(activity)

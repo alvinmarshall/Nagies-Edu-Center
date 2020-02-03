@@ -35,6 +35,8 @@ class MessageDetailFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+
     }
 
     override fun onCreateView(
@@ -47,14 +49,7 @@ class MessageDetailFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-
         configureViewModel(args.identifier)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun configureViewModel(identifier: Int) {
@@ -70,7 +65,7 @@ class MessageDetailFragment : BaseFragment() {
 
     private fun setMessageViewDetail(data: Message?) {
         tv_title.apply {
-            transitionName = "title"
+            transitionName = getString(R.string.message_title_transition)
             text = data?.sender
         }
         tv_date.text = data?.date
