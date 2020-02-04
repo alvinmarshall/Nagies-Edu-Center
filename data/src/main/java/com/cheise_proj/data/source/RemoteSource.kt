@@ -1,11 +1,18 @@
 package com.cheise_proj.data.source
 
+import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import io.reactivex.Observable
 
 interface RemoteSource {
+
+    //region FILES
+
+    fun getCircular(): Observable<List<FilesData>>
+
+    //endregion
 
     //region MESSAGE
     fun getMessages(): Observable<List<MessageData>>

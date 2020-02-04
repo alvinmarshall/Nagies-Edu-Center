@@ -25,6 +25,11 @@
     <string name="menu_class_teacher">Class Teacher</string>
     <string name="label_menu_logout">logout</string>
 
-<!--    transition names-->
+    <!--    transition names-->
     <string name="message_title_transition">message_title</string>
+    <string name="files_image_transition">files_image</string>
+
+
+    <string name="label_btn_download">Download</string>
+    <string name="label_btn_preview">Preview</string>
 </resources>

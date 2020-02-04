@@ -31,4 +31,12 @@ class UserLocalDataMapper @Inject constructor() :
             username = d.username
         )
     }
+
+    override fun localToDataList(lList: List<UserLocal>): List<UserData> {
+        throw NotImplementedError("not implemented")
+    }
+
+    override fun dataToLocalList(dList: List<UserData>): List<UserLocal> {
+        throw NotImplementedError("not implemented")
+    }
 }

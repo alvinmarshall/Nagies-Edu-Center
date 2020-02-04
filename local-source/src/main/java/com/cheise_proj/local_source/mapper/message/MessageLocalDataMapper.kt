@@ -26,7 +26,7 @@ class MessageLocalDataMapper @Inject constructor() : LocalMapper<MessageLocal, M
         )
     }
 
-    fun localToDataList(lList: List<MessageLocal>): List<MessageData> {
+    override fun localToDataList(lList: List<MessageLocal>): List<MessageData> {
         val list = arrayListOf<MessageData>()
         lList.forEach {
 
@@ -35,7 +35,7 @@ class MessageLocalDataMapper @Inject constructor() : LocalMapper<MessageLocal, M
         return list
     }
 
-    fun dataToLocalList(dList: List<MessageData>): List<MessageLocal> {
+    override fun dataToLocalList(dList: List<MessageData>): List<MessageLocal> {
         val list = arrayListOf<MessageLocal>()
         dList.forEach {
             list.add(dataToLocal(it))

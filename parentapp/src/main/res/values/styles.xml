@@ -9,7 +9,7 @@
         <item name="primaryTextColor">@color/colorPrimaryTextLight</item>
         <item name="secondaryTextColor">@color/colorSecondaryTextLight</item>
         <item name="cardBackgroundColor">@color/colorCardLight</item>
-        <item name="backgroundColor">@color/colorBackgroundLight</item>
+<!--        <item name="backgroundColor">@color/colorPrimaryTextLight</item>-->
         <item name="drawableTintColor">@color/colorDrawableTintLight</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

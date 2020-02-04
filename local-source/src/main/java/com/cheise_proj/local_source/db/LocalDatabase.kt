@@ -2,8 +2,10 @@ package com.cheise_proj.local_source.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
+import com.cheise_proj.local_source.model.files.CircularLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import com.cheise_proj.local_source.model.user.ProfileLocal
 import com.cheise_proj.local_source.model.user.UserLocal
@@ -12,7 +14,8 @@ import com.cheise_proj.local_source.model.user.UserLocal
     entities = [
         UserLocal::class,
         ProfileLocal::class,
-        MessageLocal::class
+        MessageLocal::class,
+        CircularLocal::class
     ],
     version = 1,
     exportSchema = false
@@ -20,6 +23,7 @@ import com.cheise_proj.local_source.model.user.UserLocal
 abstract class LocalDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun messageDao(): MessageDao
+    abstract fun filesDao(): FilesDao
 
     companion object {
         val DATABASE_NAME = "local.db"

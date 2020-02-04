@@ -1,13 +1,16 @@
 package com.cheise_proj.remote_source
 
+import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.RemoteSource
 import com.cheise_proj.remote_source.api.ApiService
+import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
 import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
+import com.cheise_proj.remote_source.model.dto.files.CircularsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
@@ -19,12 +22,35 @@ class RemoteSourceImpl @Inject constructor(
     private val apiService: ApiService,
     private val userDtoDataMapper: UserDtoDataMapper,
     private val profileDtoDataMapper: ProfileDtoDataMapper,
-    private val messageDtoDataMapper: MessageDtoDataMapper
+    private val messageDtoDataMapper: MessageDtoDataMapper,
+    private val circularDtoDataMapper: CircularDtoDataMapper
 ) : RemoteSource {
     companion object {
-        const val NO_CONNECTIVITY = "No internet connection"
-        const val INVALID_CREDENTIALS = "username or password invalid"
+        private const val NO_CONNECTIVITY = "No internet connection"
+        private const val INVALID_CREDENTIALS = "username or password invalid"
     }
+
+    //region FILES
+    override fun getCircular(): Observable<List<FilesData>> {
+        return apiService.getCircular().map { t: CircularsDto ->
+            circularDtoDataMapper.dtoToDataList(t.circular)
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )
+
+    }
+    //endregion
 
     //region MESSAGES
     override fun getMessages(): Observable<List<MessageData>> {

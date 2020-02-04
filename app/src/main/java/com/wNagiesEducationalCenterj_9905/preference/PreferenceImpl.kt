@@ -77,4 +77,30 @@ class PreferenceImpl @Inject constructor(
         session.name = name
         return session
     }
+
+    override fun setBackgroundChanger(set: Boolean) {
+        val preferences = sharedPreferences.edit()
+        preferences.putBoolean(context.getString(R.string.pref_use_background_changer_key), set)
+        preferences.apply()
+    }
+
+    override fun getFirstTimeLogin(): Boolean {
+        return sharedPreferences.getBoolean(
+            context.getString(R.string.pref_first_time_login_key),
+            false
+        )
+    }
+
+    override fun getBackgroundChanger(): Boolean {
+        return sharedPreferences.getBoolean(
+            context.getString(R.string.pref_use_background_changer_key),
+            false
+        )
+    }
+
+    override fun setFirstTimeLogin(set: Boolean) {
+        val preferences = sharedPreferences.edit()
+        preferences.putBoolean(context.getString(R.string.pref_first_time_login_key), set)
+        preferences.apply()
+    }
 }
