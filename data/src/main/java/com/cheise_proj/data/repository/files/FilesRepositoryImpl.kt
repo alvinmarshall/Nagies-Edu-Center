@@ -1,5 +1,6 @@
 package com.cheise_proj.data.repository.files
 
+import com.cheise_proj.data.cache.CircularCache
 import com.cheise_proj.data.mapper.files.FilesDataEntityMapper
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.source.LocalSource
@@ -16,6 +17,9 @@ class FilesRepositoryImpl @Inject constructor(
     private val filesDataEntityMapper: FilesDataEntityMapper
 ) : FilesRepository {
     override fun getCirculars(): Observable<List<FilesEntity>> {
+        val circularObservable: Observable<List<FilesEntity>>
+        val identifier = "circular"
+        val cacheCircular = CircularCache.getCirculars(identifier)
         val local = localSource.getCirculars()
             .map { t: List<FilesData> ->
                 filesDataEntityMapper.dataToEntityList(t)
@@ -31,7 +35,21 @@ class FilesRepositoryImpl @Inject constructor(
                 local
             })
 
-        return remote.mergeWith(local).take(1).distinct()
+        circularObservable = if (cacheCircular != null) {
+            println("Remote source NOT invoked")
+            val cache = filesDataEntityMapper.dataToEntityList(cacheCircular)
+            Observable.just(cache)
+        } else {
+            remote
+        }
+
+        return circularObservable
+            .map { t: List<FilesEntity> ->
+            if (cacheCircular == null) {
+                CircularCache.addCirculars(identifier, filesDataEntityMapper.entityToDataList(t))
+            }
+            return@map t
+        }.mergeWith(local).take(1).distinct()
     }
 
     override fun getCircular(identifier: String): Observable<List<FilesEntity>> {

@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cheise_proj.common_module.DELAY_HANDLER
 import com.cheise_proj.common_module.REQUEST_EXTERNAL_STORAGE
 import com.cheise_proj.parent_feature.AdapterClickListener
 import com.cheise_proj.parent_feature.R
@@ -114,10 +117,12 @@ class CircularFragment : BaseFragment() {
             setAdapterCallback(adapterClickListener)
         }
         viewModel = ViewModelProvider(this, factory).get(CircularViewModel::class.java)
+        val handler = Handler(Looper.getMainLooper())
         sharedViewModel = activity?.run {
             ViewModelProvider(this)[SharedViewModel::class.java]
         }!!
-        subscribeObserver()
+        handler.postDelayed({ subscribeObserver() }, DELAY_HANDLER)
+
     }
 
     private fun subscribeObserver() {
