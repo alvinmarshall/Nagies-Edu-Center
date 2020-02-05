@@ -104,4 +104,14 @@ class PreferenceImpl @Inject constructor(
         preferences.putBoolean(context.getString(R.string.pref_first_time_login_key), set)
         preferences.apply()
     }
+
+    override fun firstTimeAskingPermission(permission: String, isFirstTime: Boolean) {
+        val preferences = sharedPreferences.edit()
+        preferences.putBoolean(permission, isFirstTime)
+        preferences.apply()
+    }
+
+    override fun isFirstTimeAskingPermission(permission: String): Boolean {
+        return sharedPreferences.getBoolean(permission, true)
+    }
 }

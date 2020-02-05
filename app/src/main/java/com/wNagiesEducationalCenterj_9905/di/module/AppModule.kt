@@ -6,11 +6,13 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.wNagiesEducationalCenterj_9905.di.module.domain.DomainModule
 import com.cheise_proj.presentation.utils.IColorGenerator
+import com.cheise_proj.presentation.utils.IRuntimePermission
 import com.wNagiesEducationalCenterj_9905.di.module.data.DataModule
 import com.wNagiesEducationalCenterj_9905.di.module.local.LocalModule
 import com.wNagiesEducationalCenterj_9905.di.module.presentation.PresentationModule
 import com.wNagiesEducationalCenterj_9905.di.module.remote.RemoteModule
 import com.wNagiesEducationalCenterj_9905.utils.ColorGeneratorImpl
+import com.wNagiesEducationalCenterj_9905.utils.RuntimePermissionImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -31,6 +33,9 @@ class AppModule {
     interface Binders {
         @Binds
         fun bindColorGenerator(colorGeneratorImpl: ColorGeneratorImpl): IColorGenerator
+
+        @Binds
+        fun bindRuntimePermission(runtimePermissionImpl: RuntimePermissionImpl): IRuntimePermission
     }
 
     @Provides

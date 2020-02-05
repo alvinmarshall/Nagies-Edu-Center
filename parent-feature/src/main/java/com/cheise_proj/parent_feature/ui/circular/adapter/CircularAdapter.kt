@@ -3,8 +3,6 @@ package com.cheise_proj.parent_feature.ui.circular.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +15,7 @@ import kotlinx.android.synthetic.main.list_circular.view.*
 
 class CircularAdapter :
     ListAdapter<Circular, CircularAdapter.CircularVh>(CircularDiffCallback()) {
-    private var adapterClickListener: AdapterClickListener<String?>? = null
+    private var adapterClickListener: AdapterClickListener<Pair<String?, Boolean>>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CircularVh {
         return CircularVh(
@@ -32,24 +30,29 @@ class CircularAdapter :
         holder.bind(getItem(position), adapterClickListener)
     }
 
-    fun setAdapterCallback(callback: AdapterClickListener<String?>) {
+    fun setAdapterCallback(callback: AdapterClickListener<Pair<String?, Boolean>>) {
         adapterClickListener = callback
     }
 
     inner class CircularVh(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(
             item: Circular?,
-            adapterClickListener: AdapterClickListener<String?>?
+            adapterClickListener: AdapterClickListener<Pair<String?, Boolean>>?
         ) {
-            itemView.tv_header.text = "From: ${item?.teacherName}"
-            itemView.tv_sub_header.text = "Date: ${item?.date}"
+            val header = "From: ${item?.teacherName}"
+            val subHeader = "Date: ${item?.date}"
+            itemView.tv_header.text = header
+            itemView.tv_sub_header.text = subHeader
             itemView.avatar_image.apply {
                 GlideApp.with(this.context).load(item?.photo).centerCrop().diskCacheStrategy(
                     DiskCacheStrategy.ALL
                 ).into(this)
             }
             itemView.setOnClickListener {
-                adapterClickListener?.onClick(item?.photo)
+                adapterClickListener?.onClick(Pair(item?.photo, false))
+            }
+            itemView.btn_download.setOnClickListener {
+                adapterClickListener?.onClick(Pair(item?.photo, true))
             }
         }
 

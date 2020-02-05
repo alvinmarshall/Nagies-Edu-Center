@@ -32,4 +32,20 @@
 
     <string name="label_btn_download">Download</string>
     <string name="label_btn_preview">Preview</string>
+    <string name="dialog_positive_response">yes</string>
+    <string name="dialog_negative_response">no</string>
+
+    <!--    BACKGROUND CHANGER DIALOGS-->
+    <string name="background_changer_title">Set Auto Background Image</string>
+    <string name="background_changer_message">Do you want to set auto background images ?</string>
+
+    <!--    NETWORK-->
+    <string name="no_network_connection">No internet connection"</string>
+
+    <!-- PERMISSION-->
+    <string name="permission_denied">Permission Denied</string>
+    <string name="permission_storage_message">Allow application to read &amp; write storage</string>
+    <string name="permission_storage_explained">Without this permission this app is unable to open files. Are you sure
+        you want to deny this permission.
+    </string>
 </resources>
