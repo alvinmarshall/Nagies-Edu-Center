@@ -1,5 +1,6 @@
 package com.cheise_proj.data.repository.message
 
+import com.cheise_proj.data.cache.MessageCache
 import com.cheise_proj.data.mapper.message.MessageDataEntityMapper
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.source.LocalSource
@@ -16,6 +17,10 @@ class MessageRepositoryImpl @Inject constructor(
     private val messageDataEntityMapper: MessageDataEntityMapper
 ) : MessageRepository {
     override fun getMessages(): Observable<List<MessageEntity>> {
+        val messagesObservable: Observable<List<MessageEntity>>
+        val identifier = "messages"
+        val cacheMessages = MessageCache.getMessages(identifier)
+
         val local = localSource.getMessages()
             .map { t: List<MessageData> ->
                 messageDataEntityMapper.dataToEntityList(t)
@@ -30,7 +35,18 @@ class MessageRepositoryImpl @Inject constructor(
                 local
             })
 
-        return remote.mergeWith(local).take(1).distinct()
+        messagesObservable = cacheMessages?.let { messagesDataList ->
+            println("Remote source NOT invoked")
+            Observable.just(messageDataEntityMapper.dataToEntityList(messagesDataList))
+        } ?: remote
+
+        return messagesObservable.map { t: List<MessageEntity> ->
+            if (cacheMessages == null) {
+                MessageCache.addMessages(identifier, messageDataEntityMapper.entityToDataList(t))
+            }
+            return@map t
+        }
+
     }
 
     override fun getMessage(identifier: Int): Observable<List<MessageEntity>> {

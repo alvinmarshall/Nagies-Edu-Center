@@ -9,4 +9,6 @@
     <string name="pref_login_user_token_key">user_token</string>
     <string name="pref_login_avatar_key">user_avatar</string>
     <string name="pref_login_uuid_key">login_user_uuid</string>
+    <string name="pref_first_time_login_key">first_time_login</string>
+    <string name="pref_use_background_changer_key">use_background_changer</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.cheise_proj.data.source
 
+import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
@@ -8,6 +9,15 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 interface LocalSource {
+
+    //region FILES
+
+    fun getCirculars(): Observable<List<FilesData>>
+
+    fun getCircular(identifier: String): Single<FilesData>
+
+    fun saveCircular(filesDataList: List<FilesData>)
+    //endregion
 
     //region MESSAGE
     fun saveMessages(messageDataList: List<MessageData>)

@@ -10,7 +10,9 @@ import com.cheise_proj.parentapp.di.module.local.LocalModule
 import com.cheise_proj.parentapp.di.module.presentation.PresentationModule
 import com.cheise_proj.parentapp.di.module.remote.RemoteModule
 import com.cheise_proj.parentapp.utils.ColorGeneratorImpl
+import com.cheise_proj.parentapp.utils.RuntimePermissionImpl
 import com.cheise_proj.presentation.utils.IColorGenerator
+import com.cheise_proj.presentation.utils.IRuntimePermission
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -31,6 +33,9 @@ class AppModule {
     interface Binders {
         @Binds
         fun bindColorGenerator(colorGeneratorImpl: ColorGeneratorImpl): IColorGenerator
+
+        @Binds
+        fun bindRuntimePermission(runtimePermissionImpl: RuntimePermissionImpl): IRuntimePermission
     }
 
     @Provides

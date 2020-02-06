@@ -1,14 +1,18 @@
 package com.cheise_proj.local_source
 
+import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.LocalSource
+import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
+import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
+import com.cheise_proj.local_source.model.files.CircularLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -19,8 +23,31 @@ class LocalSourceImpl @Inject constructor(
     private val userLocalDataMapper: UserLocalDataMapper,
     private val profileLocalDataMapper: ProfileLocalDataMapper,
     private val messageDao: MessageDao,
-    private val messageLocalDataMapper: MessageLocalDataMapper
+    private val messageLocalDataMapper: MessageLocalDataMapper,
+    private val filesDao: FilesDao,
+    private val circularLocalDataMapper: CircularLocalDataMapper
 ) : LocalSource {
+    //region FILES
+    override fun getCirculars(): Observable<List<FilesData>> {
+        return filesDao.getCirculars().map { t: List<CircularLocal> ->
+            println("getCirculars...")
+            circularLocalDataMapper.localToDataList(t)
+        }
+    }
+
+    override fun getCircular(identifier: String): Single<FilesData> {
+        return filesDao.getCircular(identifier).map { t: CircularLocal ->
+            println("getCircular with identifier: $identifier ...")
+            circularLocalDataMapper.localToData(t)
+        }
+    }
+
+    override fun saveCircular(filesDataList: List<FilesData>) {
+        println("saveCircular...")
+        filesDao.clearAndInsertCircular(circularLocalDataMapper.dataToLocalList(filesDataList))
+    }
+    //endregion
+
     //region MESSAGE
     override fun saveMessages(messageDataList: List<MessageData>) {
         with(messageLocalDataMapper.dataToLocalList(messageDataList)) {

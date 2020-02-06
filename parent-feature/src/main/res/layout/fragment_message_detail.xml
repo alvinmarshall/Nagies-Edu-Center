@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         tools:context=".ui.message.MessageDetailFragment">
 
 
@@ -52,11 +53,9 @@
                     android:layout_marginStart="@dimen/padding_size_12dp"
                     android:layout_marginTop="@dimen/padding_size_4dp"
                     android:layout_marginEnd="@dimen/padding_size_16dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/msg_txt_header_color"
+                    android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
                     android:transitionName="@string/message_title_transition"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/avatar_background"
@@ -70,7 +69,7 @@
                     android:layout_marginEnd="@dimen/padding_size_16dp"
                     android:layout_marginBottom="@dimen/padding_size_4dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/msg_txt_sub_header_color"
+                    android:textColor="@color/colorSecondaryTextDefaultMaterialLight"
                     app:layout_constraintBottom_toBottomOf="@+id/avatar_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/avatar_background" />
@@ -83,10 +82,8 @@
                     android:layout_marginTop="@dimen/padding_size_16dp"
                     android:layout_marginEnd="@dimen/padding_size_16dp"
                     android:layout_marginBottom="@dimen/padding_size_16dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/msg_txt_header_color"
+                    android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

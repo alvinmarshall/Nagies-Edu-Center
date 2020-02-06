@@ -58,7 +58,7 @@
                 android:maxLines="1"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/msg_txt_header_color"
+                android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/avatar_background"
                 app:layout_constraintTop_toTopOf="@+id/avatar_background" />
@@ -71,7 +71,7 @@
                 android:layout_marginEnd="@dimen/padding_size_16dp"
                 android:layout_marginBottom="@dimen/padding_size_4dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/msg_txt_sub_header_color"
+                android:textColor="@color/colorSecondaryTextDefaultMaterialLight"
                 app:layout_constraintBottom_toBottomOf="@+id/avatar_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/avatar_background" />
@@ -87,7 +87,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/msg_txt_header_color"
+                android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

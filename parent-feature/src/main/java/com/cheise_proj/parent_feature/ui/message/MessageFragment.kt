@@ -2,6 +2,7 @@ package com.cheise_proj.parent_feature.ui.message
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,12 +85,13 @@ class MessageFragment : BaseFragment() {
         sharedViewModel = activity?.run {
             ViewModelProvider(this)[SharedViewModel::class.java]
         }!!
-        subscribeObserver()
+                val handler = Handler()
+        handler.postDelayed({subscribeObserver()}, DELAY_HANDLER)
+//        subscribeObserver()
     }
 
     private fun subscribeObserver() {
-        val handler = Handler()
-        handler.postDelayed({}, DELAY_HANDLER)
+
         messageViewModel.getMessages().observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 STATUS.LOADING -> println("loading...")

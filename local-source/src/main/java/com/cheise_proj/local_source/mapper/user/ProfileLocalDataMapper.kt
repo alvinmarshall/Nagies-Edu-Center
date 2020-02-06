@@ -42,4 +42,12 @@ class ProfileLocalDataMapper @Inject constructor() :
             name = d.name
         )
     }
+
+    override fun localToDataList(lList: List<ProfileLocal>): List<ProfileData> {
+        throw NotImplementedError("not implemented")
+    }
+
+    override fun dataToLocalList(dList: List<ProfileData>): List<ProfileLocal> {
+        throw NotImplementedError("not implemented")
+    }
 }

@@ -1,5 +1,6 @@
 package com.cheise_proj.remote_source.api
 
+import com.cheise_proj.remote_source.model.dto.files.CircularsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.dto.user.ProfileDto
 import com.cheise_proj.remote_source.model.dto.user.UserDto
@@ -12,6 +13,21 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ApiService {
+
+    //region FILES
+    @GET("file/path")
+    fun getCircular(
+        @Query("type") type: String = "circular",
+        @Query("format") format: String = "image"
+    ): Observable<CircularsDto>
+    //endregion
+
+    //region MESSAGES
+    @GET("message")
+    fun getMessages(): Observable<MessagesDto>
+    //endregion
+
+    //region USERS
     @POST("users")
     fun getAuthenticateUser(
         @Query("role") role: String,
@@ -20,7 +36,5 @@ interface ApiService {
 
     @GET("users/profile")
     fun getProfile(): Single<ProfileDto>
-
-    @GET("message")
-    fun getMessages(): Observable<MessagesDto>
+    //endregion
 }
