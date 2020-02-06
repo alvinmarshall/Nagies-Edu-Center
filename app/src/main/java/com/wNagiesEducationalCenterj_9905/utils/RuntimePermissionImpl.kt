@@ -3,51 +3,54 @@ package com.wNagiesEducationalCenterj_9905.utils
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.cheise_proj.presentation.utils.IRuntimePermission
-import com.cheise_proj.presentation.utils.PermissionAskListener
-import com.wNagiesEducationalCenterj_9905.preference.PreferenceImpl
+import com.cheise_proj.presentation.utils.PermissionDialogListener
 import javax.inject.Inject
 
-class RuntimePermissionImpl @Inject constructor(
-    private val context: Context,
-    private val prefs: PreferenceImpl
-) : IRuntimePermission {
-    private lateinit var mActivity: Activity
-    override fun shouldAskPermission(): Boolean {
-        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-    }
+class RuntimePermissionImpl @Inject constructor() : IRuntimePermission {
+    private lateinit var mContext: Context
+    private lateinit var permissions: Array<String>
+    private lateinit var listener: PermissionDialogListener
+    private var request = 0
+    override fun askForPermissions(): Boolean {
+
+        if (!isPermissionsAllowed()) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mContext as Activity, permissions[0])) {
+                listener.showStorageRationalDialog()
 
 
-    override fun shouldAskPermission(permission: String): Boolean {
-        if (shouldAskPermission()) {
-            val permissionResult = ContextCompat.checkSelfPermission(context, permission)
-            if (permissionResult != PackageManager.PERMISSION_GRANTED) {
-                return true
-            }
-        }
-        return false
-    }
-
-    override fun checkPermission(permission: String, listener: PermissionAskListener) {
-        if (shouldAskPermission()) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permission)) {
-                listener.onPermissionPreviouslyDenied()
             } else {
-                if (prefs.isFirstTimeAskingPermission(permission)) {
-                    prefs.firstTimeAskingPermission(permission, false)
-                    listener.onNeedPermission()
-                } else {
-                    listener.onPermissionDisabled()
-                }
+                ActivityCompat.requestPermissions(
+                    mContext as Activity, permissions,
+                    request
+                )
             }
+            return false
         }
+        return true
+
     }
 
-    override fun setActivity(activity: Activity) {
-        mActivity = activity
+    override fun isPermissionsAllowed(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            mContext,
+            permissions[0]
+        ) == PackageManager.PERMISSION_GRANTED
     }
+
+    override fun initPermissionValues(
+        context: Context,
+        permission: Array<String>,
+        requestCode: Int,
+        dialogListener: PermissionDialogListener
+    ) {
+        mContext = context
+        permissions = permission
+        request = requestCode
+        listener = dialogListener
+    }
+
+
 }

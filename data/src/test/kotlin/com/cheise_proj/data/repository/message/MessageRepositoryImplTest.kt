@@ -43,7 +43,9 @@ class MessageRepositoryImplTest {
         messageRepositoryImpl.getMessages().test()
             .assertSubscribed()
             .assertValueCount(1)
-            .assertValue { it.isNotEmpty() }
+            .assertValue {
+                println(it)
+                it.isNotEmpty() }
             .assertComplete()
 
         Mockito.verify(remoteSource,times(1)).getMessages()

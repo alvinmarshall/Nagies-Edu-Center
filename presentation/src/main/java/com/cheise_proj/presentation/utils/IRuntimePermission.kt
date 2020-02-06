@@ -1,19 +1,19 @@
 package com.cheise_proj.presentation.utils
 
-import android.app.Activity
+import android.content.Context
 
 
 interface IRuntimePermission {
-    fun shouldAskPermission(): Boolean
-    fun shouldAskPermission(permission: String): Boolean
-    fun checkPermission(permission: String, listener: PermissionAskListener)
-    fun setActivity(activity: Activity)
-
+    fun askForPermissions(): Boolean
+    fun isPermissionsAllowed(): Boolean
+    fun initPermissionValues(
+        context: Context,
+        permission: Array<String>,
+        requestCode: Int,
+        dialogListener: PermissionDialogListener
+    )
 }
 
-interface PermissionAskListener {
-    fun onPermissionPreviouslyDenied()
-    fun onNeedPermission()
-    fun onPermissionDisabled()
-    fun onPermissionGranted()
+interface PermissionDialogListener {
+    fun showStorageRationalDialog()
 }

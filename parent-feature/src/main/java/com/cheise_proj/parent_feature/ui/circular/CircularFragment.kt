@@ -3,6 +3,7 @@ package com.cheise_proj.parent_feature.ui.circular
 import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,11 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.cheise_proj.common_module.DELAY_HANDLER
 import com.cheise_proj.common_module.REQUEST_EXTERNAL_STORAGE
 import com.cheise_proj.parent_feature.AdapterClickListener
@@ -26,9 +29,10 @@ import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IDownloadFile
 import com.cheise_proj.presentation.utils.IRuntimePermission
-import com.cheise_proj.presentation.utils.PermissionAskListener
+import com.cheise_proj.presentation.utils.PermissionDialogListener
 import com.cheise_proj.presentation.viewmodel.SharedViewModel
 import com.cheise_proj.presentation.viewmodel.files.CircularViewModel
+import com.ortiz.touchview.TouchImageView
 import kotlinx.android.synthetic.main.circular_fragment.*
 import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
@@ -68,10 +72,9 @@ class CircularFragment : BaseFragment() {
                 // download event
                 true -> {
                     downloadData = data
-                    permission.checkPermission(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        listener
-                    )
+                    if (permission.askForPermissions()) {
+                        prepareToDownload(downloadData)
+                    }
                 }
                 // view event
                 false -> {
@@ -90,9 +93,17 @@ class CircularFragment : BaseFragment() {
         val lay = LayoutInflater.from(context)
         val root: ViewGroup? = null
         val view = lay.inflate(R.layout.prev_avatar, root)
-        val img = view.findViewById<ImageView>(R.id.avatar_image)
+        val img = view.findViewById<TouchImageView>(R.id.avatar_image)
         val dialogBuilder = AlertDialog.Builder(context)
-        GlideApp.with(context!!).load(url).centerCrop().into(img)
+        GlideApp.with(context!!).load(url).centerCrop().into(object :CustomTarget<Drawable>(){
+            override fun onLoadCleared(placeholder: Drawable?) {
+
+            }
+
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                img.setImageDrawable(resource)
+            }
+        })
         dialogBuilder.setCancelable(true)
         dialogBuilder.setView(view)
         dialogBuilder.create().show()
@@ -106,12 +117,15 @@ class CircularFragment : BaseFragment() {
             hasFixedSize()
         }
         downloadService.registerDownloadBroadCast()
-        this.activity?.let { permission.setActivity(it) }
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        permission.initPermissionValues(
+            context!!,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            REQUEST_EXTERNAL_STORAGE, permissionDialogListener
+        )
         adapter = CircularAdapter()
         adapter.apply {
             setAdapterCallback(adapterClickListener)
@@ -148,51 +162,29 @@ class CircularFragment : BaseFragment() {
     }
 
     //region permission
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            REQUEST_EXTERNAL_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    prepareToDownload(downloadData)
-                } else {
-                    toast("Permission Denied")
-                }
-            }
-        }
-    }
-
-    val listener = object : PermissionAskListener {
-        override fun onPermissionPreviouslyDenied() {
-            showStorageRational(
-                getString(R.string.permission_denied),
-                getString(R.string.permission_storage_explained)
-            )
-        }
-
-        override fun onNeedPermission() {
-            activity?.let { activity ->
-                ActivityCompat.requestPermissions(
-                    activity,
-                    arrayOf(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ), REQUEST_EXTERNAL_STORAGE
-                )
-            }
-        }
-
-        override fun onPermissionDisabled() {
+    private val permissionDialogListener = object : PermissionDialogListener {
+        override fun showStorageRationalDialog() {
             dialogForSettings(
                 getString(R.string.permission_denied),
                 getString(R.string.permission_storage_message)
             )
         }
+    }
 
-        override fun onPermissionGranted() {
-            prepareToDownload(downloadData)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            REQUEST_EXTERNAL_STORAGE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    prepareToDownload(downloadData)
+                } else {
+                    permission.askForPermissions()
+                }
+                return
+            }
         }
     }
     //endregion

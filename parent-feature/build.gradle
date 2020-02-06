@@ -65,4 +65,6 @@ dependencies {
 
     // anko
     implementation "org.jetbrains.anko:anko:$rootProject.anko_version"
+
+    implementation 'com.github.MikeOrtiz:TouchImageView:2.3.3'
 }
