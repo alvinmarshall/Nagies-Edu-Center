@@ -2,6 +2,7 @@ package com.cheise_proj.remote_source
 
 import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
+import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
 import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
@@ -28,6 +29,7 @@ class RemoteSourceImplTest {
     private lateinit var profileDtoDataMapper: ProfileDtoDataMapper
     private lateinit var messageDtoDataMapper: MessageDtoDataMapper
     private lateinit var circularDtoDataMapper: CircularDtoDataMapper
+    private lateinit var filesDtoDataMapper: FilesDtoDataMapper
     private val username = "test username"
     private val password = "test password"
     private val parent = "parent role"
@@ -42,17 +44,47 @@ class RemoteSourceImplTest {
         profileDtoDataMapper = ProfileDtoDataMapper()
         messageDtoDataMapper = MessageDtoDataMapper()
         circularDtoDataMapper = CircularDtoDataMapper()
+        filesDtoDataMapper = FilesDtoDataMapper()
 
         remoteSourceImpl = RemoteSourceImpl(
             apiService,
             userDtoDataMapper,
             profileDtoDataMapper,
             messageDtoDataMapper,
-            circularDtoDataMapper
+            circularDtoDataMapper,
+            filesDtoDataMapper
         )
     }
 
     //region FILES
+    @Test
+    fun `Get all assignment from remote success`() {
+        val actual = TestFilesGenerator.getAssignmentDto()
+        Mockito.`when`(apiService.getAssignment()).thenReturn(Observable.just(actual))
+        remoteSourceImpl.getAssignment()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDtoDataMapper.dtoToDataList(actual.data)
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Get assignment from network with no network throws an exception`() {
+        val actual = "No internet connection"
+        Mockito.`when`(apiService.getAssignment()).thenReturn(Observable.error(Throwable(actual)))
+        remoteSourceImpl.getAssignment()
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+    }
+
+
     @Test
     fun `Get all circulars from remote success`() {
         val actual = TestFilesGenerator.getCircularDto()
@@ -62,7 +94,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == circularDtoDataMapper.dtoToDataList(actual.circular)
+                it == circularDtoDataMapper.dtoToDataList(actual.data)
             }
             .assertComplete()
         Mockito.verify(apiService, times(1)).getCircular()

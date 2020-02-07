@@ -11,6 +11,11 @@ import io.reactivex.Single
 interface LocalSource {
 
     //region FILES
+    fun getAssignments(): Observable<List<FilesData>>
+
+    fun getAssignment(identifier: String): Single<FilesData>
+
+    fun saveAssignment(filesDataList: List<FilesData>)
 
     fun getCirculars(): Observable<List<FilesData>>
 

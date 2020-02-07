@@ -7,9 +7,11 @@ import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.RemoteSource
 import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
+import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
 import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
+import com.cheise_proj.remote_source.model.dto.files.AssignmentsDto
 import com.cheise_proj.remote_source.model.dto.files.CircularsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.request.LoginRequest
@@ -23,17 +25,38 @@ class RemoteSourceImpl @Inject constructor(
     private val userDtoDataMapper: UserDtoDataMapper,
     private val profileDtoDataMapper: ProfileDtoDataMapper,
     private val messageDtoDataMapper: MessageDtoDataMapper,
-    private val circularDtoDataMapper: CircularDtoDataMapper
+    private val circularDtoDataMapper: CircularDtoDataMapper,
+    private val filesDtoDataMapper: FilesDtoDataMapper
 ) : RemoteSource {
     companion object {
         private const val NO_CONNECTIVITY = "No internet connection"
         private const val INVALID_CREDENTIALS = "username or password invalid"
     }
 
+    override fun getAssignment(): Observable<List<FilesData>> {
+        return apiService.getAssignment().map { t: AssignmentsDto ->
+            filesDtoDataMapper.dtoToDataList(t.data)
+        }
+            .onErrorResumeNext(
+                Function {
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+                }
+            )
+    }
+
     //region FILES
     override fun getCircular(): Observable<List<FilesData>> {
         return apiService.getCircular().map { t: CircularsDto ->
-            circularDtoDataMapper.dtoToDataList(t.circular)
+            circularDtoDataMapper.dtoToDataList(t.data)
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->

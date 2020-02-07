@@ -8,10 +8,12 @@ import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
+import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
+import com.cheise_proj.local_source.model.files.AssignmentLocal
 import com.cheise_proj.local_source.model.files.CircularLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import io.reactivex.Observable
@@ -25,8 +27,29 @@ class LocalSourceImpl @Inject constructor(
     private val messageDao: MessageDao,
     private val messageLocalDataMapper: MessageLocalDataMapper,
     private val filesDao: FilesDao,
-    private val circularLocalDataMapper: CircularLocalDataMapper
+    private val circularLocalDataMapper: CircularLocalDataMapper,
+    private val assignmentLocalDataMapper: AssignmentLocalDataMapper
+
 ) : LocalSource {
+    override fun getAssignments(): Observable<List<FilesData>> {
+        return filesDao.getAssignments().map { t: List<AssignmentLocal> ->
+            println("getAssignments...")
+            assignmentLocalDataMapper.localToDataList(t)
+        }
+    }
+
+    override fun getAssignment(identifier: String): Single<FilesData> {
+        return filesDao.getAssignment(identifier).map { t: AssignmentLocal ->
+            println("getAssignment with identifier: $identifier ...")
+            assignmentLocalDataMapper.localToData(t)
+        }
+    }
+
+    override fun saveAssignment(filesDataList: List<FilesData>) {
+        println("saveAssignment...")
+        filesDao.clearAndInsertAssignment(assignmentLocalDataMapper.dataToLocalList(filesDataList))    }
+
+
     //region FILES
     override fun getCirculars(): Observable<List<FilesData>> {
         return filesDao.getCirculars().map { t: List<CircularLocal> ->

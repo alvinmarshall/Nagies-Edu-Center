@@ -1,6 +1,6 @@
 package com.cheise_proj.presentation.model.files
 
-data class Circular(
+data class Assignment(
     val id: Int,
     val studentName: String,
     val teacherName: String,

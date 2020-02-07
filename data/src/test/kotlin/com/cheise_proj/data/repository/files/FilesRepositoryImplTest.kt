@@ -7,7 +7,6 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import org.junit.Before
 
-import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -34,6 +33,71 @@ class FilesRepositoryImplTest {
         filesRepositoryImpl = FilesRepositoryImpl(remoteSource, localSource, filesDataEntityMapper)
     }
 
+    //region ASSIGNMENT
+    @Test
+    fun `Get all assignments from local when remote fail success`() {
+        val actual = TestFilesGenerator.getFiles()
+        Mockito.`when`(remoteSource.getAssignment()).thenReturn(
+            Observable.error(
+                Throwable(
+                    ERROR_MESSAGE
+                )
+            )
+        )
+        Mockito.`when`(localSource.getAssignments()).thenReturn(Observable.just(actual))
+        filesRepositoryImpl.getAssignments()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                println(it)
+                it == filesDataEntityMapper.dataToEntityList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).getAssignment()
+        Mockito.verify(localSource, times(1)).getAssignments()
+        Mockito.verify(localSource, times(0)).getAssignment(IDENTIFIER)
+
+    }
+
+    @Test
+    fun `Get assignment with identifier success`() {
+        val actual = TestFilesGenerator.getFiles()[0]
+        Mockito.`when`(localSource.getAssignment(IDENTIFIER)).thenReturn(Single.just(actual))
+        filesRepositoryImpl.getAssignment(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it[0] == filesDataEntityMapper.dataToEntity(actual)
+            }
+            .assertComplete()
+        Mockito.verify(localSource, times(0)).getAssignments()
+        Mockito.verify(localSource, times(1)).getAssignment(IDENTIFIER)
+    }
+
+    @Test
+    fun `Get all assignment success`() {
+        val actual = TestFilesGenerator.getFiles()
+        Mockito.`when`(remoteSource.getAssignment()).thenReturn(Observable.just(actual))
+        Mockito.`when`(localSource.getAssignments()).thenReturn(Observable.just(actual))
+        filesRepositoryImpl.getAssignments()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDataEntityMapper.dataToEntityList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).getAssignment()
+        Mockito.verify(localSource, times(1)).getAssignments()
+        Mockito.verify(localSource, times(0)).getAssignment(IDENTIFIER)
+
+    }
+    //endregion
+
+
+    //region CIRCULAR
     @Test
     fun `Get all circulars success`() {
         val actual = TestFilesGenerator.getFiles()
@@ -49,7 +113,7 @@ class FilesRepositoryImplTest {
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getCircular()
         Mockito.verify(localSource, times(1)).getCirculars()
-        Mockito.verify(localSource, times(0)).getCircular(CIRCULAR_IDENTIFIER)
+        Mockito.verify(localSource, times(0)).getCircular(IDENTIFIER)
 
     }
 
@@ -59,7 +123,7 @@ class FilesRepositoryImplTest {
         Mockito.`when`(remoteSource.getCircular()).thenReturn(
             Observable.error(
                 Throwable(
-                    CIRCULAR_ERROR
+                    ERROR_MESSAGE
                 )
             )
         )
@@ -74,15 +138,15 @@ class FilesRepositoryImplTest {
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getCircular()
         Mockito.verify(localSource, times(1)).getCirculars()
-        Mockito.verify(localSource, times(0)).getCircular(CIRCULAR_IDENTIFIER)
+        Mockito.verify(localSource, times(0)).getCircular(IDENTIFIER)
 
     }
 
     @Test
     fun `Get circular with identifier success`() {
         val actual = TestFilesGenerator.getFiles()[0]
-        Mockito.`when`(localSource.getCircular(CIRCULAR_IDENTIFIER)).thenReturn(Single.just(actual))
-        filesRepositoryImpl.getCircular(CIRCULAR_IDENTIFIER)
+        Mockito.`when`(localSource.getCircular(IDENTIFIER)).thenReturn(Single.just(actual))
+        filesRepositoryImpl.getCircular(IDENTIFIER)
             .test()
             .assertSubscribed()
             .assertValueCount(1)
@@ -92,11 +156,12 @@ class FilesRepositoryImplTest {
             }
             .assertComplete()
         Mockito.verify(localSource, times(0)).getCirculars()
-        Mockito.verify(localSource, times(1)).getCircular(CIRCULAR_IDENTIFIER)
+        Mockito.verify(localSource, times(1)).getCircular(IDENTIFIER)
     }
+    //endregion
 
     companion object {
-        private const val CIRCULAR_IDENTIFIER = "1"
-        private const val CIRCULAR_ERROR = "Unable to ping server"
+        private const val IDENTIFIER = "1"
+        private const val ERROR_MESSAGE = "Unable to ping server"
     }
 }

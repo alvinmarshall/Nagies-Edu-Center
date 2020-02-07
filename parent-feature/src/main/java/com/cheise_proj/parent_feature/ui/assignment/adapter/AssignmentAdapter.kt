@@ -1,4 +1,4 @@
-package com.cheise_proj.parent_feature.ui.circular.adapter
+package com.cheise_proj.parent_feature.ui.assignment.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,33 +10,34 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.cheise_proj.parent_feature.AdapterClickListener
 import com.cheise_proj.parent_feature.R
 import com.cheise_proj.parent_feature.di.GlideApp
-import com.cheise_proj.presentation.model.files.Circular
-import kotlinx.android.synthetic.main.list_circular.view.*
+import com.cheise_proj.presentation.model.files.Assignment
+import kotlinx.android.synthetic.main.list_files.view.*
 
-class CircularAdapter :
-    ListAdapter<Circular, CircularAdapter.CircularVh>(CircularDiffCallback()) {
+class AssignmentAdapter :
+    ListAdapter<Assignment, AssignmentAdapter.AssignmentVh>(AssignmentDiffCallback()) {
     private var adapterClickListener: AdapterClickListener<Pair<String?, Boolean>>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CircularVh {
-        return CircularVh(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssignmentVh {
+        return AssignmentVh(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.list_files,
-                parent, false
+                parent,
+                false
             )
         )
     }
 
-    override fun onBindViewHolder(holder: CircularVh, position: Int) {
+    override fun onBindViewHolder(holder: AssignmentVh, position: Int) {
         holder.bind(getItem(position), adapterClickListener)
     }
 
-    fun setAdapterCallback(callback: AdapterClickListener<Pair<String?, Boolean>>) {
+    fun setAdapterClickListener(callback: AdapterClickListener<Pair<String?, Boolean>>) {
         adapterClickListener = callback
     }
 
-    inner class CircularVh(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class AssignmentVh(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(
-            item: Circular?,
+            item: Assignment?,
             adapterClickListener: AdapterClickListener<Pair<String?, Boolean>>?
         ) {
             val header = "From: ${item?.teacherName}"
@@ -44,9 +45,10 @@ class CircularAdapter :
             itemView.tv_header.text = header
             itemView.tv_sub_header.text = subHeader
             itemView.avatar_image.apply {
-                GlideApp.with(this.context).load(item?.photo).centerCrop().diskCacheStrategy(
-                    DiskCacheStrategy.ALL
-                ).into(this)
+                GlideApp.with(this.context).load(item?.photo).thumbnail(0.5f).centerCrop()
+                    .diskCacheStrategy(
+                        DiskCacheStrategy.AUTOMATIC
+                    ).into(this)
             }
             itemView.setOnClickListener {
                 adapterClickListener?.onClick(Pair(item?.photo, false))
@@ -55,17 +57,15 @@ class CircularAdapter :
                 adapterClickListener?.onClick(Pair(item?.photo, true))
             }
         }
-
     }
 }
 
-class CircularDiffCallback : DiffUtil.ItemCallback<Circular>() {
-    override fun areItemsTheSame(oldItem: Circular, newItem: Circular): Boolean {
+class AssignmentDiffCallback : DiffUtil.ItemCallback<Assignment>() {
+    override fun areItemsTheSame(oldItem: Assignment, newItem: Assignment): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Circular, newItem: Circular): Boolean {
+    override fun areContentsTheSame(oldItem: Assignment, newItem: Assignment): Boolean {
         return oldItem == newItem
     }
 }
-

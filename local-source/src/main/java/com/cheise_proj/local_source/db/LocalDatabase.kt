@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
+import com.cheise_proj.local_source.model.files.AssignmentLocal
 import com.cheise_proj.local_source.model.files.CircularLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import com.cheise_proj.local_source.model.user.ProfileLocal
@@ -15,9 +16,10 @@ import com.cheise_proj.local_source.model.user.UserLocal
         UserLocal::class,
         ProfileLocal::class,
         MessageLocal::class,
-        CircularLocal::class
+        CircularLocal::class,
+        AssignmentLocal::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class LocalDatabase : RoomDatabase() {

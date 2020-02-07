@@ -11,10 +11,12 @@ import com.cheise_proj.remote_source.RemoteSourceImpl
 import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
+import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
 import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.dto.files.CircularDto
+import com.cheise_proj.remote_source.model.dto.files.IFilesDto
 import com.cheise_proj.remote_source.model.dto.message.MessageDto
 import com.cheise_proj.remote_source.model.dto.user.IProfileDto
 import com.cheise_proj.remote_source.model.dto.user.UserDto
@@ -35,6 +37,8 @@ class RemoteModule {
     interface Binders {
 
         //region FILES
+        @Binds
+        fun bindFilesDtoDataMapper(filesDtoDataMapper: FilesDtoDataMapper): RemoteMapper<IFilesDto, FilesData>
         @Binds
         fun bindCircularDtoDataMapper(circularDtoDataMapper: CircularDtoDataMapper): RemoteMapper<CircularDto, FilesData>
         //endregion

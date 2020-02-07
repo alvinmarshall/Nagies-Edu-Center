@@ -18,7 +18,6 @@ class TokenService @Inject constructor(
             sharedPreferences.getString(context.getString(R.string.pref_login_user_token_key), null)
                 ?: ""
         var request = chain.request()
-        println("TokenService $token")
         request = request.newBuilder().addHeader(AUTHORIZATION_HEADER, token).build()
         return chain.proceed(request)
     }

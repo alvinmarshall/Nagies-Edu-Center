@@ -9,6 +9,7 @@ import io.reactivex.Observable
 interface RemoteSource {
 
     //region FILES
+    fun getAssignment(): Observable<List<FilesData>>
 
     fun getCircular(): Observable<List<FilesData>>
 

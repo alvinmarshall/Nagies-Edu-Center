@@ -8,16 +8,19 @@ import com.cheise_proj.domain.entity.user.ProfileEntity
 import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.mapper.PresentationMapper
+import com.cheise_proj.presentation.mapper.files.AssignmentEntityMapper
 import com.cheise_proj.presentation.mapper.files.CircularEntityMapper
 import com.cheise_proj.presentation.mapper.message.MessageEntityMapper
 import com.cheise_proj.presentation.mapper.user.ProfileEntityMapper
 import com.cheise_proj.presentation.mapper.user.UserEntityMapper
+import com.cheise_proj.presentation.model.files.Assignment
 import com.cheise_proj.presentation.model.files.Circular
 import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.model.user.Profile
 import com.cheise_proj.presentation.model.user.User
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
+import com.cheise_proj.presentation.viewmodel.files.AssignmentViewModel
 import com.cheise_proj.presentation.viewmodel.files.CircularViewModel
 import com.cheise_proj.presentation.viewmodel.message.MessageViewModel
 import com.cheise_proj.presentation.viewmodel.user.ProfileViewModel
@@ -38,7 +41,15 @@ class PresentationModule {
 
         //region FILES
         @Binds
+        fun bindAssignmentEntity(assignmentEntityMapper: AssignmentEntityMapper): PresentationMapper<Assignment, FilesEntity>
+
+        @Binds
         fun bindCircularEntity(circularEntityMapper: CircularEntityMapper): PresentationMapper<Circular, FilesEntity>
+
+        @Binds
+        @ViewModelKey(AssignmentViewModel::class)
+        @IntoMap
+        fun bindAssignmentViewModel(assignmentViewModel: AssignmentViewModel): ViewModel
 
         @Binds
         @ViewModelKey(CircularViewModel::class)

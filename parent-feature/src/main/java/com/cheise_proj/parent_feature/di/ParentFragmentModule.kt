@@ -1,6 +1,7 @@
 package com.cheise_proj.parent_feature.di
 
 import com.cheise_proj.parent_feature.ui.announcement.AnnouncementFragment
+import com.cheise_proj.parent_feature.ui.assignment.AssignmentFragment
 import com.cheise_proj.parent_feature.ui.bill.BillFragment
 import com.cheise_proj.parent_feature.ui.circular.CircularFragment
 import com.cheise_proj.parent_feature.ui.complaint.SendComplaintFragment
@@ -48,4 +49,7 @@ interface ParentFragmentModule {
 
     @ContributesAndroidInjector
     fun contributeMessageDetailFragment(): MessageDetailFragment
+
+    @ContributesAndroidInjector
+    fun contributeAssignmentFragment(): AssignmentFragment
 }

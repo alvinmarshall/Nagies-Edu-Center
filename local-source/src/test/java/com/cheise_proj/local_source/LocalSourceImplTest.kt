@@ -3,6 +3,7 @@ package com.cheise_proj.local_source
 import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
+import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
@@ -28,6 +29,7 @@ class LocalSourceImplTest {
     private lateinit var profileLocalDataMapper: ProfileLocalDataMapper
     private lateinit var messageLocalDataMapper: MessageLocalDataMapper
     private lateinit var circularLocalDataMapper: CircularLocalDataMapper
+    private lateinit var assignmentLocalDataMapper: AssignmentLocalDataMapper
 
     @Mock
     lateinit var userDao: UserDao
@@ -43,6 +45,7 @@ class LocalSourceImplTest {
         profileLocalDataMapper = ProfileLocalDataMapper()
         messageLocalDataMapper = MessageLocalDataMapper()
         circularLocalDataMapper = CircularLocalDataMapper()
+        assignmentLocalDataMapper = AssignmentLocalDataMapper()
 
         localSourceImpl = LocalSourceImpl(
             userDao,
@@ -51,9 +54,50 @@ class LocalSourceImplTest {
             messageDao,
             messageLocalDataMapper,
             filesDao,
-            circularLocalDataMapper
+            circularLocalDataMapper,
+            assignmentLocalDataMapper
         )
     }
+
+    @Test
+    fun `Get all assignment from local success`() {
+        val actual = TestFilesGenerator.getAssignments()
+        Mockito.`when`(filesDao.getAssignments()).thenReturn(Observable.just(actual))
+        localSourceImpl.getAssignments()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == assignmentLocalDataMapper.localToDataList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getAssignments()
+    }
+
+    @Test
+    fun `Get assignment from local success`() {
+        val actual = TestFilesGenerator.getAssignment()
+        Mockito.`when`(filesDao.getAssignment(IDENTIFIER)).thenReturn(Single.just(actual))
+        localSourceImpl.getAssignment(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == assignmentLocalDataMapper.localToData(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getAssignment(IDENTIFIER)
+    }
+
+    @Test
+    fun `Save assignment to local success`() {
+        val assignment = TestFilesGenerator.getAssignments()
+        Mockito.doNothing().`when`(filesDao).clearAndInsertAssignment(assignment)
+        localSourceImpl.saveCircular(assignmentLocalDataMapper.localToDataList(assignment))
+        Mockito.verify(filesDao, times(1)).clearAndInsertAssignment(assignment)
+    }
+
+
 
     @Test
     fun `Get all circular from local success`() {
@@ -73,8 +117,8 @@ class LocalSourceImplTest {
     @Test
     fun `Get circular from local success`() {
         val actual = TestFilesGenerator.getCircular()
-        Mockito.`when`(filesDao.getCircular(CIRCULAR_IDENTIFIER)).thenReturn(Single.just(actual))
-        localSourceImpl.getCircular(CIRCULAR_IDENTIFIER)
+        Mockito.`when`(filesDao.getCircular(IDENTIFIER)).thenReturn(Single.just(actual))
+        localSourceImpl.getCircular(IDENTIFIER)
             .test()
             .assertSubscribed()
             .assertValueCount(1)
@@ -82,7 +126,7 @@ class LocalSourceImplTest {
                 it == circularLocalDataMapper.localToData(actual)
             }
             .assertComplete()
-        Mockito.verify(filesDao, times(1)).getCircular(CIRCULAR_IDENTIFIER)
+        Mockito.verify(filesDao, times(1)).getCircular(IDENTIFIER)
     }
 
     @Test
@@ -187,7 +231,7 @@ class LocalSourceImplTest {
     //endregion
 
     companion object {
-        private const val CIRCULAR_IDENTIFIER: String = "1"
+        private const val IDENTIFIER: String = "1"
         private const val MESSAGE_IDENTIFIER: Int = 1
         private const val USER_IDENTIFIER: String = "test identifier"
     }

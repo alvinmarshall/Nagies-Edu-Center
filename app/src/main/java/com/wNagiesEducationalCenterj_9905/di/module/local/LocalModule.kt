@@ -14,10 +14,12 @@ import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.base.LocalMapper
+import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
+import com.cheise_proj.local_source.model.files.AssignmentLocal
 import com.cheise_proj.local_source.model.files.CircularLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import com.cheise_proj.local_source.model.user.ProfileLocal
@@ -32,6 +34,9 @@ class LocalModule {
     @Module
     interface Binders {
         //region FILES
+        @Binds
+        fun bindAssignmentLocalDataMapper(assignmentLocalDataMapper: AssignmentLocalDataMapper): LocalMapper<AssignmentLocal, FilesData>
+
         @Binds
         fun bindCircularLocalDataMapper(circularLocalDataMapper: CircularLocalDataMapper): LocalMapper<CircularLocal, FilesData>
         //endregion

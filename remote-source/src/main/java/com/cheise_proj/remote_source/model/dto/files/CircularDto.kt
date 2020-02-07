@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CircularsDto(
     @SerializedName("data")
-    val circular: List<CircularDto>
+    val data: List<CircularDto>
 )
 
 data class CircularDto(
