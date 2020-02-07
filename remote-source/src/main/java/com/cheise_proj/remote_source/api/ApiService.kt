@@ -2,6 +2,7 @@ package com.cheise_proj.remote_source.api
 
 import com.cheise_proj.remote_source.model.dto.files.AssignmentsDto
 import com.cheise_proj.remote_source.model.dto.files.CircularsDto
+import com.cheise_proj.remote_source.model.dto.files.ReportsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.dto.user.ProfileDto
 import com.cheise_proj.remote_source.model.dto.user.UserDto
@@ -16,18 +17,29 @@ import retrofit2.http.Query
 interface ApiService {
 
     //region FILES
+    //region REPORT
+    @GET("file/path")
+    fun getReport(
+        @Query("type") type: String = "report",
+        @Query("format") format: String = "image"
+    ): Observable<ReportsDto>
+    //endregion
+
+    //region ASSIGNMENT
     @GET("file/path")
     fun getAssignment(
         @Query("type") type: String = "assignment",
         @Query("format") format: String = "image"
     ): Observable<AssignmentsDto>
+    //endregion
 
-
+    //region CIRCULAR
     @GET("file/path")
     fun getCircular(
         @Query("type") type: String = "circular",
         @Query("format") format: String = "image"
     ): Observable<CircularsDto>
+    //endregion
     //endregion
 
     //region MESSAGES

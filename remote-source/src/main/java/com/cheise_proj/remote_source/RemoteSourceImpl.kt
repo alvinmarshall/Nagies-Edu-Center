@@ -13,6 +13,7 @@ import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.dto.files.AssignmentsDto
 import com.cheise_proj.remote_source.model.dto.files.CircularsDto
+import com.cheise_proj.remote_source.model.dto.files.ReportsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
@@ -32,6 +33,29 @@ class RemoteSourceImpl @Inject constructor(
         private const val NO_CONNECTIVITY = "No internet connection"
         private const val INVALID_CREDENTIALS = "username or password invalid"
     }
+    //region FILES
+
+    //region REPORT
+    override fun getReport(): Observable<List<FilesData>> {
+        return apiService.getReport().map { t: ReportsDto ->
+            filesDtoDataMapper.dtoToDataList(t.data)
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )
+    }
+    //endregion
+
 
     override fun getAssignment(): Observable<List<FilesData>> {
         return apiService.getAssignment().map { t: AssignmentsDto ->
@@ -53,7 +77,7 @@ class RemoteSourceImpl @Inject constructor(
             )
     }
 
-    //region FILES
+    //region CIRCULAR
     override fun getCircular(): Observable<List<FilesData>> {
         return apiService.getCircular().map { t: CircularsDto ->
             circularDtoDataMapper.dtoToDataList(t.data)
@@ -73,6 +97,7 @@ class RemoteSourceImpl @Inject constructor(
         )
 
     }
+    //endregion
     //endregion
 
     //region MESSAGES

@@ -2,6 +2,7 @@ package com.cheise_proj.data.repository.files
 
 import com.cheise_proj.data.cache.AssignmentCache
 import com.cheise_proj.data.cache.CircularCache
+import com.cheise_proj.data.cache.ReportCache
 import com.cheise_proj.data.mapper.files.FilesDataEntityMapper
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.source.LocalSource
@@ -18,6 +19,60 @@ class FilesRepositoryImpl @Inject constructor(
     private val filesDataEntityMapper: FilesDataEntityMapper
 ) : FilesRepository {
 
+    //region REPORT
+    override fun getReports(): Observable<List<FilesEntity>> {
+        val reportObservable: Observable<List<FilesEntity>>
+        val identifier = "report"
+        val cacheReport = ReportCache.getReport(identifier)
+
+        val local = localSource.getReports()
+            .map { t: List<FilesData> ->
+                filesDataEntityMapper.dataToEntityList(t)
+            }
+
+        val remote = remoteSource.getReport()
+            .map { t: List<FilesData> ->
+                localSource.saveReport(t)
+                filesDataEntityMapper.dataToEntityList(t)
+            }
+            .onErrorResumeNext(Function {
+                println(it.localizedMessage)
+                local
+            })
+
+        reportObservable = if (cacheReport != null) {
+            println("Remote source NOT invoked")
+            val cache = filesDataEntityMapper.dataToEntityList(cacheReport)
+            Observable.just(cache)
+        } else {
+            remote
+        }
+
+        return reportObservable
+            .map { t: List<FilesEntity> ->
+                if (cacheReport == null) {
+                    ReportCache.addReport(
+                        identifier,
+                        filesDataEntityMapper.entityToDataList(t)
+                    )
+                }
+                return@map t
+            }.mergeWith(local).take(1).distinct()
+    }
+
+
+    override fun getReport(identifier: String): Observable<List<FilesEntity>> {
+        return localSource.getReport(identifier).toObservable()
+            .map { t: FilesData ->
+                val data = filesDataEntityMapper.dataToEntity(t)
+                return@map arrayListOf(data)
+            }
+    }
+
+    //endregion
+
+
+    //region ASSIGNMENT
     override fun getAssignments(): Observable<List<FilesEntity>> {
         val assignmentObservable: Observable<List<FilesEntity>>
         val identifier = "assignment"
@@ -65,6 +120,7 @@ class FilesRepositoryImpl @Inject constructor(
                 return@map arrayListOf(data)
             }
     }
+    //endregion
 
     //region CIRCULAR
     override fun getCirculars(): Observable<List<FilesEntity>> {

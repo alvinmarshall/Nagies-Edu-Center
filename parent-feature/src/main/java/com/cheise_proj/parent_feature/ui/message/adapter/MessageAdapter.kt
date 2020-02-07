@@ -3,7 +3,6 @@ package com.cheise_proj.parent_feature.ui.message.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil

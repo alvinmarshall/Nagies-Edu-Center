@@ -57,6 +57,44 @@ class RemoteSourceImplTest {
     }
 
     //region FILES
+    //region REPORT
+    @Test
+    fun `Get all reports from remote success`() {
+        val actual = TestFilesGenerator.getReportsDto()
+        Mockito.`when`(apiService.getReport()).thenReturn(Observable.just(actual))
+        remoteSourceImpl.getReport()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDtoDataMapper.dtoToDataList(actual.data)
+            }
+            .assertComplete()
+        Mockito.verify(apiService, times(1)).getReport()
+    }
+
+    @Test
+    fun `Get all reports from remote with no network success`() {
+        val actual = "No internet connection"
+        Mockito.`when`(apiService.getReport()).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.getReport()
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(apiService, times(1)).getReport()
+    }
+    //endregion
+
+    //region ASSIGNMENT
     @Test
     fun `Get all assignment from remote success`() {
         val actual = TestFilesGenerator.getAssignmentDto()
@@ -83,8 +121,9 @@ class RemoteSourceImplTest {
             }
             .assertNotComplete()
     }
+    //endregion
 
-
+    //region CIRCULAR
     @Test
     fun `Get all circulars from remote success`() {
         val actual = TestFilesGenerator.getCircularDto()
@@ -119,6 +158,7 @@ class RemoteSourceImplTest {
             .assertNotComplete()
         Mockito.verify(apiService, times(1)).getCircular()
     }
+    //endregion
     //endregion
 
     //region MESSAGES

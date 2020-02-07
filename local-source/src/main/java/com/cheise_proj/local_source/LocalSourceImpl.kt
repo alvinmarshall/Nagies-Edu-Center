@@ -10,11 +10,13 @@ import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
+import com.cheise_proj.local_source.mapper.files.ReportLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
 import com.cheise_proj.local_source.model.files.AssignmentLocal
 import com.cheise_proj.local_source.model.files.CircularLocal
+import com.cheise_proj.local_source.model.files.ReportLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -28,9 +30,32 @@ class LocalSourceImpl @Inject constructor(
     private val messageLocalDataMapper: MessageLocalDataMapper,
     private val filesDao: FilesDao,
     private val circularLocalDataMapper: CircularLocalDataMapper,
-    private val assignmentLocalDataMapper: AssignmentLocalDataMapper
+    private val assignmentLocalDataMapper: AssignmentLocalDataMapper,
+    private val reportLocalDataMapper: ReportLocalDataMapper
 
 ) : LocalSource {
+    //region REPORT
+    override fun getReports(): Observable<List<FilesData>> {
+        return filesDao.getReports().map { t: List<ReportLocal> ->
+            println("getReports...")
+            reportLocalDataMapper.localToDataList(t)
+        }
+    }
+
+    override fun getReport(identifier: String): Single<FilesData> {
+        return filesDao.getReport(identifier).map { t: ReportLocal ->
+            println("getReport with identifier: $identifier ...")
+            reportLocalDataMapper.localToData(t)
+        }
+    }
+
+    override fun saveReport(filesDataList: List<FilesData>) {
+        println("saveReport...")
+        filesDao.clearAndInsertReport(reportLocalDataMapper.dataToLocalList(filesDataList))
+    }
+    //endregion
+
+    //region ASSIGNMENT
     override fun getAssignments(): Observable<List<FilesData>> {
         return filesDao.getAssignments().map { t: List<AssignmentLocal> ->
             println("getAssignments...")
@@ -47,10 +72,11 @@ class LocalSourceImpl @Inject constructor(
 
     override fun saveAssignment(filesDataList: List<FilesData>) {
         println("saveAssignment...")
-        filesDao.clearAndInsertAssignment(assignmentLocalDataMapper.dataToLocalList(filesDataList))    }
+        filesDao.clearAndInsertAssignment(assignmentLocalDataMapper.dataToLocalList(filesDataList))
+    }
+    //endregion
 
-
-    //region FILES
+    //region CIRCULAR
     override fun getCirculars(): Observable<List<FilesData>> {
         return filesDao.getCirculars().map { t: List<CircularLocal> ->
             println("getCirculars...")

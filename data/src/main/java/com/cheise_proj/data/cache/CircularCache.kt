@@ -1,10 +1,10 @@
 package com.cheise_proj.data.cache
 
 import com.cheise_proj.data.model.files.FilesData
+import com.cheise_proj.domain.STALE_MS
 
 class CircularCache {
     companion object {
-        private const val CACHE_EXPIRED_MILLIS: Long = 60 * 1000 // 30 seconds
         private val memCache = HashMap<String, List<FilesData>>()
         private var cacheLastUpdateTime: Long = 0
 
@@ -20,7 +20,7 @@ class CircularCache {
         fun getCirculars(identifier: String): List<FilesData>? {
             println("CircularCache.getCirculars")
             val isCachedExpired =
-                (System.currentTimeMillis() - cacheLastUpdateTime) >= CACHE_EXPIRED_MILLIS
+                (System.currentTimeMillis() - cacheLastUpdateTime) >= STALE_MS
             if (!isCachedExpired) return memCache[identifier]
             memCache[identifier] = arrayListOf()
             return null

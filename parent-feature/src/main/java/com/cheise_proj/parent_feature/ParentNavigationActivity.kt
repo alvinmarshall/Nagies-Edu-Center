@@ -97,6 +97,7 @@ class ParentNavigationActivity : BaseActivity() {
             R.id.messageFragment -> textBadgeViews[0].text = str
             R.id.circularFragment2 -> textBadgeViews[1].text = str
             R.id.assignmentFragment -> textBadgeViews[2].text = str
+            R.id.reportFragment2 -> textBadgeViews[3].text = str
         }
     }
 
@@ -105,6 +106,7 @@ class ParentNavigationActivity : BaseActivity() {
         textBadgeViews.add(menuNav.findItem(R.id.messageFragment).actionView as TextView)
         textBadgeViews.add(menuNav.findItem(R.id.circularFragment2).actionView as TextView)
         textBadgeViews.add(menuNav.findItem(R.id.assignmentFragment).actionView as TextView)
+        textBadgeViews.add(menuNav.findItem(R.id.reportFragment2).actionView as TextView)
 
         textBadgeViews.forEach {
             it.apply {

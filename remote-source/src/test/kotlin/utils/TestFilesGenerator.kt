@@ -1,31 +1,39 @@
 package utils
 
-import com.cheise_proj.remote_source.model.dto.files.AssignmentDto
-import com.cheise_proj.remote_source.model.dto.files.AssignmentsDto
-import com.cheise_proj.remote_source.model.dto.files.CircularDto
-import com.cheise_proj.remote_source.model.dto.files.CircularsDto
+import com.cheise_proj.remote_source.model.dto.files.*
 
 object TestFilesGenerator {
-    fun getCircularDto(): CircularsDto {
-        return CircularsDto(
+
+    //region REPORT
+    fun getReportsDto(): ReportsDto {
+        return ReportsDto(
             data = arrayListOf(
-                CircularDto(
+                ReportDto(
                     id = 1,
                     date = "test date",
                     photo = "test photo",
-                    teacherName = "test teacher name"
+                    teacherName = "test teacher name",
+                    path = "",
+                    studentName = "",
+                    refNo = ""
                 ),
-                CircularDto(
+                ReportDto(
                     id = 2,
                     date = "test date",
                     photo = "test photo",
-                    teacherName = "test teacher name"
+                    teacherName = "test teacher name",
+                    path = "",
+                    studentName = "",
+                    refNo = ""
                 )
             )
 
         )
     }
+    //endregion
 
+
+    //region ASSIGNMENT
     fun getAssignmentDto(): AssignmentsDto {
         return AssignmentsDto(
             data = arrayListOf(
@@ -51,4 +59,28 @@ object TestFilesGenerator {
 
         )
     }
+    //endregion
+
+    //region CIRCULAR
+    fun getCircularDto(): CircularsDto {
+        return CircularsDto(
+            data = arrayListOf(
+                CircularDto(
+                    id = 1,
+                    date = "test date",
+                    photo = "test photo",
+                    teacherName = "test teacher name"
+                ),
+                CircularDto(
+                    id = 2,
+                    date = "test date",
+                    photo = "test photo",
+                    teacherName = "test teacher name"
+                )
+            )
+
+        )
+    }
+    //endregion
+
 }

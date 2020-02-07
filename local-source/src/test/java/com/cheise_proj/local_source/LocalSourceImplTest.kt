@@ -5,6 +5,7 @@ import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
+import com.cheise_proj.local_source.mapper.files.ReportLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
@@ -30,6 +31,7 @@ class LocalSourceImplTest {
     private lateinit var messageLocalDataMapper: MessageLocalDataMapper
     private lateinit var circularLocalDataMapper: CircularLocalDataMapper
     private lateinit var assignmentLocalDataMapper: AssignmentLocalDataMapper
+    private lateinit var reportLocalDataMapper: ReportLocalDataMapper
 
     @Mock
     lateinit var userDao: UserDao
@@ -46,6 +48,7 @@ class LocalSourceImplTest {
         messageLocalDataMapper = MessageLocalDataMapper()
         circularLocalDataMapper = CircularLocalDataMapper()
         assignmentLocalDataMapper = AssignmentLocalDataMapper()
+        reportLocalDataMapper = ReportLocalDataMapper()
 
         localSourceImpl = LocalSourceImpl(
             userDao,
@@ -55,10 +58,54 @@ class LocalSourceImplTest {
             messageLocalDataMapper,
             filesDao,
             circularLocalDataMapper,
-            assignmentLocalDataMapper
+            assignmentLocalDataMapper,
+            reportLocalDataMapper
         )
     }
 
+    //region REPORT
+    @Test
+    fun `Get all reports from local success`() {
+        val actual = TestFilesGenerator.getReports()
+        Mockito.`when`(filesDao.getReports()).thenReturn(Observable.just(actual))
+        localSourceImpl.getReports()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == reportLocalDataMapper.localToDataList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getReports()
+    }
+
+    @Test
+    fun `Get report from local success`() {
+        val actual = TestFilesGenerator.getReport()
+        Mockito.`when`(filesDao.getReport(IDENTIFIER)).thenReturn(Single.just(actual))
+        localSourceImpl.getReport(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == reportLocalDataMapper.localToData(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getReport(IDENTIFIER)
+    }
+
+    @Test
+    fun `Save report to local success`() {
+        val report = TestFilesGenerator.getReports()
+        Mockito.doNothing().`when`(filesDao).clearAndInsertReport(report)
+        localSourceImpl.saveReport(reportLocalDataMapper.localToDataList(report))
+        Mockito.verify(filesDao, times(1)).clearAndInsertReport(report)
+    }
+    //endregion
+
+
+
+    //region ASSIGNMENT
     @Test
     fun `Get all assignment from local success`() {
         val actual = TestFilesGenerator.getAssignments()
@@ -93,12 +140,13 @@ class LocalSourceImplTest {
     fun `Save assignment to local success`() {
         val assignment = TestFilesGenerator.getAssignments()
         Mockito.doNothing().`when`(filesDao).clearAndInsertAssignment(assignment)
-        localSourceImpl.saveCircular(assignmentLocalDataMapper.localToDataList(assignment))
+        localSourceImpl.saveAssignment(assignmentLocalDataMapper.localToDataList(assignment))
         Mockito.verify(filesDao, times(1)).clearAndInsertAssignment(assignment)
     }
+    //endregion
 
 
-
+    //region CIRCULAR
     @Test
     fun `Get all circular from local success`() {
         val actual = TestFilesGenerator.getCirculars()
@@ -136,6 +184,7 @@ class LocalSourceImplTest {
         localSourceImpl.saveCircular(circularLocalDataMapper.localToDataList(circular))
         Mockito.verify(filesDao, times(1)).clearAndInsertCircular(circular)
     }
+    //endregion
 
     //region MESSAGE
     @Test

@@ -11,7 +11,7 @@ import com.cheise_proj.parent_feature.AdapterClickListener
 import com.cheise_proj.parent_feature.R
 import com.cheise_proj.parent_feature.di.GlideApp
 import com.cheise_proj.presentation.model.files.Circular
-import kotlinx.android.synthetic.main.list_circular.view.*
+import kotlinx.android.synthetic.main.list_files.view.*
 
 class CircularAdapter :
     ListAdapter<Circular, CircularAdapter.CircularVh>(CircularDiffCallback()) {
