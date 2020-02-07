@@ -57,6 +57,45 @@ class RemoteSourceImplTest {
     }
 
     //region FILES
+
+    //region REPORT
+    @Test
+    fun `Get all timetables from remote success`() {
+        val actual = TestFilesGenerator.getTimeTablesDto()
+        Mockito.`when`(apiService.getTimeTable()).thenReturn(Observable.just(actual))
+        remoteSourceImpl.getTimeTable()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDtoDataMapper.dtoToDataList(actual.data)
+            }
+            .assertComplete()
+        Mockito.verify(apiService, times(1)).getTimeTable()
+    }
+
+    @Test
+    fun `Get all timetables from remote with no network success`() {
+        val actual = "No internet connection"
+        Mockito.`when`(apiService.getTimeTable()).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.getTimeTable()
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(apiService, times(1)).getTimeTable()
+    }
+    //endregion
+
+
     //region REPORT
     @Test
     fun `Get all reports from remote success`() {

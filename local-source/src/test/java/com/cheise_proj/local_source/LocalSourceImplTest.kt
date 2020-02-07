@@ -6,6 +6,7 @@ import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.ReportLocalDataMapper
+import com.cheise_proj.local_source.mapper.files.TimeTableLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
@@ -32,6 +33,7 @@ class LocalSourceImplTest {
     private lateinit var circularLocalDataMapper: CircularLocalDataMapper
     private lateinit var assignmentLocalDataMapper: AssignmentLocalDataMapper
     private lateinit var reportLocalDataMapper: ReportLocalDataMapper
+    private lateinit var timeTableLocalDataMapper: TimeTableLocalDataMapper
 
     @Mock
     lateinit var userDao: UserDao
@@ -49,6 +51,7 @@ class LocalSourceImplTest {
         circularLocalDataMapper = CircularLocalDataMapper()
         assignmentLocalDataMapper = AssignmentLocalDataMapper()
         reportLocalDataMapper = ReportLocalDataMapper()
+        timeTableLocalDataMapper = TimeTableLocalDataMapper()
 
         localSourceImpl = LocalSourceImpl(
             userDao,
@@ -59,9 +62,52 @@ class LocalSourceImplTest {
             filesDao,
             circularLocalDataMapper,
             assignmentLocalDataMapper,
-            reportLocalDataMapper
+            reportLocalDataMapper,
+            timeTableLocalDataMapper
         )
     }
+
+
+    //region TIMETABLE
+    @Test
+    fun `Get all timetables from local success`() {
+        val actual = TestFilesGenerator.getTimeTables()
+        Mockito.`when`(filesDao.getTimeTables()).thenReturn(Observable.just(actual))
+        localSourceImpl.getTimeTables()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == timeTableLocalDataMapper.localToDataList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getTimeTables()
+    }
+
+    @Test
+    fun `Get timetable from local success`() {
+        val actual = TestFilesGenerator.getTimeTable()
+        Mockito.`when`(filesDao.getTimeTable(IDENTIFIER)).thenReturn(Single.just(actual))
+        localSourceImpl.getTimeTable(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == timeTableLocalDataMapper.localToData(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getTimeTable(IDENTIFIER)
+    }
+
+    @Test
+    fun `Save timetable to local success`() {
+        val timetable = TestFilesGenerator.getTimeTables()
+        Mockito.doNothing().`when`(filesDao).clearAndInsertTimeTable(timetable)
+        localSourceImpl.saveTimeTable(timeTableLocalDataMapper.localToDataList(timetable))
+        Mockito.verify(filesDao, times(1)).clearAndInsertTimeTable(timetable)
+    }
+    //endregion
+
 
     //region REPORT
     @Test
@@ -102,7 +148,6 @@ class LocalSourceImplTest {
         Mockito.verify(filesDao, times(1)).clearAndInsertReport(report)
     }
     //endregion
-
 
 
     //region ASSIGNMENT

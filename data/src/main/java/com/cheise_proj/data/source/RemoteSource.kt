@@ -9,6 +9,9 @@ import io.reactivex.Observable
 interface RemoteSource {
 
     //region FILES
+
+    fun getTimeTable(): Observable<List<FilesData>>
+
     fun getReport(): Observable<List<FilesData>>
 
     fun getAssignment(): Observable<List<FilesData>>

@@ -13,6 +13,14 @@ interface LocalSource {
     //region FILES
 
     //region REPORT
+    fun getTimeTables(): Observable<List<FilesData>>
+
+    fun getTimeTable(identifier: String): Single<FilesData>
+
+    fun saveTimeTable(filesDataList: List<FilesData>)
+    //endregion
+
+    //region REPORT
     fun getReports(): Observable<List<FilesData>>
 
     fun getReport(identifier: String): Single<FilesData>

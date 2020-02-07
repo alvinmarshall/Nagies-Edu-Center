@@ -3,6 +3,7 @@ package com.cheise_proj.data.repository.files
 import com.cheise_proj.data.cache.AssignmentCache
 import com.cheise_proj.data.cache.CircularCache
 import com.cheise_proj.data.cache.ReportCache
+import com.cheise_proj.data.cache.TimeTableCache
 import com.cheise_proj.data.mapper.files.FilesDataEntityMapper
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.source.LocalSource
@@ -18,6 +19,56 @@ class FilesRepositoryImpl @Inject constructor(
     private val localSource: LocalSource,
     private val filesDataEntityMapper: FilesDataEntityMapper
 ) : FilesRepository {
+
+    //region TIMETABLE
+    override fun getTimeTables(): Observable<List<FilesEntity>> {
+        val timeTableObservable: Observable<List<FilesEntity>>
+        val identifier = "timetable"
+        val cacheTimeTable = TimeTableCache.getTimeTable(identifier)
+
+        val local = localSource.getTimeTables()
+            .map { t: List<FilesData> ->
+                filesDataEntityMapper.dataToEntityList(t)
+            }
+
+        val remote = remoteSource.getTimeTable()
+            .map { t: List<FilesData> ->
+                localSource.saveTimeTable(t)
+                filesDataEntityMapper.dataToEntityList(t)
+            }
+            .onErrorResumeNext(Function {
+                println(it.localizedMessage)
+                local
+            })
+
+        timeTableObservable = if (cacheTimeTable != null) {
+            println("Remote source NOT invoked")
+            val cache = filesDataEntityMapper.dataToEntityList(cacheTimeTable)
+            Observable.just(cache)
+        } else {
+            remote
+        }
+
+        return timeTableObservable
+            .map { t: List<FilesEntity> ->
+                if (cacheTimeTable == null) {
+                    TimeTableCache.addTimeTable(
+                        identifier,
+                        filesDataEntityMapper.entityToDataList(t)
+                    )
+                }
+                return@map t
+            }.mergeWith(local).take(1).distinct()
+    }
+
+    override fun getTimeTable(identifier: String): Observable<List<FilesEntity>> {
+        return localSource.getTimeTable(identifier).toObservable()
+            .map { t: FilesData ->
+                val data = filesDataEntityMapper.dataToEntity(t)
+                return@map arrayListOf(data)
+            }
+    }
+    //endregion
 
     //region REPORT
     override fun getReports(): Observable<List<FilesEntity>> {

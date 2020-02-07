@@ -3,8 +3,46 @@ package com.cheise_proj.local_source.utils
 import com.cheise_proj.local_source.model.files.AssignmentLocal
 import com.cheise_proj.local_source.model.files.CircularLocal
 import com.cheise_proj.local_source.model.files.ReportLocal
+import com.cheise_proj.local_source.model.files.TimeTableLocal
 
 object TestFilesGenerator {
+
+
+    //region TIMETABLE
+    fun getTimeTables(): List<TimeTableLocal> {
+        return arrayListOf(
+            TimeTableLocal(
+                id = 1,
+                teacherName = "test teacher name local",
+                photo = "test photo",
+                date = "test date",
+                path = "test path",
+                studentName = "test studentName",
+                refNo = "test refNo"
+            ), TimeTableLocal(
+                id = 2,
+                teacherName = "test teacher name2 local",
+                photo = "test photo",
+                date = "test date",
+                path = "test path",
+                refNo = "test refNo",
+                studentName = "test studentName"
+            )
+        )
+    }
+
+    fun getTimeTable(): TimeTableLocal {
+        return TimeTableLocal(
+            id = 1,
+            teacherName = "test teacher name local",
+            photo = "test photo",
+            date = "test date",
+            path = "test path",
+            studentName = "test studentName",
+            refNo = "test refNo"
+        )
+    }
+    //endregion
 
 
     //region REPORT

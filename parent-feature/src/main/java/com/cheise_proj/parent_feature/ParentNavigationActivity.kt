@@ -48,7 +48,7 @@ class ParentNavigationActivity : BaseActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var sharedViewModel: SharedViewModel
-    private var downloadId:Long = -1
+    private var downloadId: Long = -1
     private val textBadgeViews = arrayListOf<TextView>()
     override fun onResume() {
         super.onResume()
@@ -92,12 +92,13 @@ class ParentNavigationActivity : BaseActivity() {
     }
 
     private fun setNavMenuBadge(badge: Pair<Int, Int?>?) {
-        val str = "${badge?.second ?: 0}+"
+        val str = if (badge?.second != null && badge.second!! > 0) "${badge.second} +" else ""
         when (badge?.first) {
             R.id.messageFragment -> textBadgeViews[0].text = str
             R.id.circularFragment2 -> textBadgeViews[1].text = str
             R.id.assignmentFragment -> textBadgeViews[2].text = str
             R.id.reportFragment2 -> textBadgeViews[3].text = str
+            R.id.timeTableFragment -> textBadgeViews[4].text = str
         }
     }
 
@@ -107,6 +108,7 @@ class ParentNavigationActivity : BaseActivity() {
         textBadgeViews.add(menuNav.findItem(R.id.circularFragment2).actionView as TextView)
         textBadgeViews.add(menuNav.findItem(R.id.assignmentFragment).actionView as TextView)
         textBadgeViews.add(menuNav.findItem(R.id.reportFragment2).actionView as TextView)
+        textBadgeViews.add(menuNav.findItem(R.id.timeTableFragment).actionView as TextView)
 
         textBadgeViews.forEach {
             it.apply {

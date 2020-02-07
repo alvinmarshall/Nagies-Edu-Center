@@ -4,14 +4,34 @@ import androidx.room.*
 import com.cheise_proj.local_source.model.files.AssignmentLocal
 import com.cheise_proj.local_source.model.files.CircularLocal
 import com.cheise_proj.local_source.model.files.ReportLocal
+import com.cheise_proj.local_source.model.files.TimeTableLocal
 import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
 interface FilesDao {
 
+    //region TIMETABLE
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveTimeTable(timeTableLocalList: List<TimeTableLocal>)
+
+    @Query("SELECT * FROM timetable ORDER BY id DESC")
+    fun getTimeTables(): Observable<List<TimeTableLocal>>
+
+    @Query("SELECT * FROM timetable WHERE id = :identifier")
+    fun getTimeTable(identifier: String): Single<TimeTableLocal>
+
+    @Query("DELETE FROM timetable")
+    fun deleteTimeTable()
+
+    @Transaction
+    fun clearAndInsertTimeTable(timeTableLocalList: List<TimeTableLocal>) {
+        deleteTimeTable()
+        saveTimeTable(timeTableLocalList)
+    }
+    //endregion
+
     //region REPORT
-    //region CIRCULAR
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveReport(reportLocalList: List<ReportLocal>)
 
@@ -26,10 +46,9 @@ interface FilesDao {
 
     @Transaction
     fun clearAndInsertReport(reportLocalList: List<ReportLocal>) {
-        deleteCircular()
+        deleteReport()
         saveReport(reportLocalList)
     }
-    //endregion
     //endregion
 
     //region ASSIGNMENT

@@ -45,6 +45,7 @@
         <item
                 android:id="@+id/timeTableFragment"
                 android:icon="@drawable/ic_schedule_black_24dp"
+                app:actionViewClass="android.widget.TextView"
                 android:title="@string/menu_time_table" />
 
         <item

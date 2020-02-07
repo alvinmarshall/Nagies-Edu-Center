@@ -11,12 +11,14 @@ import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
 import com.cheise_proj.local_source.mapper.files.ReportLocalDataMapper
+import com.cheise_proj.local_source.mapper.files.TimeTableLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
 import com.cheise_proj.local_source.model.files.AssignmentLocal
 import com.cheise_proj.local_source.model.files.CircularLocal
 import com.cheise_proj.local_source.model.files.ReportLocal
+import com.cheise_proj.local_source.model.files.TimeTableLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -31,9 +33,32 @@ class LocalSourceImpl @Inject constructor(
     private val filesDao: FilesDao,
     private val circularLocalDataMapper: CircularLocalDataMapper,
     private val assignmentLocalDataMapper: AssignmentLocalDataMapper,
-    private val reportLocalDataMapper: ReportLocalDataMapper
+    private val reportLocalDataMapper: ReportLocalDataMapper,
+    private val timeTableLocalDataMapper: TimeTableLocalDataMapper
 
 ) : LocalSource {
+
+    //region TIMETABLE
+    override fun getTimeTables(): Observable<List<FilesData>> {
+        return filesDao.getTimeTables().map { t: List<TimeTableLocal> ->
+            println("getTimeTables...")
+            timeTableLocalDataMapper.localToDataList(t)
+        }
+    }
+
+    override fun getTimeTable(identifier: String): Single<FilesData> {
+        return filesDao.getTimeTable(identifier).map { t: TimeTableLocal ->
+            println("getTimeTable with identifier: $identifier ...")
+            timeTableLocalDataMapper.localToData(t)
+        }
+    }
+
+    override fun saveTimeTable(filesDataList: List<FilesData>) {
+        println("saveTimeTable...")
+        filesDao.clearAndInsertTimeTable(timeTableLocalDataMapper.dataToLocalList(filesDataList))
+    }
+    //endregion
+
     //region REPORT
     override fun getReports(): Observable<List<FilesData>> {
         return filesDao.getReports().map { t: List<ReportLocal> ->
