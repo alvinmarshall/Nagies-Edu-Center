@@ -11,8 +11,7 @@ class MessageEntityMapper @Inject constructor() : PresentationMapper<Message, Me
             uid = p.uid,
             content = p.content,
             date = p.date,
-            sender = p.sender,
-            timestamp = p.timestamp
+            sender = p.sender
         )
     }
 
@@ -21,8 +20,7 @@ class MessageEntityMapper @Inject constructor() : PresentationMapper<Message, Me
             uid = e.uid,
             content = e.content,
             date = e.date,
-            sender = e.sender,
-            timestamp = e.timestamp
+            sender = e.sender
         )
     }
 

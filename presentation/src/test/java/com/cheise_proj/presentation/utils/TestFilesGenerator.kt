@@ -1,11 +1,46 @@
 package com.cheise_proj.presentation.utils
 
-import com.cheise_proj.presentation.model.files.Assignment
-import com.cheise_proj.presentation.model.files.Circular
-import com.cheise_proj.presentation.model.files.Report
-import com.cheise_proj.presentation.model.files.TimeTable
+import com.cheise_proj.presentation.model.files.*
 
 object TestFilesGenerator {
+
+    //region BILL
+    fun getBills(): List<Bill> {
+        return arrayListOf(
+            Bill(
+                id = 1,
+                path = "test path",
+                date = "test date",
+                photo = "test photo",
+                teacherName = "test teacher name",
+                refNo = "test refNo",
+                studentName = "test studentName"
+            ),
+            Bill(
+                id = 2,
+                path = "test path2",
+                date = "test date",
+                photo = "test photo",
+                teacherName = "test teacher name2",
+                studentName = "test studentName",
+                refNo = "test refNo"
+            )
+        )
+    }
+
+    fun getBill(): Bill {
+        return Bill(
+            id = 1,
+            path = "test path",
+            date = "test date",
+            photo = "test photo",
+            teacherName = "test teacher name",
+            refNo = "test refNo",
+            studentName = "test studentName"
+        )
+    }
+    //endregion
+
 
     //region TIMETABLE
     fun getTimeTables(): List<TimeTable> {

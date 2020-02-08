@@ -4,6 +4,35 @@ import com.cheise_proj.remote_source.model.dto.files.*
 
 object TestFilesGenerator {
 
+    //region BILL
+    fun getBillsDto(): BillsDto {
+        return BillsDto(
+            data = arrayListOf(
+                BillDto(
+                    id = 1,
+                    date = "test date",
+                    photo = "test photo",
+                    teacherName = "test teacher name",
+                    path = "",
+                    studentName = "",
+                    refNo = ""
+                ),
+                BillDto(
+                    id = 2,
+                    date = "test date",
+                    photo = "test photo",
+                    teacherName = "test teacher name",
+                    path = "",
+                    studentName = "",
+                    refNo = ""
+                )
+            )
+
+        )
+    }
+    //endregion
+
+
     //region REPORT
     fun getTimeTablesDto(): TimeTablesDto {
         return TimeTablesDto(

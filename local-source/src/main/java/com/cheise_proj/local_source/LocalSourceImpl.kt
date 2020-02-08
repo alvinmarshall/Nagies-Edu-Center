@@ -8,17 +8,11 @@ import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
-import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.ReportLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.TimeTableLocalDataMapper
+import com.cheise_proj.local_source.mapper.files.*
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
-import com.cheise_proj.local_source.model.files.AssignmentLocal
-import com.cheise_proj.local_source.model.files.CircularLocal
-import com.cheise_proj.local_source.model.files.ReportLocal
-import com.cheise_proj.local_source.model.files.TimeTableLocal
+import com.cheise_proj.local_source.model.files.*
 import com.cheise_proj.local_source.model.message.MessageLocal
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -34,9 +28,33 @@ class LocalSourceImpl @Inject constructor(
     private val circularLocalDataMapper: CircularLocalDataMapper,
     private val assignmentLocalDataMapper: AssignmentLocalDataMapper,
     private val reportLocalDataMapper: ReportLocalDataMapper,
-    private val timeTableLocalDataMapper: TimeTableLocalDataMapper
+    private val timeTableLocalDataMapper: TimeTableLocalDataMapper,
+    private val billLocalDataMapper: BillLocalDataMapper
 
 ) : LocalSource {
+
+    //region FILES
+
+    //region BILL
+    override fun getBills(): Observable<List<FilesData>> {
+        return filesDao.getBills().map { t: List<BillLocal> ->
+            println("getBills...")
+            billLocalDataMapper.localToDataList(t)
+        }
+    }
+
+    override fun getBill(identifier: String): Single<FilesData> {
+        return filesDao.getBill(identifier).map { t: BillLocal ->
+            println("getBill with identifier: $identifier ...")
+            billLocalDataMapper.localToData(t)
+        }
+    }
+
+    override fun saveBill(filesDataList: List<FilesData>) {
+        println("saveBill...")
+        filesDao.clearAndInsertBill(billLocalDataMapper.dataToLocalList(filesDataList))
+    }
+    //endregion
 
     //region TIMETABLE
     override fun getTimeTables(): Observable<List<FilesData>> {
@@ -120,6 +138,7 @@ class LocalSourceImpl @Inject constructor(
         println("saveCircular...")
         filesDao.clearAndInsertCircular(circularLocalDataMapper.dataToLocalList(filesDataList))
     }
+    //endregion
     //endregion
 
     //region MESSAGE

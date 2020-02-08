@@ -18,6 +18,7 @@
         <item
                 android:id="@+id/billFragment"
                 android:icon="@drawable/ic_format_bold_black_24dp"
+                app:actionViewClass="android.widget.TextView"
                 android:title="@string/menu_bill" />
         <item
                 android:id="@+id/announcementFragment2"

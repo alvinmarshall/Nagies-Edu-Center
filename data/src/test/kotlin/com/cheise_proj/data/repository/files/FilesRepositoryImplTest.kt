@@ -33,6 +33,69 @@ class FilesRepositoryImplTest {
         filesRepositoryImpl = FilesRepositoryImpl(remoteSource, localSource, filesDataEntityMapper)
     }
 
+    //region BILL
+    @Test
+    fun `Get all bills success`() {
+        val actual = TestFilesGenerator.getFiles()
+        Mockito.`when`(remoteSource.getBill()).thenReturn(Observable.just(actual))
+        Mockito.`when`(localSource.getBills()).thenReturn(Observable.just(actual))
+        filesRepositoryImpl.getBills()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDataEntityMapper.dataToEntityList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).getBill()
+        Mockito.verify(localSource, times(1)).getBills()
+        Mockito.verify(localSource, times(0)).getBill(IDENTIFIER)
+
+    }
+
+    @Test
+    fun `Get all bills from local when remote fail success`() {
+        val actual = TestFilesGenerator.getFiles()
+        Mockito.`when`(remoteSource.getBill()).thenReturn(
+            Observable.error(
+                Throwable(
+                    ERROR_MESSAGE
+                )
+            )
+        )
+        Mockito.`when`(localSource.getBills()).thenReturn(Observable.just(actual))
+        filesRepositoryImpl.getBills()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDataEntityMapper.dataToEntityList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).getBill()
+        Mockito.verify(localSource, times(1)).getBills()
+        Mockito.verify(localSource, times(0)).getBill(IDENTIFIER)
+
+    }
+
+    @Test
+    fun `Get bill with identifier success`() {
+        val actual = TestFilesGenerator.getFiles()[0]
+        Mockito.`when`(localSource.getBill(IDENTIFIER)).thenReturn(Single.just(actual))
+        filesRepositoryImpl.getBill(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                println(it)
+                it[0] == filesDataEntityMapper.dataToEntity(actual)
+            }
+            .assertComplete()
+        Mockito.verify(localSource, times(0)).getBills()
+        Mockito.verify(localSource, times(1)).getBill(IDENTIFIER)
+    }
+    //endregion
+
     //region TIMETABLE
     @Test
     fun `Get all timetables success`() {
@@ -159,7 +222,6 @@ class FilesRepositoryImplTest {
         Mockito.verify(localSource, times(1)).getReport(IDENTIFIER)
     }
     //endregion
-
 
 
     //region ASSIGNMENT

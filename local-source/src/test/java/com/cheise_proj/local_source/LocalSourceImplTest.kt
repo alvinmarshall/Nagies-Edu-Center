@@ -3,10 +3,7 @@ package com.cheise_proj.local_source
 import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
-import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.ReportLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.TimeTableLocalDataMapper
+import com.cheise_proj.local_source.mapper.files.*
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
@@ -34,6 +31,7 @@ class LocalSourceImplTest {
     private lateinit var assignmentLocalDataMapper: AssignmentLocalDataMapper
     private lateinit var reportLocalDataMapper: ReportLocalDataMapper
     private lateinit var timeTableLocalDataMapper: TimeTableLocalDataMapper
+    private lateinit var billLocalDataMapper: BillLocalDataMapper
 
     @Mock
     lateinit var userDao: UserDao
@@ -52,6 +50,7 @@ class LocalSourceImplTest {
         assignmentLocalDataMapper = AssignmentLocalDataMapper()
         reportLocalDataMapper = ReportLocalDataMapper()
         timeTableLocalDataMapper = TimeTableLocalDataMapper()
+        billLocalDataMapper = BillLocalDataMapper()
 
         localSourceImpl = LocalSourceImpl(
             userDao,
@@ -63,10 +62,50 @@ class LocalSourceImplTest {
             circularLocalDataMapper,
             assignmentLocalDataMapper,
             reportLocalDataMapper,
-            timeTableLocalDataMapper
+            timeTableLocalDataMapper,
+            billLocalDataMapper
         )
     }
 
+    //region BILL
+    @Test
+    fun `Get all bills from local success`() {
+        val actual = TestFilesGenerator.getBills()
+        Mockito.`when`(filesDao.getBills()).thenReturn(Observable.just(actual))
+        localSourceImpl.getBills()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == billLocalDataMapper.localToDataList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getBills()
+    }
+
+    @Test
+    fun `Get bill from local success`() {
+        val actual = TestFilesGenerator.getBill()
+        Mockito.`when`(filesDao.getBill(IDENTIFIER)).thenReturn(Single.just(actual))
+        localSourceImpl.getBill(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == billLocalDataMapper.localToData(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getBill(IDENTIFIER)
+    }
+
+    @Test
+    fun `Save bills to local success`() {
+        val bill = TestFilesGenerator.getBills()
+        Mockito.doNothing().`when`(filesDao).clearAndInsertBill(bill)
+        localSourceImpl.saveBill(billLocalDataMapper.localToDataList(bill))
+        Mockito.verify(filesDao, times(1)).clearAndInsertBill(bill)
+    }
+    //endregion
 
     //region TIMETABLE
     @Test

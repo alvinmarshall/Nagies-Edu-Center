@@ -11,8 +11,7 @@ class MessageDataEntityMapper @Inject constructor() : DataMapper<MessageData, Me
             uid = d.uid,
             sender = d.sender,
             date = d.date,
-            content = d.content,
-            timestamp = d.timestamp
+            content = d.content
         )
     }
 
@@ -21,8 +20,7 @@ class MessageDataEntityMapper @Inject constructor() : DataMapper<MessageData, Me
             uid = e.uid,
             sender = e.sender,
             date = e.date,
-            content = e.content,
-            timestamp = e.timestamp
+            content = e.content
         )
     }
 

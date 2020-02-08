@@ -9,8 +9,7 @@ object TestMessageGenerator {
                 uid = 1,
                 sender = "test sender",
                 content = "test content",
-                date = "test date",
-                timestamp = 0
+                date = "test date"
             )
         )
     }

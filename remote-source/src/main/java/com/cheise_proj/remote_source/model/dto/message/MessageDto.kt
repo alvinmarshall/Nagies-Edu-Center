@@ -11,6 +11,5 @@ data class MessageDto (
     val uid: Int,
     val sender: String,
     val content: String,
-    val date: String,
-    var timestamp: Long
+    val date: String
 )

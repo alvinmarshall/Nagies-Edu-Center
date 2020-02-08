@@ -1,10 +1,7 @@
 package com.cheise_proj.parent_feature
 
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -48,11 +45,9 @@ class ParentNavigationActivity : BaseActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var sharedViewModel: SharedViewModel
-    private var downloadId: Long = -1
     private val textBadgeViews = arrayListOf<TextView>()
     override fun onResume() {
         super.onResume()
-        setProfileData(navView)
         setBackgroundChanger()
     }
 
@@ -61,17 +56,23 @@ class ParentNavigationActivity : BaseActivity() {
         setContentView(R.layout.activity_parent_navigation)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        connectionLiveData = ConnectionLiveData(this)
 
         val snack = Snackbar.make(root, "", Snackbar.LENGTH_INDEFINITE)
         navView = findViewById(R.id.nav_view)
         drawerLayout = findViewById(R.id.drawer_layout)
-        connectionLiveData = ConnectionLiveData(this)
 
-        dialogUseBackgroundChanger()
-        configureViewModel()
-        initNavBadge()
         setupNavigation()
+        initNavBadge()
+        setProfileData(navView)
+        configureViewModel()
         openNavigationMenu()
+        subscribeNetworkChange(snack)
+        dialogUseBackgroundChanger()
+
+    }
+
+    private fun subscribeNetworkChange(snack: Snackbar) {
         connectionLiveData.observe(this, Observer {
             if (!it) {
                 root.background = baseContext.getDrawable(R.drawable.no_internet)
@@ -99,6 +100,7 @@ class ParentNavigationActivity : BaseActivity() {
             R.id.assignmentFragment -> textBadgeViews[2].text = str
             R.id.reportFragment2 -> textBadgeViews[3].text = str
             R.id.timeTableFragment -> textBadgeViews[4].text = str
+            R.id.billFragment -> textBadgeViews[5].text = str
         }
     }
 
@@ -109,6 +111,7 @@ class ParentNavigationActivity : BaseActivity() {
         textBadgeViews.add(menuNav.findItem(R.id.assignmentFragment).actionView as TextView)
         textBadgeViews.add(menuNav.findItem(R.id.reportFragment2).actionView as TextView)
         textBadgeViews.add(menuNav.findItem(R.id.timeTableFragment).actionView as TextView)
+        textBadgeViews.add(menuNav.findItem(R.id.billFragment).actionView as TextView)
 
         textBadgeViews.forEach {
             it.apply {
@@ -125,7 +128,7 @@ class ParentNavigationActivity : BaseActivity() {
         handler.postDelayed(
             {
                 drawerLayout.openDrawer(GravityCompat.START)
-            }, 1500
+            }, 2000
         )
     }
 
@@ -167,7 +170,7 @@ class ParentNavigationActivity : BaseActivity() {
                             root.background = resource
                         }
                     })
-            }, DELAY_HANDLER)
+            }, DELAY_HANDLER + 500)
         }
     }
 

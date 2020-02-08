@@ -9,14 +9,12 @@ object TestMessageGenerator {
                 uid = 1,
                 sender = "test sender",
                 content = "test content local",
-                date = "test date",
-                timestamp = 0
+                date = "test date"
             ), MessageLocal(
                 uid = 2,
                 sender = "test sender2",
                 content = "test content2 local",
-                date = "test date2",
-                timestamp = 0
+                date = "test date2"
             )
 
         )
@@ -27,8 +25,7 @@ object TestMessageGenerator {
             uid = 1,
             sender = "test sender",
             content = "test content local",
-            date = "test date",
-            timestamp = 0
+            date = "test date"
         )
     }
 }

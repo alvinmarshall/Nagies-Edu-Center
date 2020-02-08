@@ -1,12 +1,45 @@
 package com.cheise_proj.local_source.utils
 
-import com.cheise_proj.local_source.model.files.AssignmentLocal
-import com.cheise_proj.local_source.model.files.CircularLocal
-import com.cheise_proj.local_source.model.files.ReportLocal
-import com.cheise_proj.local_source.model.files.TimeTableLocal
+import com.cheise_proj.local_source.model.files.*
 
 object TestFilesGenerator {
 
+
+    //region BILL
+    fun getBills(): List<BillLocal> {
+        return arrayListOf(
+            BillLocal(
+                id = 1,
+                teacherName = "test teacher name local",
+                photo = "test photo",
+                date = "test date",
+                path = "test path",
+                studentName = "test studentName",
+                refNo = "test refNo"
+            ), BillLocal(
+                id = 2,
+                teacherName = "test teacher name2 local",
+                photo = "test photo",
+                date = "test date",
+                path = "test path",
+                refNo = "test refNo",
+                studentName = "test studentName"
+            )
+        )
+    }
+
+    fun getBill(): BillLocal {
+        return BillLocal(
+            id = 1,
+            teacherName = "test teacher name local",
+            photo = "test photo",
+            date = "test date",
+            path = "test path",
+            studentName = "test studentName",
+            refNo = "test refNo"
+        )
+    }
+    //endregion
 
     //region TIMETABLE
     fun getTimeTables(): List<TimeTableLocal> {

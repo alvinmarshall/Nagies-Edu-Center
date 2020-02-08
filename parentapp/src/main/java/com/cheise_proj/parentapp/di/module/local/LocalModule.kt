@@ -14,17 +14,11 @@ import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.base.LocalMapper
-import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.ReportLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.TimeTableLocalDataMapper
+import com.cheise_proj.local_source.mapper.files.*
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
-import com.cheise_proj.local_source.model.files.AssignmentLocal
-import com.cheise_proj.local_source.model.files.CircularLocal
-import com.cheise_proj.local_source.model.files.ReportLocal
-import com.cheise_proj.local_source.model.files.TimeTableLocal
+import com.cheise_proj.local_source.model.files.*
 import com.cheise_proj.local_source.model.message.MessageLocal
 import com.cheise_proj.local_source.model.user.ProfileLocal
 import com.cheise_proj.local_source.model.user.UserLocal
@@ -38,6 +32,10 @@ class LocalModule {
     @Module
     interface Binders {
         //region FILES
+
+        @Binds
+        fun bindBillLocalDataMapper(billLocalDataMapper: BillLocalDataMapper): LocalMapper<BillLocal, FilesData>
+
         @Binds
         fun bindTimeTableLocalDataMapper(timeTableLocalDataMapper: TimeTableLocalDataMapper): LocalMapper<TimeTableLocal, FilesData>
 

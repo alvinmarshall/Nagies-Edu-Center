@@ -1,9 +1,6 @@
 package com.cheise_proj.data.repository.files
 
-import com.cheise_proj.data.cache.AssignmentCache
-import com.cheise_proj.data.cache.CircularCache
-import com.cheise_proj.data.cache.ReportCache
-import com.cheise_proj.data.cache.TimeTableCache
+import com.cheise_proj.data.cache.*
 import com.cheise_proj.data.mapper.files.FilesDataEntityMapper
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.source.LocalSource
@@ -19,6 +16,56 @@ class FilesRepositoryImpl @Inject constructor(
     private val localSource: LocalSource,
     private val filesDataEntityMapper: FilesDataEntityMapper
 ) : FilesRepository {
+
+    //region BILL
+    override fun getBills(): Observable<List<FilesEntity>> {
+        val billObservable: Observable<List<FilesEntity>>
+        val identifier = "bill"
+        val cacheBill = BillCache.getBill(identifier)
+
+        val local = localSource.getBills()
+            .map { t: List<FilesData> ->
+                filesDataEntityMapper.dataToEntityList(t)
+            }
+
+        val remote = remoteSource.getBill()
+            .map { t: List<FilesData> ->
+                localSource.saveBill(t)
+                filesDataEntityMapper.dataToEntityList(t)
+            }
+            .onErrorResumeNext(Function {
+                println(it.localizedMessage)
+                local
+            })
+
+        billObservable = if (cacheBill != null) {
+            println("Remote source NOT invoked")
+            val cache = filesDataEntityMapper.dataToEntityList(cacheBill)
+            Observable.just(cache)
+        } else {
+            remote
+        }
+
+        return billObservable
+            .map { t: List<FilesEntity> ->
+                if (cacheBill == null) {
+                    BillCache.addBill(
+                        identifier,
+                        filesDataEntityMapper.entityToDataList(t)
+                    )
+                }
+                return@map t
+            }.mergeWith(local).take(1).distinct()
+    }
+
+    override fun getBill(identifier: String): Observable<List<FilesEntity>> {
+        return localSource.getBill(identifier).toObservable()
+            .map { t: FilesData ->
+                val data = filesDataEntityMapper.dataToEntity(t)
+                return@map arrayListOf(data)
+            }
+    }
+    //endregion
 
     //region TIMETABLE
     override fun getTimeTables(): Observable<List<FilesEntity>> {

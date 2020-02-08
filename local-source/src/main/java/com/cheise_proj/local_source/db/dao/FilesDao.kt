@@ -1,15 +1,32 @@
 package com.cheise_proj.local_source.db.dao
 
 import androidx.room.*
-import com.cheise_proj.local_source.model.files.AssignmentLocal
-import com.cheise_proj.local_source.model.files.CircularLocal
-import com.cheise_proj.local_source.model.files.ReportLocal
-import com.cheise_proj.local_source.model.files.TimeTableLocal
+import com.cheise_proj.local_source.model.files.*
 import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
 interface FilesDao {
+
+    //region BILL
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveBill(billLocalList: List<BillLocal>)
+
+    @Query("SELECT * FROM bill ORDER BY id DESC")
+    fun getBills(): Observable<List<BillLocal>>
+
+    @Query("SELECT * FROM bill WHERE id = :identifier")
+    fun getBill(identifier: String): Single<BillLocal>
+
+    @Query("DELETE FROM bill")
+    fun deleteBill()
+
+    @Transaction
+    fun clearAndInsertBill(billLocalList: List<BillLocal>) {
+        deleteBill()
+        saveBill(billLocalList)
+    }
+    //endregion
 
     //region TIMETABLE
     @Insert(onConflict = OnConflictStrategy.REPLACE)

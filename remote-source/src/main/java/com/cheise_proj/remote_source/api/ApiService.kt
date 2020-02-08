@@ -1,9 +1,6 @@
 package com.cheise_proj.remote_source.api
 
-import com.cheise_proj.remote_source.model.dto.files.AssignmentsDto
-import com.cheise_proj.remote_source.model.dto.files.CircularsDto
-import com.cheise_proj.remote_source.model.dto.files.ReportsDto
-import com.cheise_proj.remote_source.model.dto.files.TimeTablesDto
+import com.cheise_proj.remote_source.model.dto.files.*
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.dto.user.ProfileDto
 import com.cheise_proj.remote_source.model.dto.user.UserDto
@@ -18,6 +15,15 @@ import retrofit2.http.Query
 interface ApiService {
 
     //region FILES
+
+    //region BILL
+    @GET("file/path")
+    fun getBilling(
+        @Query("type") type: String = "bill",
+        @Query("format") format: String = "image"
+    ): Observable<BillsDto>
+    //endregion
+
     //region TIMETABLE
     @GET("file/path")
     fun getTimeTable(

@@ -13,8 +13,7 @@ class MessageDtoDataMapper @Inject constructor() :
             uid = t.uid,
             sender = t.sender,
             content = t.content,
-            date = t.date,
-            timestamp = t.timestamp
+            date = t.date
         )
     }
 
@@ -23,8 +22,7 @@ class MessageDtoDataMapper @Inject constructor() :
             uid = d.uid,
             sender = d.sender,
             content = d.content,
-            date = d.date,
-            timestamp = d.timestamp
+            date = d.date
         )
     }
 

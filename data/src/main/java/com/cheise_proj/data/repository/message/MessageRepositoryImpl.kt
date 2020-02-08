@@ -19,7 +19,7 @@ class MessageRepositoryImpl @Inject constructor(
     override fun getMessages(): Observable<List<MessageEntity>> {
         val messagesObservable: Observable<List<MessageEntity>>
         val identifier = "messages"
-        val cacheMessages = MessageCache.getMessages(identifier)
+        val cacheMessages = MessageCache.getMessage(identifier)
 
         val local = localSource.getMessages()
             .map { t: List<MessageData> ->
@@ -30,22 +30,30 @@ class MessageRepositoryImpl @Inject constructor(
             .map { t: List<MessageData> ->
                 localSource.saveMessages(t)
                 messageDataEntityMapper.dataToEntityList(t)
-            }.onErrorResumeNext(Function {
+            }
+            .onErrorResumeNext(Function {
                 println(it.localizedMessage)
                 local
             })
 
-        messagesObservable = cacheMessages?.let { messagesDataList ->
+        messagesObservable = if (cacheMessages != null) {
             println("Remote source NOT invoked")
-            Observable.just(messageDataEntityMapper.dataToEntityList(messagesDataList))
-        } ?: remote
-
-        return messagesObservable.map { t: List<MessageEntity> ->
-            if (cacheMessages == null) {
-                MessageCache.addMessages(identifier, messageDataEntityMapper.entityToDataList(t))
-            }
-            return@map t
+            val cache = messageDataEntityMapper.dataToEntityList(cacheMessages)
+            Observable.just(cache)
+        } else {
+            remote
         }
+
+        return messagesObservable
+            .map { t: List<MessageEntity> ->
+                if (cacheMessages == null) {
+                    MessageCache.addMessage(
+                        identifier,
+                        messageDataEntityMapper.entityToDataList(t)
+                    )
+                }
+                return@map t
+            }.mergeWith(local).take(1).distinct()
 
     }
 

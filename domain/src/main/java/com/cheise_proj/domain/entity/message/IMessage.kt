@@ -5,5 +5,4 @@ interface IMessage {
     val sender:String
     val content:String
     val date:String
-    val timestamp: Long
 }

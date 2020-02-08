@@ -11,15 +11,13 @@ object TestMessageGenerator {
                     uid = 1,
                     sender = "test sender",
                     content = "test content remote",
-                    date = "test date",
-                    timestamp = 0
+                    date = "test date"
                 ),
                 MessageDto(
                     uid = 2,
                     sender = "test sender2",
                     content = "test content remote",
-                    date = "test date",
-                    timestamp = 0
+                    date = "test date"
                 )
             )
         )

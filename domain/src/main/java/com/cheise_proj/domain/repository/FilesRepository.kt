@@ -5,6 +5,9 @@ import io.reactivex.Observable
 
 interface FilesRepository {
 
+    fun getBills(): Observable<List<FilesEntity>>
+    fun getBill(identifier: String): Observable<List<FilesEntity>>
+
     fun getTimeTables(): Observable<List<FilesEntity>>
     fun getTimeTable(identifier: String): Observable<List<FilesEntity>>
 

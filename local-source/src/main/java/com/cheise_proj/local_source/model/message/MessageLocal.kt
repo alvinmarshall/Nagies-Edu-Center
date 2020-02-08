@@ -11,6 +11,5 @@ data class MessageLocal(
     val uid: Int,
     val sender: String,
     val content: String,
-    val date: String,
-    val timestamp: Long
+    val date: String
 )

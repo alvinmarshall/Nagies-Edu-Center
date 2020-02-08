@@ -11,8 +11,7 @@ class MessageLocalDataMapper @Inject constructor() : LocalMapper<MessageLocal, M
             uid = l.uid,
             sender = l.sender,
             date = l.date,
-            content = l.content,
-            timestamp = l.timestamp
+            content = l.content
         )
     }
 
@@ -21,8 +20,7 @@ class MessageLocalDataMapper @Inject constructor() : LocalMapper<MessageLocal, M
             uid = d.uid,
             sender = d.sender,
             date = d.date,
-            content = d.content,
-            timestamp = d.timestamp
+            content = d.content
         )
     }
 

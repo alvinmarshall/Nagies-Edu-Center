@@ -8,26 +8,17 @@ import com.cheise_proj.domain.entity.user.ProfileEntity
 import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.mapper.PresentationMapper
-import com.cheise_proj.presentation.mapper.files.AssignmentEntityMapper
-import com.cheise_proj.presentation.mapper.files.CircularEntityMapper
-import com.cheise_proj.presentation.mapper.files.ReportEntityMapper
-import com.cheise_proj.presentation.mapper.files.TimeTableEntityMapper
+import com.cheise_proj.presentation.mapper.files.*
 import com.cheise_proj.presentation.mapper.message.MessageEntityMapper
 import com.cheise_proj.presentation.mapper.user.ProfileEntityMapper
 import com.cheise_proj.presentation.mapper.user.UserEntityMapper
-import com.cheise_proj.presentation.model.files.Assignment
-import com.cheise_proj.presentation.model.files.Circular
-import com.cheise_proj.presentation.model.files.Report
-import com.cheise_proj.presentation.model.files.TimeTable
+import com.cheise_proj.presentation.model.files.*
 import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.model.user.Profile
 import com.cheise_proj.presentation.model.user.User
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
-import com.cheise_proj.presentation.viewmodel.files.AssignmentViewModel
-import com.cheise_proj.presentation.viewmodel.files.CircularViewModel
-import com.cheise_proj.presentation.viewmodel.files.ReportViewModel
-import com.cheise_proj.presentation.viewmodel.files.TimeTableViewModel
+import com.cheise_proj.presentation.viewmodel.files.*
 import com.cheise_proj.presentation.viewmodel.message.MessageViewModel
 import com.cheise_proj.presentation.viewmodel.user.ProfileViewModel
 import com.cheise_proj.presentation.viewmodel.user.UserViewModel
@@ -46,6 +37,10 @@ class PresentationModule {
         fun bindViewModelFactory(viewModelFactory: ViewModelFactory): ViewModelProvider.Factory
 
         //region FILES
+
+        @Binds
+        fun bindBillEntity(billEntityMapper: BillEntityMapper): PresentationMapper<Bill, FilesEntity>
+
         @Binds
         fun bindTimeTableEntity(timeTableEntityMapper: TimeTableEntityMapper): PresentationMapper<TimeTable, FilesEntity>
 
@@ -57,6 +52,11 @@ class PresentationModule {
 
         @Binds
         fun bindCircularEntity(circularEntityMapper: CircularEntityMapper): PresentationMapper<Circular, FilesEntity>
+
+        @Binds
+        @ViewModelKey(BillViewModel::class)
+        @IntoMap
+        fun bindBillViewModel(billViewModel: BillViewModel): ViewModel
 
         @Binds
         @ViewModelKey(TimeTableViewModel::class)
@@ -114,5 +114,4 @@ class PresentationModule {
         @Binds
         fun bindServerPathImpl(serverPathUtils: ServerPathUtils): IServerPath
     }
-
 }

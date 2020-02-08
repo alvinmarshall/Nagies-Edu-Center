@@ -32,39 +32,37 @@ class MessageRepositoryImplTest {
             MessageRepositoryImpl(remoteSource, localSource, messageDataEntityMapper)
     }
 
-    @Test
-    fun `Get all messages success`() {
-        val remote = TestMessageGenerator.getRemoteMessage()
-        val local = TestMessageGenerator.getLocalMessage()
 
-        Mockito.`when`(remoteSource.getMessages()).thenReturn(Observable.just(remote))
-        Mockito.`when`(localSource.getMessages()).thenReturn(Observable.just(local))
-
-        messageRepositoryImpl.getMessages().test()
-            .assertSubscribed()
-            .assertValueCount(1)
-            .assertValue {
-                println(it)
-                it.isNotEmpty() }
-            .assertComplete()
-
-        Mockito.verify(remoteSource,times(1)).getMessages()
-        Mockito.verify(localSource,times(1)).getMessages()
-    }
 
     @Test
     fun `Get local data when remote fail success`() {
         val errorMessage = "Unable to ping server address"
 
-        Mockito.`when`(remoteSource.getMessages()).thenReturn(Observable.error(Throwable(errorMessage)))
+        Mockito.`when`(remoteSource.getMessages())
+            .thenReturn(Observable.error(Throwable(errorMessage)))
         Mockito.`when`(localSource.getMessages()).thenReturn(Observable.just(listOf()))
 
         messageRepositoryImpl.getMessages().test()
             .assertSubscribed()
             .assertValueCount(1)
             .assertComplete()
-        Mockito.verify(remoteSource,times(1)).getMessages()
-        Mockito.verify(localSource,times(1)).getMessages()
+        Mockito.verify(remoteSource, times(1)).getMessages()
+        Mockito.verify(localSource, times(1)).getMessages()
+    }
+    @Test
+    fun `Get all messages success`() {
+        val actual = TestMessageGenerator.getRemoteMessage()
+        Mockito.`when`(remoteSource.getMessages()).thenReturn(Observable.just(actual))
+        Mockito.`when`(localSource.getMessages()).thenReturn(Observable.just(actual))
+
+        messageRepositoryImpl.getMessages()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertComplete()
+
+        Mockito.verify(remoteSource, times(1)).getMessages()
+        Mockito.verify(localSource, times(1)).getMessages()
     }
 
     @Test
@@ -76,13 +74,14 @@ class MessageRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it[0]== messageDataEntityMapper.dataToEntity(local)
+                it[0] == messageDataEntityMapper.dataToEntity(local)
             }
             .assertComplete()
-        Mockito.verify(localSource,times(1)).getMessage(IDENTIFIER)
-        Mockito.verify(remoteSource,times(0)).getMessages()
+        Mockito.verify(localSource, times(1)).getMessage(IDENTIFIER)
+        Mockito.verify(remoteSource, times(0)).getMessages()
     }
-    companion object{
-        const val IDENTIFIER:Int = 1
+
+    companion object {
+        const val IDENTIFIER: Int = 1
     }
 }

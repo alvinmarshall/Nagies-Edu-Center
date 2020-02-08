@@ -10,6 +10,8 @@ interface RemoteSource {
 
     //region FILES
 
+    fun getBill(): Observable<List<FilesData>>
+
     fun getTimeTable(): Observable<List<FilesData>>
 
     fun getReport(): Observable<List<FilesData>>

@@ -9,14 +9,12 @@ object TestMessageGenerator {
                 uid = 1,
                 sender = "test sender",
                 content = "test content",
-                date = "test date",
-                timestamp = System.currentTimeMillis()
+                date = "test date"
             ), MessageData(
                 uid = 2,
                 sender = "test sender2",
                 content = "test content2",
-                date = "test date2",
-                timestamp = System.currentTimeMillis()
+                date = "test date2"
             )
 
         )
@@ -28,8 +26,7 @@ object TestMessageGenerator {
                 uid = 1,
                 sender = "test sender",
                 content = "test content",
-                date = "test date",
-                timestamp = 0
+                date = "test date"
             )
 
         )

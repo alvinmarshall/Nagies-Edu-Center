@@ -1,15 +1,15 @@
 package com.cheise_proj.data.cache
 
-import com.cheise_proj.data.model.message.MessageData
+import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.domain.STALE_MS
 
-class MessageCache {
+class BillCache {
     companion object {
-        private val memCache = HashMap<String, List<MessageData>>()
+        private val memCache = HashMap<String, List<FilesData>>()
         private var cacheLastUpdateTime: Long = 0
 
-        fun addMessage(identifier: String, filesDataList: List<MessageData>) {
-            println("MessageCache.addMessage")
+        fun addBill(identifier: String, filesDataList: List<FilesData>) {
+            println("BillCache.addBill")
             if (memCache[identifier] == null) {
                 memCache[identifier] = arrayListOf()
             }
@@ -17,8 +17,8 @@ class MessageCache {
             cacheLastUpdateTime = System.currentTimeMillis()
         }
 
-        fun getMessage(identifier: String): List<MessageData>? {
-            println("MessageCache.getMessage")
+        fun getBill(identifier: String): List<FilesData>? {
+            println("BillCache.getBill")
             val isCachedExpired =
                 (System.currentTimeMillis() - cacheLastUpdateTime) >= STALE_MS
             if (!isCachedExpired) return memCache[identifier]
