@@ -163,7 +163,7 @@ class LocalSourceImpl @Inject constructor(
 
     override fun saveUser(userData: UserData) {
         with(userLocalDataMapper.dataToLocal(userData)) {
-            userDao.saveUser(this)
+            userDao.clearAndInsertUser(this)
         }
     }
     //endregion

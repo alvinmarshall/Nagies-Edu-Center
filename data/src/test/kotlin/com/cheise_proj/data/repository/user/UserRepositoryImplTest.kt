@@ -32,71 +32,73 @@ class UserRepositoryImplTest {
         MockitoAnnotations.initMocks(this)
         userDataEntityMapper = UserDataEntityMapper()
         profileDataEntityMapper = ProfileDataEntityMapper()
-        userRepositoryImpl = UserRepositoryImpl(remoteSource, localSource, userDataEntityMapper,profileDataEntityMapper)
+        userRepositoryImpl = UserRepositoryImpl(
+            remoteSource,
+            localSource,
+            userDataEntityMapper,
+            profileDataEntityMapper
+        )
     }
 
     @Test
-    fun `Authenticate user from empty local db success`() {
+    fun `Authenticate user success`() {
         val user = TestUserGenerator.user()
-        val errorMsg = "An exception occurred while getting user"
         Mockito.`when`(localSource.getUser(user.username, user.password))
-            .thenReturn(Single.error(Throwable(errorMsg)))
+            .thenReturn(Single.just(user))
         Mockito.`when`(remoteSource.authenticateUser(user.role, user.username, user.password))
             .thenReturn(
                 Observable.just(user)
             )
-        Mockito.doNothing().`when`(localSource).saveUser(user)
         with(user) {
-            userRepositoryImpl.authenticateUser(username, password, role).test()
+            userRepositoryImpl.authenticateUser(username, password, role)
+                .test()
                 .assertSubscribed()
-                .assertValueCount(1)
-                .assertValue {
-                    println(it)
-                    it == userDataEntityMapper.dataToEntity(this)
-                }
+                .assertValueCount(2)
+                .assertValues(
+                    userDataEntityMapper.dataToEntity(this),
+                    userDataEntityMapper.dataToEntity(this)
+                )
                 .assertComplete()
             Mockito.verify(remoteSource, times(1)).authenticateUser(role, username, password)
             Mockito.verify(localSource, times(1)).getUser(username, password)
             Mockito.verify(localSource, times(1)).saveUser(user)
         }
-
     }
 
     @Test
-    fun `Get student profile success`(){
+    fun `Get student profile success`() {
         val actual = TestUserGenerator.getProfile()
-        val errorMsg = "An exception occurred from local"
         val identifier = "test identifier"
-        Mockito.`when`(localSource.getProfile(identifier)).thenReturn(Single.error(Throwable(errorMsg)))
+        Mockito.`when`(localSource.getProfile(identifier))
+            .thenReturn(Single.just(actual))
         Mockito.`when`(remoteSource.getProfile()).thenReturn(Observable.just(actual))
-        Mockito.doNothing().`when`(localSource).saveProfile(actual)
         userRepositoryImpl.getStudentProfile(identifier).test()
             .assertSubscribed()
-            .assertValueCount(1)
-            .assertValue {
-                it == profileDataEntityMapper.dataToEntity(actual)
-            }
+            .assertValueCount(2)
+            .assertValues(
+                profileDataEntityMapper.dataToEntity(actual),
+                profileDataEntityMapper.dataToEntity(actual)
+            )
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getProfile()
         Mockito.verify(localSource, times(1)).getProfile(identifier)
         Mockito.verify(localSource, times(1)).saveProfile(actual)
-
     }
 
     @Test
-    fun `Get teacher profile success`(){
+    fun `Get teacher profile success`() {
         val actual = TestUserGenerator.getProfile()
-        val errorMsg = "An exception occurred from local"
         val identifier = "test identifier2"
-        Mockito.`when`(localSource.getProfile(identifier)).thenReturn(Single.error(Throwable(errorMsg)))
+        Mockito.`when`(localSource.getProfile(identifier))
+            .thenReturn(Single.just(actual))
         Mockito.`when`(remoteSource.getProfile()).thenReturn(Observable.just(actual))
-        Mockito.doNothing().`when`(localSource).saveProfile(actual)
         userRepositoryImpl.getTeacherProfile(identifier).test()
             .assertSubscribed()
-            .assertValueCount(1)
-            .assertValue {
-                it == profileDataEntityMapper.dataToEntity(actual)
-            }
+            .assertValueCount(2)
+            .assertValues(
+                profileDataEntityMapper.dataToEntity(actual),
+                profileDataEntityMapper.dataToEntity(actual)
+            )
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getProfile()
         Mockito.verify(localSource, times(1)).getProfile(identifier)

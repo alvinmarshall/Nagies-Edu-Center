@@ -68,8 +68,10 @@ class MessageFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = recycler_view
-        recyclerView.hasFixedSize()
-        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        recyclerView.apply {
+            hasFixedSize()
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -85,7 +87,7 @@ class MessageFragment : BaseFragment() {
         sharedViewModel = activity?.run {
             ViewModelProvider(this)[SharedViewModel::class.java]
         }!!
-                val handler = Handler()
+                val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({subscribeObserver()}, DELAY_HANDLER)
 //        subscribeObserver()
     }

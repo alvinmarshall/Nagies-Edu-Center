@@ -48,7 +48,7 @@ class ParentNavigationActivity : BaseActivity() {
     private val textBadgeViews = arrayListOf<TextView>()
     override fun onResume() {
         super.onResume()
-        setBackgroundChanger()
+//        setBackgroundChanger()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +68,7 @@ class ParentNavigationActivity : BaseActivity() {
         configureViewModel()
         openNavigationMenu()
         subscribeNetworkChange(snack)
-        dialogUseBackgroundChanger()
+//        dialogUseBackgroundChanger()
 
     }
 

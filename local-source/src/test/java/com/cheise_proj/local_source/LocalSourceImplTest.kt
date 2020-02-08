@@ -336,7 +336,7 @@ class LocalSourceImplTest {
         val actual = TestUserGenerator.user()
         Mockito.doNothing().`when`(userDao).saveUser(actual)
         localSourceImpl.saveUser(userLocalDataMapper.localToData(actual))
-        Mockito.verify(userDao, times(1)).saveUser(actual)
+        Mockito.verify(userDao, times(1)).clearAndInsertUser(actual)
     }
 
     @Test
