@@ -331,6 +331,42 @@ class RemoteSourceImplTest {
             .assertComplete()
         Mockito.verify(apiService, times(1)).getProfile()
     }
+
+    @Test
+    fun `Update user password success`() {
+        val request = TestUserGenerator.getChangePasswordRequest()
+        val passwordDto = TestUserGenerator.getChangePassword()
+        val actual = true
+        with(request) {
+            Mockito.`when`(apiService.changeAccountPassword(this))
+                .thenReturn(Observable.just(passwordDto))
+            remoteSourceImpl.changePassword(oldPassword, newPassword)
+                .test()
+                .assertSubscribed()
+                .assertValueCount(1)
+                .assertValue {
+                    it == actual
+                }
+                .assertComplete()
+        }
+    }
+
+    @Test
+    fun `Update user password with no network`() {
+        val request = TestUserGenerator.getChangePasswordRequest()
+        val actual = "No internet connection"
+        with(request) {
+            Mockito.`when`(apiService.changeAccountPassword(this))
+                .thenReturn(Observable.error(Throwable(NO_NETWORK_ERROR)))
+            remoteSourceImpl.changePassword(oldPassword, newPassword)
+                .test()
+                .assertError {
+                    it.localizedMessage == actual
+                }
+                .assertNotComplete()
+        }
+    }
+
     //endregion
 
     companion object {

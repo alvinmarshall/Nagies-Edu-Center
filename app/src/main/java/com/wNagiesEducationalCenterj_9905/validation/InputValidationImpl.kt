@@ -1,17 +1,15 @@
-package com.cheise_proj.parentapp.validation
+package com.wNagiesEducationalCenterj_9905.validation
 
 import android.content.Context
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import com.cheise_proj.login_feature.di.LoginScope
-import com.cheise_proj.login_feature.utils.LoginInputValidation
-import com.cheise_proj.parentapp.R
+import com.cheise_proj.presentation.utils.InputValidation
+import com.wNagiesEducationalCenterj_9905.R
 import javax.inject.Inject
 
-@LoginScope
-class LoginInputValidationImpl @Inject constructor() : LoginInputValidation {
+class InputValidationImpl @Inject constructor() : InputValidation {
     override fun isEditTextFilled(view: View, message: String?, isEmail: Boolean): Boolean {
         val editText = view as EditText
         val value = editText.text.toString().trim()

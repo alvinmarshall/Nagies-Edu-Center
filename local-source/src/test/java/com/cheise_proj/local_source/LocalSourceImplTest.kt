@@ -361,6 +361,13 @@ class LocalSourceImplTest {
         localSourceImpl.saveProfile(profileLocalDataMapper.localToData(actual))
         Mockito.verify(userDao, times(1)).saveProfile(actual)
     }
+
+    @Test
+    fun `Update local user password success`() {
+        val newPassword = "12345"
+        localSourceImpl.updatePassword(IDENTIFIER, newPassword)
+        Mockito.verify(userDao, times(1)).updatePassword(IDENTIFIER, newPassword)
+    }
     //endregion
 
     companion object {

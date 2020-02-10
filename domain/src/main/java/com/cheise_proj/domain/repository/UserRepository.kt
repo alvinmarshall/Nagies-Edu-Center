@@ -6,6 +6,11 @@ import io.reactivex.Observable
 
 interface UserRepository {
     fun authenticateUser(username: String, password: String, role: String): Observable<UserEntity>
-    fun getStudentProfile(identifier:String):Observable<ProfileEntity>
-    fun getTeacherProfile(identifier: String):Observable<ProfileEntity>
+    fun getStudentProfile(identifier: String): Observable<ProfileEntity>
+    fun getTeacherProfile(identifier: String): Observable<ProfileEntity>
+    fun changePassword(
+        identifier: String,
+        oldPassword: String,
+        newPassword: String
+    ): Observable<Boolean>
 }

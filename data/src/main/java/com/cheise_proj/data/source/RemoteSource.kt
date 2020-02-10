@@ -31,5 +31,7 @@ interface RemoteSource {
     fun authenticateUser(role: String, username: String, password: String): Observable<UserData>
 
     fun getProfile(): Observable<ProfileData>
+
+    fun changePassword(oldPassword: String, newPassword: String): Observable<Boolean>
     //endregion
 }

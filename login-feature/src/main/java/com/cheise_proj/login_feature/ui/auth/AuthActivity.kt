@@ -9,12 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cheise_proj.login_feature.AuthNavigation
 import com.cheise_proj.login_feature.R
-import com.cheise_proj.login_feature.utils.LoginInputValidation
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.model.user.User
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.model.vo.UserSession
 import com.cheise_proj.presentation.utils.IPreference
+import com.cheise_proj.presentation.utils.InputValidation
 import com.cheise_proj.presentation.viewmodel.user.UserViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -25,7 +25,7 @@ class AuthActivity : DaggerAppCompatActivity() {
     lateinit var navigation: AuthNavigation
 
     @Inject
-    lateinit var inputValidation: LoginInputValidation
+    lateinit var inputValidation: InputValidation
 
     @Inject
     lateinit var factory: ViewModelFactory

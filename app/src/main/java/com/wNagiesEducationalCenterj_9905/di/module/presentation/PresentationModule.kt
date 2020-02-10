@@ -18,6 +18,7 @@ import com.cheise_proj.presentation.model.user.Profile
 import com.cheise_proj.presentation.model.user.User
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
+import com.cheise_proj.presentation.utils.InputValidation
 import com.cheise_proj.presentation.viewmodel.files.*
 import com.cheise_proj.presentation.viewmodel.message.MessageViewModel
 import com.cheise_proj.presentation.viewmodel.user.ProfileViewModel
@@ -25,6 +26,7 @@ import com.cheise_proj.presentation.viewmodel.user.UserViewModel
 import com.wNagiesEducationalCenterj_9905.di.key.ViewModelKey
 import com.wNagiesEducationalCenterj_9905.preference.PreferenceImpl
 import com.wNagiesEducationalCenterj_9905.utils.ServerPathUtils
+import com.wNagiesEducationalCenterj_9905.validation.InputValidationImpl
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -113,5 +115,8 @@ class PresentationModule {
 
         @Binds
         fun bindServerPathImpl(serverPathUtils: ServerPathUtils): IServerPath
+
+        @Binds
+        fun bindInputValidation(inputValidationImpl: InputValidationImpl): InputValidation
     }
 }

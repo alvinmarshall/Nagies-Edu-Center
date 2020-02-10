@@ -30,4 +30,7 @@ interface UserDao {
 
     @Query("SELECT * FROM profile WHERE name = :identifier")
     fun getProfile(identifier: String): Single<ProfileLocal>
+
+    @Query("UPDATE users SET password = :newPassword WHERE id = :identifier")
+    fun updatePassword(identifier: String, newPassword: String)
 }

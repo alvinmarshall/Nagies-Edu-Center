@@ -2,6 +2,7 @@
 <resources>
     <color name="normal">#6090CAF9</color>
     <color name="selected">#DCDCDC</color>
+    <color name="colorAccent">#A9B6BE</color>
     <color name="colorPrimaryTextDefaultMaterialLight">#DE000000</color>
     <color name="colorSecondaryTextDefaultMaterialLight">#8A000000</color>
 </resources>

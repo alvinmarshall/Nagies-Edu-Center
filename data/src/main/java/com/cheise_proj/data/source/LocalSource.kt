@@ -70,5 +70,7 @@ interface LocalSource {
     fun saveProfile(profileData: ProfileData)
 
     fun getProfile(identifier: String): Single<ProfileData>
+
+    fun updatePassword(identifier: String, newPassword: String)
     //endregion
 }

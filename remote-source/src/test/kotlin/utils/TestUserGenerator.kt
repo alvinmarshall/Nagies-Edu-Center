@@ -1,9 +1,7 @@
 package utils
 
-import com.cheise_proj.remote_source.model.dto.user.Profile1
-import com.cheise_proj.remote_source.model.dto.user.Profile2
-import com.cheise_proj.remote_source.model.dto.user.ProfileDto
-import com.cheise_proj.remote_source.model.dto.user.UserDto
+import com.cheise_proj.remote_source.model.dto.user.*
+import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
 
 object TestUserGenerator {
     fun user(): UserDto {
@@ -51,6 +49,21 @@ object TestUserGenerator {
                 section = "test section",
                 semester = "test semester"
             )
+        )
+    }
+
+    fun getChangePasswordRequest(): ChangePasswordRequest {
+        return ChangePasswordRequest(
+            oldPassword = "1234",
+            newPassword = "12345",
+            confirmPassword = "12345"
+        )
+    }
+
+    fun getChangePassword(): PasswordDto {
+        return PasswordDto(
+            message = "updated password successful",
+            status = 200
         )
     }
 }

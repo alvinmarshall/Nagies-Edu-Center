@@ -13,6 +13,7 @@ import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.dto.files.*
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
+import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import io.reactivex.functions.Function
@@ -170,6 +171,40 @@ class RemoteSourceImpl @Inject constructor(
                 return@map profileDtoDataMapper.dtoToData(it.teacher)
             }
             .toObservable()
+    }
+
+    override fun changePassword(oldPassword: String, newPassword: String): Observable<Boolean> {
+        return apiService.changeAccountPassword(
+            ChangePasswordRequest(
+                oldPassword,
+                newPassword,
+                newPassword
+            )
+        )
+            .map {
+                if (it.status == 200) {
+                    return@map true
+                }
+                return@map false
+            }
+            .onErrorResumeNext(
+                Function {
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            msg.contains("400") -> {
+                                Observable.error(Throwable("changing account password failed..."))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+
+                }
+            )
     }
 
     override fun authenticateUser(

@@ -2,8 +2,10 @@ package com.cheise_proj.remote_source.api
 
 import com.cheise_proj.remote_source.model.dto.files.*
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
+import com.cheise_proj.remote_source.model.dto.user.PasswordDto
 import com.cheise_proj.remote_source.model.dto.user.ProfileDto
 import com.cheise_proj.remote_source.model.dto.user.UserDto
+import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -71,5 +73,10 @@ interface ApiService {
 
     @GET("users/profile")
     fun getProfile(): Single<ProfileDto>
+
+    @POST("users/change_password")
+    fun changeAccountPassword(
+        @Body changePassRequest: ChangePasswordRequest
+    ): Observable<PasswordDto>
     //endregion
 }

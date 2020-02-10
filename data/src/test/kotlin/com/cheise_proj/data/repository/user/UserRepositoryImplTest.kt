@@ -104,4 +104,39 @@ class UserRepositoryImplTest {
         Mockito.verify(localSource, times(1)).getProfile(identifier)
         Mockito.verify(localSource, times(1)).saveProfile(actual)
     }
+
+    @Test
+    fun `Update user password success`() {
+        val identifier = "1"
+        val oldPassword = "1234"
+        val newPassword = "1234"
+        val actual = true
+        Mockito.`when`(remoteSource.changePassword(oldPassword, newPassword))
+            .thenReturn(Observable.just(actual))
+        userRepositoryImpl.changePassword(identifier, oldPassword, newPassword)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue { it == actual }
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).changePassword(oldPassword, newPassword)
+        Mockito.verify(localSource, times(1)).updatePassword(identifier, newPassword)
+    }
+
+    @Test
+    fun `Update user password failed`() {
+        val identifier = "1"
+        val oldPassword = "1234"
+        val newPassword = "1234"
+        val errorMsg = "An error occurred"
+        Mockito.`when`(remoteSource.changePassword(oldPassword, newPassword))
+            .thenReturn(Observable.error(Throwable(errorMsg)))
+        userRepositoryImpl.changePassword(identifier, oldPassword, newPassword)
+            .test()
+            .assertSubscribed()
+            .assertError { it.localizedMessage == errorMsg }
+            .assertNotComplete()
+        Mockito.verify(remoteSource, times(1)).changePassword(oldPassword, newPassword)
+        Mockito.verify(localSource, times(0)).updatePassword(identifier, newPassword)
+    }
 }

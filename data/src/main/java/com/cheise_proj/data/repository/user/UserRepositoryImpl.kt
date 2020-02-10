@@ -74,5 +74,20 @@ class UserRepositoryImpl @Inject constructor(
             .concatWith(local)
     }
 
+    override fun changePassword(
+        identifier: String,
+        oldPassword: String,
+        newPassword: String
+    ): Observable<Boolean> {
+        return remoteSource.changePassword(oldPassword, newPassword)
+            .map { t: Boolean ->
+                if (t) {
+                    localSource.updatePassword(identifier, newPassword)
+                    return@map t
+                }
+                return@map false
+            }
+    }
+
 
 }

@@ -180,5 +180,9 @@ class LocalSourceImpl @Inject constructor(
     override fun getProfile(identifier: String): Single<ProfileData> {
         return userDao.getProfile(identifier).map { profileLocalDataMapper.localToData(it) }
     }
+
+    override fun updatePassword(identifier: String, newPassword: String) {
+        userDao.updatePassword(identifier, newPassword)
+    }
     //endregion
 }
