@@ -1,8 +1,24 @@
 package utils
 
 import com.cheise_proj.remote_source.model.dto.files.*
+import okhttp3.MultipartBody
+import java.io.File
 
 object TestFilesGenerator {
+
+
+    //region RECEIPT
+    fun getFilePart(): MultipartBody.Part {
+        val file = File("test file path")
+        return MultipartBody.Part.createFormData(
+            "form field", file.name
+        )
+    }
+
+    fun getUploadDto(): UploadDto {
+        return UploadDto(message = "upload success", status = 200)
+    }
+    //endregion
 
     //region BILL
     fun getBillsDto(): BillsDto {

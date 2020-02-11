@@ -52,4 +52,14 @@
     <string name="label_new_password">new password</string>
     <string name="label_confirm_password">confirm password</string>
     <string name="label_change_password">change password</string>
+
+    <!--    RECEIPT-->
+    <string name="label_receipt_sub_header">Send receipt image to school account office</string>
+    <string name="label_receipt_header">Transfer files</string>
+    <string name="label_receipt_hint">Capture or browse for image</string>
+    <string name="label_send">send</string>
+    <string name="menu_upload_receipt">Upload Receipt</string>
+
+    <!--    FILE AUTHORITY-->
+    <string name="file_provider_authority" translatable="false">com.wNagiesEducationalCenterj_9905.fileprovider</string>
 </resources>

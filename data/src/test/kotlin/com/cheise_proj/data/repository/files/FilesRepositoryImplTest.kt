@@ -33,6 +33,21 @@ class FilesRepositoryImplTest {
         filesRepositoryImpl = FilesRepositoryImpl(remoteSource, localSource, filesDataEntityMapper)
     }
 
+    //region RECEIPT
+    @Test
+    fun `Upload receipt to remote success`() {
+        val filePart = TestFilesGenerator.getFilePart()
+        val actual = 200
+        Mockito.`when`(remoteSource.uploadReceipt(filePart)).thenReturn(Observable.just(actual))
+        filesRepositoryImpl.uploadReceipt(filePart)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue { it == actual }
+            .assertComplete()
+    }
+    //endregion
+
     //region BILL
     @Test
     fun `Get all bills success`() {

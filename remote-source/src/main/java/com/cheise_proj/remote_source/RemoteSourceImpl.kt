@@ -17,6 +17,7 @@ import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import io.reactivex.functions.Function
+import okhttp3.MultipartBody
 import java.util.*
 import javax.inject.Inject
 
@@ -32,8 +33,17 @@ class RemoteSourceImpl @Inject constructor(
         private const val NO_CONNECTIVITY = "No internet connection"
         private const val INVALID_CREDENTIALS = "username or password invalid"
     }
-
     //region FILES
+
+    //region RECEIPT
+    override fun uploadReceipt(file: MultipartBody.Part): Observable<Int> {
+        return apiService.uploadReceipt(file)
+            .map {
+                t: UploadDto ->
+                return@map t.status
+            }
+    }
+    //endregion
 
     //region BILL
     override fun getBill(): Observable<List<FilesData>> {

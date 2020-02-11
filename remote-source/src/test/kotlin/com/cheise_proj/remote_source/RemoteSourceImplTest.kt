@@ -58,6 +58,24 @@ class RemoteSourceImplTest {
 
     //region FILES
 
+    //region RECEIPT
+    @Test
+    fun `Upload receipt success`() {
+        val filePart = TestFilesGenerator.getFilePart()
+        val actual = TestFilesGenerator.getUploadDto()
+        val status = 200
+        Mockito.`when`(apiService.uploadReceipt(filePart)).thenReturn(Observable.just(actual))
+        remoteSourceImpl.uploadReceipt(filePart)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == status
+            }
+            .assertComplete()
+    }
+    //endregion
+
     //region BILL
     @Test
     fun `Get all bills from remote success`() {

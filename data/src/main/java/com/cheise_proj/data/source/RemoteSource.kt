@@ -5,10 +5,13 @@ import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import io.reactivex.Observable
+import io.reactivex.Single
+import okhttp3.MultipartBody
 
 interface RemoteSource {
 
     //region FILES
+    fun uploadReceipt(file: MultipartBody.Part): Observable<Int>
 
     fun getBill(): Observable<List<FilesData>>
 
