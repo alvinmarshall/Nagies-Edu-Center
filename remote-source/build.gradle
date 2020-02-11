@@ -14,8 +14,6 @@ dependencies {
 
     //inject
     implementation "javax.inject:javax.inject:$rootProject.javaxInjectVersion"
-
     implementation project(path: ':data')
-
 }
 
