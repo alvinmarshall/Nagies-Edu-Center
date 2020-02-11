@@ -2,8 +2,12 @@ package com.cheise_proj.domain.repository
 
 import com.cheise_proj.domain.entity.files.FilesEntity
 import io.reactivex.Observable
+import io.reactivex.Single
+import okhttp3.MultipartBody
 
 interface FilesRepository {
+
+    fun uploadReceipt(file: MultipartBody.Part): Observable<Int>
 
     fun getBills(): Observable<List<FilesEntity>>
     fun getBill(identifier: String): Observable<List<FilesEntity>>

@@ -9,6 +9,7 @@ import com.cheise_proj.domain.entity.files.FilesEntity
 import com.cheise_proj.domain.repository.FilesRepository
 import io.reactivex.Observable
 import io.reactivex.functions.Function
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class FilesRepositoryImpl @Inject constructor(
@@ -16,6 +17,12 @@ class FilesRepositoryImpl @Inject constructor(
     private val localSource: LocalSource,
     private val filesDataEntityMapper: FilesDataEntityMapper
 ) : FilesRepository {
+
+    //region RECEIPT
+    override fun uploadReceipt(file: MultipartBody.Part): Observable<Int> {
+        return remoteSource.uploadReceipt(file)
+    }
+    //endregion
 
     //region BILL
     override fun getBills(): Observable<List<FilesEntity>> {

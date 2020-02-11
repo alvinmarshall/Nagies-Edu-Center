@@ -12,6 +12,7 @@ const val SERVER_URL = "https://infodasgh.com/api/v1/file/download?path="
 const val DEV_SERVER_URL = "https://developers.nagies.infodasgh.com/api/v1/file/download?path="
 const val PERMISSION_PREF = "permission_pref"
 const val REQUEST_EXTERNAL_STORAGE = 100
+const val REQUEST_CAMERA = 220
 const val AUTHORIZATION_HEADER = "Authorization"
 const val DELAY_HANDLER: Long = 300
 const val PICSUM_URL = "https://picsum.photos/200/300/?blur=5&random=1"

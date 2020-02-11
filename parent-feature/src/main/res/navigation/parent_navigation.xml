@@ -10,10 +10,6 @@
             android:name="com.cheise_proj.parent_feature.ui.timetable.TimeTableFragment"
             android:label="TimeTable" />
     <fragment
-            android:id="@+id/announcementFragment2"
-            android:name="com.cheise_proj.parent_feature.ui.announcement.AnnouncementFragment"
-            android:label="Announcement" />
-    <fragment
             android:id="@+id/billFragment"
             android:name="com.cheise_proj.parent_feature.ui.bill.BillFragment"
             android:label="Bill" />
@@ -27,7 +23,11 @@
             android:label="Messages" >
         <action
                 android:id="@+id/action_messageFragment_to_messageDetailFragment"
-                app:destination="@id/messageDetailFragment" />
+                app:destination="@id/messageDetailFragment"
+                app:enterAnim="@anim/fragment_open_enter"
+                app:exitAnim="@anim/fragment_close_exit"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
             android:id="@+id/passwordFragment"
@@ -61,4 +61,8 @@
                 android:name="identifier"
                 app:argType="integer" />
     </fragment>
+    <fragment
+            android:id="@+id/receiptFragment"
+            android:name="com.cheise_proj.parent_feature.ui.receipt.ReceiptFragment"
+            android:label="Upload Receipt" />
 </navigation>

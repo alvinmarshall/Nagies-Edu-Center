@@ -21,6 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+                android:authorities="${applicationId}.workmanager-init"
+                tools:node="remove"
+                android:name="androidx.work.impl.WorkManagerInitializer"
+                android:exported="false">
+
+        </provider>
     </application>
 
 </manifest>

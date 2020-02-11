@@ -79,7 +79,7 @@ class ParentNavigationActivity : BaseActivity() {
                 snack.setText(getString(R.string.no_network_connection))
                 snack.show()
             } else {
-                root.background = null
+                root.background = getDrawable(R.drawable.background)
                 snack.dismiss()
             }
         })

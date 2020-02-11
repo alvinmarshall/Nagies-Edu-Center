@@ -52,5 +52,4 @@ class RuntimePermissionImpl @Inject constructor() : IRuntimePermission {
         listener = dialogListener
     }
 
-
 }

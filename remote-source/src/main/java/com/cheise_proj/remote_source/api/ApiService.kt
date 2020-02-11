@@ -9,14 +9,19 @@ import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import okhttp3.MultipartBody
+import retrofit2.http.*
 
 interface ApiService {
 
     //region FILES
+
+    @Multipart
+    @POST("file/uploads")
+    fun uploadReceipt(
+        @Part file: MultipartBody.Part,
+        @Query("type") type: String = "receipt"
+    ): Observable<UploadDto>
 
     //region BILL
     @GET("file/path")

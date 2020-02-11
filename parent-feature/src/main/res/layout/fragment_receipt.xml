@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.receipt.ReceiptFragment">
+
+
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/padding_size_16dp"
+                    android:text="@string/label_receipt_header"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/design_default_color_primary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_16dp"
+                    android:layout_marginEnd="@dimen/padding_size_16dp"
+                    android:padding="@dimen/padding_size_16dp"
+                    android:text="@string/label_receipt_sub_header"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_1" />
+
+            <ImageView
+                    android:id="@+id/avatar_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginStart="@dimen/padding_size_16dp"
+                    android:layout_marginTop="@dimen/padding_size_16dp"
+                    android:layout_marginEnd="@dimen/padding_size_16dp"
+                    android:background="@drawable/dot_rectangle"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_2"
+                    tools:ignore="ContentDescription" />
+
+            <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_16dp"
+                    android:layout_marginTop="125dp"
+                    android:layout_marginEnd="@dimen/padding_size_16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/label_receipt_hint"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintEnd_toEndOf="@id/avatar_image"
+                    app:layout_constraintStart_toStartOf="@id/avatar_image"
+                    app:layout_constraintTop_toBottomOf="@id/tv_2" />
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_upload_file"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_16dp"
+                    android:layout_marginTop="@dimen/padding_size_16dp"
+                    android:layout_marginEnd="@dimen/padding_size_16dp"
+                    android:layout_marginBottom="@dimen/padding_size_16dp"
+                    android:padding="@dimen/padding_size_16dp"
+                    android:text="@string/label_send"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/avatar_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</ScrollView>
