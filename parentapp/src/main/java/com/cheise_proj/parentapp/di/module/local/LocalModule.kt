@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
+import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.LocalSource
@@ -12,14 +13,17 @@ import com.cheise_proj.local_source.db.LocalDatabase
 import com.cheise_proj.local_source.db.LocalDatabase.Companion.DATABASE_NAME
 import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
+import com.cheise_proj.local_source.db.dao.PeopleDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.base.LocalMapper
 import com.cheise_proj.local_source.mapper.files.*
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
+import com.cheise_proj.local_source.mapper.people.PeopleLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
 import com.cheise_proj.local_source.model.files.*
 import com.cheise_proj.local_source.model.message.MessageLocal
+import com.cheise_proj.local_source.model.people.PeopleLocal
 import com.cheise_proj.local_source.model.user.ProfileLocal
 import com.cheise_proj.local_source.model.user.UserLocal
 import dagger.Binds
@@ -31,6 +35,13 @@ import javax.inject.Singleton
 class LocalModule {
     @Module
     interface Binders {
+
+        //region PEOPLE
+        @Binds
+        fun bindPeopleLocalDataMapper(peopleLocalDataMapper: PeopleLocalDataMapper): LocalMapper<PeopleLocal, PeopleData>
+        //endregion
+
+
         //region FILES
 
         @Binds
@@ -92,5 +103,9 @@ class LocalModule {
     @Singleton
     @Provides
     fun provideFilesDao(localDatabase: LocalDatabase): FilesDao = localDatabase.filesDao()
+
+    @Singleton
+    @Provides
+    fun providePeopleDao(localDatabase: LocalDatabase): PeopleDao = localDatabase.peopleDao()
 
 }

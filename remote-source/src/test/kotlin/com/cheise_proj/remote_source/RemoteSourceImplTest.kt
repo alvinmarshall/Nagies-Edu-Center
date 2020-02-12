@@ -4,6 +4,7 @@ import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
 import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
 import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
+import com.cheise_proj.remote_source.mapper.people.PeopleDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.request.LoginRequest
@@ -19,6 +20,7 @@ import org.mockito.Mockito.times
 import org.mockito.MockitoAnnotations
 import utils.TestFilesGenerator
 import utils.TestMessageGenerator
+import utils.TestPeopleGenerator
 import utils.TestUserGenerator
 
 @RunWith(JUnit4::class)
@@ -30,9 +32,12 @@ class RemoteSourceImplTest {
     private lateinit var messageDtoDataMapper: MessageDtoDataMapper
     private lateinit var circularDtoDataMapper: CircularDtoDataMapper
     private lateinit var filesDtoDataMapper: FilesDtoDataMapper
+    private lateinit var peopleDtoDataMapper: PeopleDtoDataMapper
+
     private val username = "test username"
     private val password = "test password"
     private val parent = "parent role"
+
     @Mock
     private lateinit var apiService: ApiService
 
@@ -45,6 +50,7 @@ class RemoteSourceImplTest {
         messageDtoDataMapper = MessageDtoDataMapper()
         circularDtoDataMapper = CircularDtoDataMapper()
         filesDtoDataMapper = FilesDtoDataMapper()
+        peopleDtoDataMapper = PeopleDtoDataMapper()
 
         remoteSourceImpl = RemoteSourceImpl(
             apiService,
@@ -52,9 +58,60 @@ class RemoteSourceImplTest {
             profileDtoDataMapper,
             messageDtoDataMapper,
             circularDtoDataMapper,
-            filesDtoDataMapper
+            filesDtoDataMapper,
+            peopleDtoDataMapper
         )
     }
+
+    //region PEOPLE
+    @Test
+    fun `Get class teacher from remote success`() {
+        val teacher = TestPeopleGenerator.getPeopleDto()
+        Mockito.`when`(apiService.getClassTeacher()).thenReturn(Observable.just(teacher))
+        remoteSourceImpl.getPeople(TYPE_TEACHER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == peopleDtoDataMapper.dtoToDataList(teacher.teacher!!)
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Get class student from remote success`() {
+        val student = TestPeopleGenerator.getPeopleDto()
+        Mockito.`when`(apiService.getClassStudent()).thenReturn(Observable.just(student))
+        remoteSourceImpl.getPeople(TYPE_STUDENT)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == peopleDtoDataMapper.dtoToDataList(student.student)
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Get people from remote with no network`() {
+        val actual = "No internet connection"
+        Mockito.`when`(apiService.getClassTeacher()).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.getPeople(TYPE_TEACHER)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+    }
+
+    //endregion
 
     //region FILES
 

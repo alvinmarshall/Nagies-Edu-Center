@@ -2,13 +2,16 @@ package com.cheise_proj.local_source
 
 import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
+import com.cheise_proj.local_source.db.dao.PeopleDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.files.*
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
+import com.cheise_proj.local_source.mapper.people.PeopleLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
 import com.cheise_proj.local_source.utils.TestFilesGenerator
 import com.cheise_proj.local_source.utils.TestMessageGenerator
+import com.cheise_proj.local_source.utils.TestPeopleGenerator
 import com.cheise_proj.local_source.utils.TestUserGenerator
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -32,6 +35,7 @@ class LocalSourceImplTest {
     private lateinit var reportLocalDataMapper: ReportLocalDataMapper
     private lateinit var timeTableLocalDataMapper: TimeTableLocalDataMapper
     private lateinit var billLocalDataMapper: BillLocalDataMapper
+    private lateinit var peopleLocalDataMapper: PeopleLocalDataMapper
 
     @Mock
     lateinit var userDao: UserDao
@@ -39,6 +43,8 @@ class LocalSourceImplTest {
     lateinit var messageDao: MessageDao
     @Mock
     lateinit var filesDao: FilesDao
+    @Mock
+    lateinit var peopleDao: PeopleDao
 
     @Before
     fun setUp() {
@@ -51,6 +57,7 @@ class LocalSourceImplTest {
         reportLocalDataMapper = ReportLocalDataMapper()
         timeTableLocalDataMapper = TimeTableLocalDataMapper()
         billLocalDataMapper = BillLocalDataMapper()
+        peopleLocalDataMapper = PeopleLocalDataMapper()
 
         localSourceImpl = LocalSourceImpl(
             userDao,
@@ -63,9 +70,41 @@ class LocalSourceImplTest {
             assignmentLocalDataMapper,
             reportLocalDataMapper,
             timeTableLocalDataMapper,
-            billLocalDataMapper
+            billLocalDataMapper,
+            peopleDao,
+            peopleLocalDataMapper
         )
     }
+
+    //region people
+    @Test
+    fun `Get people list success`() {
+        val actual = TestPeopleGenerator.getPeople()
+        Mockito.`when`(peopleDao.getPeopleList()).thenReturn(Observable.just(actual))
+        localSourceImpl.getPeopleList()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == peopleLocalDataMapper.localToDataList(actual)
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Get people success`() {
+        val actual = TestPeopleGenerator.getPeople()[0]
+        Mockito.`when`(peopleDao.getPeople(IDENTIFIER)).thenReturn(Single.just(actual))
+        localSourceImpl.getPeople(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == peopleLocalDataMapper.localToData(actual)
+            }
+            .assertComplete()
+    }
+    //endregion
 
     //region BILL
     @Test

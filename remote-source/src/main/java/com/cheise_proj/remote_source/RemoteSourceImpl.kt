@@ -2,6 +2,7 @@ package com.cheise_proj.remote_source
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
+import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.RemoteSource
@@ -9,10 +10,12 @@ import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
 import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
 import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
+import com.cheise_proj.remote_source.mapper.people.PeopleDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.dto.files.*
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
+import com.cheise_proj.remote_source.model.dto.people.PeopleDto
 import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
@@ -27,19 +30,53 @@ class RemoteSourceImpl @Inject constructor(
     private val profileDtoDataMapper: ProfileDtoDataMapper,
     private val messageDtoDataMapper: MessageDtoDataMapper,
     private val circularDtoDataMapper: CircularDtoDataMapper,
-    private val filesDtoDataMapper: FilesDtoDataMapper
+    private val filesDtoDataMapper: FilesDtoDataMapper,
+    private val peopleDtoDataMapper: PeopleDtoDataMapper
+
 ) : RemoteSource {
+
     companion object {
         private const val NO_CONNECTIVITY = "No internet connection"
         private const val INVALID_CREDENTIALS = "username or password invalid"
+    }
+
+    override fun getPeople(type: String): Observable<List<PeopleData>> {
+        return when (type) {
+            TYPE_TEACHER -> {
+                apiService.getClassTeacher()
+                    .map { t: PeopleDto ->
+                        peopleDtoDataMapper.dtoToDataList(t.teacher!!)
+                    }
+            }
+            else -> {
+                apiService.getClassStudent()
+                    .map { t: PeopleDto ->
+                        peopleDtoDataMapper.dtoToDataList(t.student)
+                    }
+            }
+
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )
+
     }
     //region FILES
 
     //region RECEIPT
     override fun uploadReceipt(file: MultipartBody.Part): Observable<Int> {
         return apiService.uploadReceipt(file)
-            .map {
-                t: UploadDto ->
+            .map { t: UploadDto ->
                 return@map t.status
             }
     }
