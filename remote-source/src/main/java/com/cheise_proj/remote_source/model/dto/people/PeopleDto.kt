@@ -1,5 +1,6 @@
 package com.cheise_proj.remote_source.model.dto.people
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class PeopleDto(
@@ -15,8 +16,9 @@ data class TeacherList(
     override val refNo: String,
     @SerializedName("teacherName")
     override val name: String,
+    @SerializedName("imageUrl")
     override val photo: String?,
-    override val username: String,
+    override var username: String?,
     override val gender: String,
     override val contact: String?
 ) : IPeopleDto
@@ -26,7 +28,7 @@ data class StudentList(
     override val refNo: String,
     override val name: String,
     override val photo: String?,
-    override val username: String,
+    override var username: String?,
     override val gender: String,
     override val contact: String?
 ) : IPeopleDto

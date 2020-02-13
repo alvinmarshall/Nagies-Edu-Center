@@ -5,7 +5,7 @@ interface IPeopleDto {
     val refNo: String
     val name: String
     val photo: String?
-    val username: String
+    var username: String?
     val gender: String
     val contact:String?
 }

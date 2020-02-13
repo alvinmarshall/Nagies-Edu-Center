@@ -12,7 +12,7 @@ class PeopleDtoDataMapper @Inject constructor() : RemoteMapper<IPeopleDto, Peopl
             id = t.id,
             contact = t.contact,
             gender = t.gender,
-            username = t.username,
+            username = t.username ?: "",
             name = t.name,
             photo = t.photo,
             refNo = t.refNo

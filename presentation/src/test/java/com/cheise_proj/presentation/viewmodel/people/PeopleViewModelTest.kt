@@ -5,6 +5,7 @@ import com.cheise_proj.domain.repository.PeopleRepository
 import com.cheise_proj.domain.usecase.people.GetPeopleTask
 import com.cheise_proj.presentation.mapper.people.PeopleEntityMapper
 import com.cheise_proj.presentation.model.vo.STATUS
+import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.TestPeopleGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -35,6 +36,9 @@ class PeopleViewModelTest {
     @Mock
     lateinit var peopleRepository: PeopleRepository
 
+    @Mock
+    lateinit var path: IServerPath
+
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
@@ -44,7 +48,7 @@ class PeopleViewModelTest {
         getPeopleTask =
             GetPeopleTask(peopleRepository, Schedulers.trampoline(), Schedulers.trampoline())
         peopleEntityMapper = PeopleEntityMapper()
-        peopleViewModel = PeopleViewModel(getPeopleTask, peopleEntityMapper)
+        peopleViewModel = PeopleViewModel(getPeopleTask, peopleEntityMapper, path)
 
     }
 

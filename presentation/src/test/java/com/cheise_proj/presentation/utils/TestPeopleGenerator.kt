@@ -8,7 +8,7 @@ object TestPeopleGenerator {
             People(
                 id = 1,
                 refNo = "test refNo",
-                photo = "test photo",
+                photo = null,
                 name = "test name",
                 username = "test username",
                 gender = "test gender",
