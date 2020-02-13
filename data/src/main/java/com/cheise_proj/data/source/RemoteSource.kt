@@ -2,6 +2,7 @@ package com.cheise_proj.data.source
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
+import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import io.reactivex.Observable
@@ -9,6 +10,10 @@ import io.reactivex.Single
 import okhttp3.MultipartBody
 
 interface RemoteSource {
+
+    //region PEOPLE
+    fun getPeople(type:String): Observable<List<PeopleData>>
+    //endregion
 
     //region FILES
     fun uploadReceipt(file: MultipartBody.Part): Observable<Int>

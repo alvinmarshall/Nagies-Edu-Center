@@ -2,18 +2,22 @@ package com.cheise_proj.local_source
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
+import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
+import com.cheise_proj.local_source.db.dao.PeopleDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.files.*
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
+import com.cheise_proj.local_source.mapper.people.PeopleLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
 import com.cheise_proj.local_source.model.files.*
 import com.cheise_proj.local_source.model.message.MessageLocal
+import com.cheise_proj.local_source.model.people.PeopleLocal
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -29,9 +33,28 @@ class LocalSourceImpl @Inject constructor(
     private val assignmentLocalDataMapper: AssignmentLocalDataMapper,
     private val reportLocalDataMapper: ReportLocalDataMapper,
     private val timeTableLocalDataMapper: TimeTableLocalDataMapper,
-    private val billLocalDataMapper: BillLocalDataMapper
+    private val billLocalDataMapper: BillLocalDataMapper,
+    private val peopleDao: PeopleDao,
+    private val peopleLocalDataMapper: PeopleLocalDataMapper
 
 ) : LocalSource {
+    //region PEOPLE
+    override fun getPeopleList(): Observable<List<PeopleData>> {
+        return peopleDao.getPeopleList().map { t: List<PeopleLocal> ->
+            peopleLocalDataMapper.localToDataList(t)
+        }
+    }
+
+    override fun getPeople(identifier: String): Single<PeopleData> {
+        return peopleDao.getPeople(identifier).map { t: PeopleLocal ->
+            peopleLocalDataMapper.localToData(t)
+        }
+    }
+
+    override fun savePeople(peopleDataList: List<PeopleData>) {
+        peopleDao.clearAndInsertPeople(peopleLocalDataMapper.dataToLocalList(peopleDataList))
+    }
+    //endregion
 
     //region FILES
 

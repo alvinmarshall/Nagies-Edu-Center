@@ -2,6 +2,7 @@ package com.cheise_proj.remote_source.api
 
 import com.cheise_proj.remote_source.model.dto.files.*
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
+import com.cheise_proj.remote_source.model.dto.people.PeopleDto
 import com.cheise_proj.remote_source.model.dto.user.PasswordDto
 import com.cheise_proj.remote_source.model.dto.user.ProfileDto
 import com.cheise_proj.remote_source.model.dto.user.UserDto
@@ -13,6 +14,14 @@ import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface ApiService {
+
+    //region PEOPLE
+    @GET("students/teacher")
+    fun getClassTeacher(): Observable<PeopleDto>
+
+    @GET("teacher/student")
+    fun getClassStudent(): Observable<PeopleDto>
+    //endregion
 
     //region FILES
 

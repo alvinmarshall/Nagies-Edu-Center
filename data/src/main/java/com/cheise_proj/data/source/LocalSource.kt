@@ -2,13 +2,21 @@ package com.cheise_proj.data.source
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.model.message.MessageData
+import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
 interface LocalSource {
+
+    //region PEOPLE
+    fun getPeopleList(): Observable<List<PeopleData>>
+
+    fun getPeople(identifier: String): Single<PeopleData>
+
+    fun savePeople(peopleDataList: List<PeopleData>)
+    //endregion
 
     //region FILES
 
