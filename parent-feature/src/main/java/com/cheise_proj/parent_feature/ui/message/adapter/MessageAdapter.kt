@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cheise_proj.parent_feature.AdapterClickListener
 import com.cheise_proj.parent_feature.R
-import com.cheise_proj.parent_feature.di.GlideApp
 import com.cheise_proj.parent_feature.utils.GetFirstLettersOfStringsImpl
+import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.utils.IColorGenerator
 import kotlinx.android.synthetic.main.list_message.view.*

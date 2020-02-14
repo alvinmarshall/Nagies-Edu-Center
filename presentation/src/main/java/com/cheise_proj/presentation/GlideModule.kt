@@ -1,4 +1,4 @@
-package com.cheise_proj.parent_feature.di
+package com.cheise_proj.presentation
 
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule

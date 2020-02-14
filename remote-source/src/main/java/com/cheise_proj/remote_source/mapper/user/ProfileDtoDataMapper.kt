@@ -10,19 +10,19 @@ class ProfileDtoDataMapper @Inject constructor() :
     RemoteMapper<IProfileDto, ProfileData> {
     override fun dtoToData(t: IProfileDto): ProfileData {
         return ProfileData(
-            username = t.username,
-            semester = t.semester,
-            section = t.section,
-            refNo = t.refNo,
-            guardian = t.guardian,
-            gender = t.gender,
-            faculty = t.faculty,
-            contact = t.contact,
-            adminDate = t.adminDate,
-            dob = t.dob,
+            username = t.username?:"",
+            semester = t.semester?:"",
+            section = t.section?:"",
+            refNo = t.refNo?:"",
+            guardian = t.guardian?:"",
+            gender = t.gender?:"",
+            faculty = t.faculty?:"",
+            contact = t.contact?:"",
+            adminDate = t.adminDate?:"",
+            dob = t.dob?:"",
             imageUrl = t.imageUrl,
-            level = t.level,
-            name = t.name
+            level = t.level?:"",
+            name = t.name?:""
         )
     }
 

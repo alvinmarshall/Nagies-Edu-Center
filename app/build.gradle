@@ -82,5 +82,6 @@ dependencies {
     implementation project(path: ':local-source')
     implementation project(path: ':presentation')
     implementation project(path: ':common-module')
+    implementation project(path: ':teacher-feature')
 
 }

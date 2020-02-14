@@ -12,8 +12,8 @@ import androidx.navigation.fragment.navArgs
 
 import com.cheise_proj.parent_feature.R
 import com.cheise_proj.parent_feature.base.BaseFragment
-import com.cheise_proj.parent_feature.di.GlideApp
 import com.cheise_proj.parent_feature.utils.GetFirstLettersOfStringsImpl
+import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.model.vo.STATUS

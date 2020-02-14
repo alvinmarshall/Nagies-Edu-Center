@@ -18,6 +18,8 @@
             <option value="$PROJECT_DIR$/parentapp" />
             <option value="$PROJECT_DIR$/presentation" />
             <option value="$PROJECT_DIR$/remote-source" />
+            <option value="$PROJECT_DIR$/teacher-feature" />
+            <option value="$PROJECT_DIR$/teacherapp" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

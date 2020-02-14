@@ -21,8 +21,8 @@ import com.cheise_proj.common_module.REQUEST_EXTERNAL_STORAGE
 import com.cheise_proj.parent_feature.AdapterClickListener
 import com.cheise_proj.parent_feature.R
 import com.cheise_proj.parent_feature.base.BaseFragment
-import com.cheise_proj.parent_feature.di.GlideApp
 import com.cheise_proj.parent_feature.ui.circular.adapter.CircularAdapter
+import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IDownloadFile
