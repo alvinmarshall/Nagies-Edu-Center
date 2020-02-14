@@ -21,7 +21,7 @@ buildscript {
         recyclerviewVersion = material_version
         cardViewVersion = material_version
 
-        glide_version = '4.9.0'
+        glide_version = '4.11.0'
         //preference version
         pref_version = '1.1.0'
 
@@ -66,16 +66,16 @@ buildscript {
         firebase_msg_version = '20.0.0'
 
         //retrofit version
-        retrofit_version = '2.6.0'
+        retrofit_version = '2.7.1'
         rx_retrofit_adapter = '2.4.0'
 
         //json object
         moshiversion = '1.8.0'
-        gson_version = '2.8.5'
+        gson_version = '2.8.6'
 
         //dependency inject
         javaxInjectVersion = "1"
-        dagger_version = '2.22'
+        dagger_version = '2.26'
 
         //time
         threetenabp_version = '1.1.0'
@@ -102,7 +102,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-        
+
     }
 }
 
