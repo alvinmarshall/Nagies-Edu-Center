@@ -11,56 +11,56 @@ data class ProfileDto(
 
 data class Profile1(
     @SerializedName("studentNo")
-    override val refNo: String,
+    override var refNo: String?,
     @SerializedName("studentName")
-    override val name: String,
-    override val gender: String,
+    override var name: String?,
+    override var gender: String?,
     @SerializedName("admissionDate")
-    override val adminDate: String,
-    override val faculty: String,
-    override val level: String,
+    override var adminDate: String?,
+    override var faculty: String?,
+    override var level: String?,
     @SerializedName("index")
-    override val username: String,
-    override val contact: String,
+    override var username: String?,
+    override var contact: String?,
     override var imageUrl: String?,
-    override val section: String,
-    override val semester: String,
-    override val guardian: String,
-    override val dob: String
+    override var section: String?,
+    override var semester: String?,
+    override var guardian: String?,
+    override var dob: String?
 
 ) : IProfileDto
 
 data class Profile2(
     @SerializedName("ref")
-    override val refNo: String,
-    override val name: String,
-    override val gender: String,
+    override var refNo: String?,
+    override var name: String?,
+    override var gender: String?,
     @SerializedName("admissionDate")
-    override val adminDate: String,
+    override var adminDate: String?,
     @SerializedName("facultyName")
-    override val faculty: String,
-    override val level: String,
-    override val username: String,
-    override val contact: String,
+    override var faculty: String?,
+    override var level: String?,
+    override var username: String?,
+    override var contact: String?,
     override var imageUrl: String?,
-    override val section: String,
-    override val semester: String,
-    override val guardian: String,
-    override val dob: String
+    override var section: String?,
+    override var semester: String?,
+    override var guardian: String?,
+    override var dob: String?
 ) : IProfileDto
 
 interface IProfileDto {
-    val refNo: String
-    val name: String
-    val gender: String
-    val adminDate: String
-    val faculty: String
-    val level: String
-    val username: String
-    val contact: String
+    var refNo: String?
+    var name: String?
+    var gender: String?
+    var adminDate: String?
+    var faculty: String?
+    var level: String?
+    var username: String?
+    var contact: String?
     var imageUrl: String?
-    val section: String
-    val semester: String
-    val guardian: String
-    val dob: String
+    var section: String?
+    var semester: String?
+    var guardian: String?
+    var dob: String?
 }

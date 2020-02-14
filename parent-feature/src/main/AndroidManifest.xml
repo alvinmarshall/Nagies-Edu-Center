@@ -14,15 +14,7 @@
                 android:label="@string/title_activity_parent_navigation"
                 android:theme="@style/AppTheme.NoActionBar"/>
 
-        <provider
-                android:name="androidx.core.content.FileProvider"
-                android:authorities="${applicationId}.FileProvider"
-                android:exported="false"
-                android:grantUriPermissions="true">
-            <meta-data
-                    android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/file_provider_path"/>
-        </provider>
+
     </application>
 
 </manifest>

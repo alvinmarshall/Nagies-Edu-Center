@@ -61,6 +61,6 @@
     <string name="menu_upload_receipt">Upload Receipt</string>
 
     <!--    FILE AUTHORITY-->
-    <string name="file_provider_authority" translatable="false">com.wNagiesEducationalCenterj_9905.fileprovider</string>
+    <string name="file_provider_authority" translatable="false">%1$s.FileProvider</string>
     <string name="label_perform_action">Perform Action</string>
 </resources>

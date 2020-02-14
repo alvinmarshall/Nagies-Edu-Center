@@ -10,7 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.cheise_proj.parent_feature.AdapterClickListener
 import com.cheise_proj.parent_feature.PeopleAction
 import com.cheise_proj.parent_feature.R
-import com.cheise_proj.parent_feature.di.GlideApp
+import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.model.people.People
 import kotlinx.android.synthetic.main.list_teacher.view.*
 

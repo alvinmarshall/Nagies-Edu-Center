@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">teacher-feature</string>
+    <string name="action_settings">Settings</string>
+
+    <!--    LOGIN-->
+    <string name="pref_isLogin_key">user_login</string>
+    <string name="pref_login_username_key">login_username</string>
+    <string name="pref_login_name_key">login_name</string>
+    <string name="pref_login_level_key">login_level</string>
+    <string name="pref_login_user_role_key">login_user_role</string>
+    <string name="pref_login_user_token_key">user_token</string>
+    <string name="pref_login_avatar_key">user_avatar</string>
+    <string name="pref_login_uuid_key">login_user_uuid</string>
+    <string name="pref_first_time_login_key">first_time_login</string>
+
+    <string name="pref_use_background_changer_key">use_background_changer</string>
+
+    <!--    NETWORK-->
+    <string name="no_network_connection">No internet connection"</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_logout">logout</string>
+
+</resources>

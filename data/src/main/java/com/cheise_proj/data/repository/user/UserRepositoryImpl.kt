@@ -11,7 +11,6 @@ import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.domain.repository.UserRepository
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.Function
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(

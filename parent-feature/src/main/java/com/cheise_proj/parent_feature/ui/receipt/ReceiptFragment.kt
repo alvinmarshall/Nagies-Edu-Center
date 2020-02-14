@@ -13,10 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import com.cheise_proj.common_module.REQUEST_CAMERA
+import com.cheise_proj.parent_feature.BuildConfig
 import com.cheise_proj.parent_feature.R
 import com.cheise_proj.parent_feature.base.BaseFragment
-import com.cheise_proj.parent_feature.di.GlideApp
 import com.cheise_proj.parent_feature.utils.RealPathUtil
+import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.job.UploadReceiptWorker
 import com.cheise_proj.presentation.utils.IRuntimePermission
 import com.cheise_proj.presentation.utils.PermissionDialogListener
@@ -67,7 +68,7 @@ class ReceiptFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         permission.initPermissionValues(
             context!!,
-            arrayOf(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE ),
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
             REQUEST_CAMERA, permissionDialogListener
         )
     }
@@ -84,7 +85,7 @@ class ReceiptFragment : BaseFragment() {
         val photoFile: File? = createImageFile()
         val photoUri = photoFile?.let {
             FileProvider.getUriForFile(
-                context!!, getString(R.string.file_provider_authority),
+                context!!, getString(R.string.file_provider_authority, context?.packageName),
                 it
             )
         }
