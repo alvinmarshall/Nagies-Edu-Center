@@ -1,27 +1,28 @@
-package com.cheise_proj.parent_feature.ui.password
+package com.cheise_proj.teacher_feature.ui.password
+
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.cheise_proj.parent_feature.R
-import com.cheise_proj.parent_feature.base.BaseFragment
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.InputValidation
 import com.cheise_proj.presentation.viewmodel.user.UserViewModel
+import com.cheise_proj.teacher_feature.R
+import com.cheise_proj.teacher_feature.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.password_fragment.*
+import kotlinx.android.synthetic.main.fragment_password.*
 import javax.inject.Inject
 
+/**
+ * A simple [Fragment] subclass.
+ */
 class PasswordFragment : BaseFragment() {
-
-    companion object {
-        fun newInstance() = PasswordFragment()
-    }
 
     @Inject
     lateinit var factory: ViewModelFactory
@@ -40,7 +41,8 @@ class PasswordFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.password_fragment, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_password, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,6 +53,7 @@ class PasswordFragment : BaseFragment() {
             changeAccountPassword()
         }
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

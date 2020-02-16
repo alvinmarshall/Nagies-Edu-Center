@@ -48,10 +48,14 @@
     <string name="permission_storage_explained">Without this permission this app is unable to open files. Are you sure
         you want to deny this permission.
     </string>
+
+    <!--    PASSWORD-->
     <string name="label_old_password">old password</string>
     <string name="label_new_password">new password</string>
     <string name="label_confirm_password">confirm password</string>
     <string name="label_change_password">change password</string>
+    <string name="label_password_header">Change Password ?</string>
+    <string name="label_password_sub_title">Remember to use the new password at login page</string>
 
     <!--    RECEIPT-->
     <string name="label_receipt_sub_header">Send receipt image to school account office</string>

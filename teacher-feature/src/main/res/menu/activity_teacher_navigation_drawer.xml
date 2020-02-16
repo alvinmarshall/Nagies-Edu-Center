@@ -9,5 +9,10 @@
                 android:icon="@drawable/ic_person_black_24dp"
                 android:title="@string/menu_profile" />
 
+        <item
+                android:id="@+id/passwordFragment"
+                android:icon="@drawable/ic_lock_black_24dp"
+                android:title="@string/menu_change_password" />
+
     </group>
 </menu>

@@ -24,4 +24,9 @@
             android:name="com.cheise_proj.teacher_feature.ui.attachment.AttachmentFragment"
             android:label="fragment_attachment"
             tools:layout="@layout/fragment_attachment" />
+    <fragment
+            android:id="@+id/passwordFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.password.PasswordFragment"
+            android:label="Change Password"
+            tools:layout="@layout/fragment_password" />
 </navigation>
