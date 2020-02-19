@@ -1,6 +1,7 @@
 package com.cheise_proj.local_source
 
 import com.cheise_proj.data.model.files.FilesData
+import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
@@ -11,11 +12,13 @@ import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.PeopleDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.files.*
+import com.cheise_proj.local_source.mapper.message.ComplaintLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.people.PeopleLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
 import com.cheise_proj.local_source.model.files.*
+import com.cheise_proj.local_source.model.message.ComplaintLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import com.cheise_proj.local_source.model.people.PeopleLocal
 import io.reactivex.Observable
@@ -35,7 +38,8 @@ class LocalSourceImpl @Inject constructor(
     private val timeTableLocalDataMapper: TimeTableLocalDataMapper,
     private val billLocalDataMapper: BillLocalDataMapper,
     private val peopleDao: PeopleDao,
-    private val peopleLocalDataMapper: PeopleLocalDataMapper
+    private val peopleLocalDataMapper: PeopleLocalDataMapper,
+    private val complaintLocalDataMapper: ComplaintLocalDataMapper
 
 ) : LocalSource {
     //region PEOPLE
@@ -165,6 +169,28 @@ class LocalSourceImpl @Inject constructor(
     //endregion
 
     //region MESSAGE
+
+    //complaint
+    override fun saveComplaint(complaintDataList: List<ComplaintData>) {
+        with(complaintLocalDataMapper.dataToLocalList(complaintDataList)) {
+            println("saveComplaint")
+            messageDao.clearAndInsertComplaints(this)
+        }
+    }
+
+    override fun getComplaints(): Observable<List<ComplaintData>> {
+        println("getComplaints")
+        return messageDao.getComplaints()
+            .map { t: List<ComplaintLocal> -> complaintLocalDataMapper.localToDataList(t) }
+    }
+
+    override fun getComplaint(identifier: String): Single<ComplaintData> {
+        println("getComplaint")
+        return messageDao.getComplaint(identifier)
+            .map { t: ComplaintLocal -> complaintLocalDataMapper.localToData(t) }
+    }
+
+    //message
     override fun saveMessages(messageDataList: List<MessageData>) {
         with(messageLocalDataMapper.dataToLocalList(messageDataList)) {
             println("saving Messages")

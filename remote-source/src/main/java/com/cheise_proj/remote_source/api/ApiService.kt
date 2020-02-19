@@ -1,6 +1,7 @@
 package com.cheise_proj.remote_source.api
 
 import com.cheise_proj.remote_source.model.dto.files.*
+import com.cheise_proj.remote_source.model.dto.message.ComplaintsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.dto.people.PeopleDto
 import com.cheise_proj.remote_source.model.dto.user.PasswordDto
@@ -74,6 +75,14 @@ interface ApiService {
     //endregion
 
     //region MESSAGES
+
+    //complaint
+    @GET("message")
+    fun getComplaint(
+        @Query("from") from: String = "complaint"
+    ):Observable<ComplaintsDto>
+
+    //message
     @GET("message")
     fun getMessages(): Observable<MessagesDto>
     //endregion

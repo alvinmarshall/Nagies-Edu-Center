@@ -5,6 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
+                android:id="@+id/complaintFragment"
+                android:icon="@drawable/ic_chat_black_24dp"
+                android:title="@string/menu_complaint" />
+        <item
                 android:id="@+id/profileFragment"
                 android:icon="@drawable/ic_person_black_24dp"
                 android:title="@string/menu_profile" />

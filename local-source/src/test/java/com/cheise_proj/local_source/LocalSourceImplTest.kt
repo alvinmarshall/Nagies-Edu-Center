@@ -5,6 +5,7 @@ import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.PeopleDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.files.*
+import com.cheise_proj.local_source.mapper.message.ComplaintLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.people.PeopleLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
@@ -36,6 +37,7 @@ class LocalSourceImplTest {
     private lateinit var timeTableLocalDataMapper: TimeTableLocalDataMapper
     private lateinit var billLocalDataMapper: BillLocalDataMapper
     private lateinit var peopleLocalDataMapper: PeopleLocalDataMapper
+    private lateinit var complaintLocalDataMapper: ComplaintLocalDataMapper
 
     @Mock
     lateinit var userDao: UserDao
@@ -58,6 +60,7 @@ class LocalSourceImplTest {
         timeTableLocalDataMapper = TimeTableLocalDataMapper()
         billLocalDataMapper = BillLocalDataMapper()
         peopleLocalDataMapper = PeopleLocalDataMapper()
+        complaintLocalDataMapper = ComplaintLocalDataMapper()
 
         localSourceImpl = LocalSourceImpl(
             userDao,
@@ -72,7 +75,8 @@ class LocalSourceImplTest {
             timeTableLocalDataMapper,
             billLocalDataMapper,
             peopleDao,
-            peopleLocalDataMapper
+            peopleLocalDataMapper,
+            complaintLocalDataMapper
         )
     }
 
@@ -310,6 +314,49 @@ class LocalSourceImplTest {
     //endregion
 
     //region MESSAGE
+    //complaint
+    @Test
+    fun `Get all complaints from local success`() {
+        val actual = TestMessageGenerator.getComplaint()
+        Mockito.`when`(messageDao.getComplaints()).thenReturn(Observable.just(actual))
+        localSourceImpl.getComplaints().test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                println(it)
+                it == complaintLocalDataMapper.localToDataList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(messageDao, times(1)).getComplaints()
+    }
+
+    @Test
+    fun `Get complaint from local success`() {
+        val actual = TestMessageGenerator.getComplaint()[0]
+        Mockito.`when`(messageDao.getComplaint(MESSAGE_IDENTIFIER.toString()))
+            .thenReturn(Single.just(actual))
+        localSourceImpl.getComplaint(MESSAGE_IDENTIFIER.toString())
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                println(it)
+                it == complaintLocalDataMapper.localToData(actual)
+            }
+            .assertComplete()
+        Mockito.verify(messageDao, times(1)).getComplaint(MESSAGE_IDENTIFIER.toString())
+
+    }
+
+    @Test
+    fun `Save complaint to local success`() {
+        val actual = TestMessageGenerator.getComplaint()
+        Mockito.doNothing().`when`(messageDao).clearAndInsertComplaints(actual)
+        localSourceImpl.saveComplaint(complaintLocalDataMapper.localToDataList(actual))
+        Mockito.verify(messageDao, times(1)).clearAndInsertComplaints(actual)
+    }
+
+    //message
     @Test
     fun `Get all messages from local success`() {
         val actual = TestMessageGenerator.getMessages()

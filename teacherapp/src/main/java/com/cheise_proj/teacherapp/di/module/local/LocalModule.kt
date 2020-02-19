@@ -3,6 +3,7 @@ package com.cheise_proj.teacherapp.di.module.local
 import android.app.Application
 import androidx.room.Room
 import com.cheise_proj.data.model.files.FilesData
+import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
@@ -17,11 +18,13 @@ import com.cheise_proj.local_source.db.dao.PeopleDao
 import com.cheise_proj.local_source.db.dao.UserDao
 import com.cheise_proj.local_source.mapper.base.LocalMapper
 import com.cheise_proj.local_source.mapper.files.*
+import com.cheise_proj.local_source.mapper.message.ComplaintLocalDataMapper
 import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
 import com.cheise_proj.local_source.mapper.people.PeopleLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
 import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
 import com.cheise_proj.local_source.model.files.*
+import com.cheise_proj.local_source.model.message.ComplaintLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
 import com.cheise_proj.local_source.model.people.PeopleLocal
 import com.cheise_proj.local_source.model.user.ProfileLocal
@@ -46,6 +49,9 @@ class LocalModule {
         fun bindUserLocalDataMapper(userLocalDataMapper: UserLocalDataMapper): LocalMapper<UserLocal, UserData>
 
         //region MESSAGES
+        @Binds
+        fun bindComplaintLocalDataMapper(complaintLocalDataMapper: ComplaintLocalDataMapper): LocalMapper<ComplaintLocal, ComplaintData>
+
         @Binds
         fun bindMessageLocalDataMapper(messageLocalDataMapper: MessageLocalDataMapper): LocalMapper<MessageLocal, MessageData>
         //endregion

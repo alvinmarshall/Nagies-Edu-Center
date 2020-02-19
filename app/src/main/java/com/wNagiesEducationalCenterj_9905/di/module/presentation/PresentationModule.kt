@@ -3,6 +3,7 @@ package com.wNagiesEducationalCenterj_9905.di.module.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.cheise_proj.domain.entity.files.FilesEntity
+import com.cheise_proj.domain.entity.message.ComplaintEntity
 import com.cheise_proj.domain.entity.message.MessageEntity
 import com.cheise_proj.domain.entity.people.PeopleEntity
 import com.cheise_proj.domain.entity.user.ProfileEntity
@@ -10,11 +11,13 @@ import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.mapper.PresentationMapper
 import com.cheise_proj.presentation.mapper.files.*
+import com.cheise_proj.presentation.mapper.message.ComplaintEntityMapper
 import com.cheise_proj.presentation.mapper.message.MessageEntityMapper
 import com.cheise_proj.presentation.mapper.people.PeopleEntityMapper
 import com.cheise_proj.presentation.mapper.user.ProfileEntityMapper
 import com.cheise_proj.presentation.mapper.user.UserEntityMapper
 import com.cheise_proj.presentation.model.files.*
+import com.cheise_proj.presentation.model.message.Complaint
 import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.model.people.People
 import com.cheise_proj.presentation.model.user.Profile
@@ -23,6 +26,7 @@ import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.InputValidation
 import com.cheise_proj.presentation.viewmodel.files.*
+import com.cheise_proj.presentation.viewmodel.message.ComplaintViewModel
 import com.cheise_proj.presentation.viewmodel.message.MessageViewModel
 import com.cheise_proj.presentation.viewmodel.people.PeopleViewModel
 import com.cheise_proj.presentation.viewmodel.user.ProfileViewModel
@@ -40,15 +44,13 @@ class PresentationModule {
     @Module
     interface Binders {
 
+        @Binds
+        fun bindViewModelFactory(viewModelFactory: ViewModelFactory): ViewModelProvider.Factory
+
         //region PEOPLE
         @Binds
         fun bindPeopleEntityMapper(peopleEntityMapper: PeopleEntityMapper): PresentationMapper<People, PeopleEntity>
         //endregion
-
-
-        @Binds
-        fun bindViewModelFactory(viewModelFactory: ViewModelFactory): ViewModelProvider.Factory
-
         //region FILES
 
         @Binds
@@ -99,7 +101,15 @@ class PresentationModule {
 
         //region MESSAGE
         @Binds
+        fun bindComplaintEntity(complaintEntityMapper: ComplaintEntityMapper): PresentationMapper<Complaint, ComplaintEntity>
+
+        @Binds
         fun bindMessageEntity(messageEntityMapper: MessageEntityMapper): PresentationMapper<Message, MessageEntity>
+
+        @Binds
+        @ViewModelKey(ComplaintViewModel::class)
+        @IntoMap
+        fun bindComplaintViewModel(complaintViewModel: ComplaintViewModel): ViewModel
 
         @Binds
         @ViewModelKey(MessageViewModel::class)

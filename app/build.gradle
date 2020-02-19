@@ -9,6 +9,10 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 android {
     compileSdkVersion rootProject.compileSdkVersion
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
     defaultConfig {
         applicationId "com.wNagiesEducationalCenterj_9905"
         minSdkVersion rootProject.minSdkVersion

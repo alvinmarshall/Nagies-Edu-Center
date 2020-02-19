@@ -1,6 +1,7 @@
 package com.cheise_proj.remote_source
 
 import com.cheise_proj.data.model.files.FilesData
+import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
@@ -9,11 +10,14 @@ import com.cheise_proj.data.source.RemoteSource
 import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
 import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
+import com.cheise_proj.remote_source.mapper.message.ComplaintDtoDataMapper
 import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
 import com.cheise_proj.remote_source.mapper.people.PeopleDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.dto.files.*
+import com.cheise_proj.remote_source.model.dto.message.ComplaintDto
+import com.cheise_proj.remote_source.model.dto.message.ComplaintsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.dto.people.PeopleDto
 import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
@@ -31,7 +35,8 @@ class RemoteSourceImpl @Inject constructor(
     private val messageDtoDataMapper: MessageDtoDataMapper,
     private val circularDtoDataMapper: CircularDtoDataMapper,
     private val filesDtoDataMapper: FilesDtoDataMapper,
-    private val peopleDtoDataMapper: PeopleDtoDataMapper
+    private val peopleDtoDataMapper: PeopleDtoDataMapper,
+    private val complaintDtoDataMapper: ComplaintDtoDataMapper
 
 ) : RemoteSource {
 
@@ -190,6 +195,29 @@ class RemoteSourceImpl @Inject constructor(
     //endregion
 
     //region MESSAGES
+
+    //complaint
+    override fun getComplaint(): Observable<List<ComplaintData>> {
+        return apiService.getComplaint().map { t: ComplaintsDto ->
+            println("dto ${t.complaint}")
+            complaintDtoDataMapper.dtoToDataList(t.complaint)
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )
+    }
+
+    //message
     override fun getMessages(): Observable<List<MessageData>> {
         return apiService.getMessages().map { t: MessagesDto ->
             messageDtoDataMapper.dtoToDataList(t.message)

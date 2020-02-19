@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mobile_navigation"
-        app:startDestination="@id/profileFragment">
+        app:startDestination="@id/complaintFragment">
     <fragment
             android:id="@+id/profileFragment"
             android:name="com.cheise_proj.teacher_feature.ui.profile.ProfileFragment"
@@ -27,6 +27,28 @@
     <fragment
             android:id="@+id/passwordFragment"
             android:name="com.cheise_proj.teacher_feature.ui.password.PasswordFragment"
-            android:label="Change Password"
+            android:label="Password"
             tools:layout="@layout/fragment_password" />
+    <fragment
+            android:id="@+id/complaintFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.complaint.ComplaintFragment"
+            android:label="Messages"
+            tools:layout="@layout/fragment_complaint" >
+        <action
+                android:id="@+id/action_complaintFragment_to_complaintDetailFragment"
+                app:destination="@id/complaintDetailFragment"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/fragment_open_enter"
+                app:popExitAnim="@anim/fragment_open_exit" />
+    </fragment>
+    <fragment
+            android:id="@+id/complaintDetailFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.complaint.ComplaintDetailFragment"
+            android:label="Detail"
+            tools:layout="@layout/fragment_complaint_detail">
+        <argument
+                android:name="complaint"
+                app:argType="integer" />
+    </fragment>
 </navigation>

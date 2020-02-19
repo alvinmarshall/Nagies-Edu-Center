@@ -95,7 +95,7 @@ class MessageViewModelTest {
     }
 
     companion object {
-        const val IDENTIFIER: Int = 1
-        const val ERROR_MESSAGE = "message not found"
+        private const val IDENTIFIER: Int = 1
+        private const val ERROR_MESSAGE = "message not found"
     }
 }

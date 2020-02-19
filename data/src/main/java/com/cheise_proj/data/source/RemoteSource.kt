@@ -1,6 +1,7 @@
 package com.cheise_proj.data.source
 
 import com.cheise_proj.data.model.files.FilesData
+import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
@@ -12,7 +13,7 @@ import okhttp3.MultipartBody
 interface RemoteSource {
 
     //region PEOPLE
-    fun getPeople(type:String): Observable<List<PeopleData>>
+    fun getPeople(type: String): Observable<List<PeopleData>>
     //endregion
 
     //region FILES
@@ -31,6 +32,8 @@ interface RemoteSource {
     //endregion
 
     //region MESSAGE
+    fun getComplaint(): Observable<List<ComplaintData>>
+
     fun getMessages(): Observable<List<MessageData>>
 
     //endregion

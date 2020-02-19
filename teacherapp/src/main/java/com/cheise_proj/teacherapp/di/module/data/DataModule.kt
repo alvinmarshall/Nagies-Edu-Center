@@ -2,11 +2,13 @@ package com.cheise_proj.teacherapp.di.module.data
 
 import com.cheise_proj.data.mapper.base.DataMapper
 import com.cheise_proj.data.mapper.files.FilesDataEntityMapper
+import com.cheise_proj.data.mapper.message.ComplaintDataEntityMapper
 import com.cheise_proj.data.mapper.message.MessageDataEntityMapper
 import com.cheise_proj.data.mapper.people.PeopleDataEntityMapper
 import com.cheise_proj.data.mapper.user.ProfileDataEntityMapper
 import com.cheise_proj.data.mapper.user.UserDataEntityMapper
 import com.cheise_proj.data.model.files.FilesData
+import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
@@ -16,6 +18,7 @@ import com.cheise_proj.data.repository.message.MessageRepositoryImpl
 import com.cheise_proj.data.repository.people.PeopleRepositoryImpl
 import com.cheise_proj.data.repository.user.UserRepositoryImpl
 import com.cheise_proj.domain.entity.files.FilesEntity
+import com.cheise_proj.domain.entity.message.ComplaintEntity
 import com.cheise_proj.domain.entity.message.MessageEntity
 import com.cheise_proj.domain.entity.people.PeopleEntity
 import com.cheise_proj.domain.entity.user.ProfileEntity
@@ -53,9 +56,12 @@ class DataModule {
         @Binds
         fun bindMessageRepository(messageRepositoryImpl: MessageRepositoryImpl): MessageRepository
 
-        //endregion
+        @Binds
+        fun bindComplaintDataEntityMapper(complaintDataEntityMapper: ComplaintDataEntityMapper): DataMapper<ComplaintData, ComplaintEntity>
+
         @Binds
         fun bindMessageDataEntityMapper(messageDataEntityMapper: MessageDataEntityMapper): DataMapper<MessageData, MessageEntity>
+        //endregion
 
         //region USERS
         @Binds

@@ -1,5 +1,6 @@
 package com.cheise_proj.data.repository.message
 
+import com.cheise_proj.data.mapper.message.ComplaintDataEntityMapper
 import com.cheise_proj.data.mapper.message.MessageDataEntityMapper
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
@@ -19,6 +20,8 @@ import utils.TestMessageGenerator
 class MessageRepositoryImplTest {
     private lateinit var messageRepositoryImpl: MessageRepositoryImpl
     private lateinit var messageDataEntityMapper: MessageDataEntityMapper
+    private lateinit var complaintDataEntityMapper: ComplaintDataEntityMapper
+
     @Mock
     lateinit var localSource: LocalSource
     @Mock
@@ -28,11 +31,68 @@ class MessageRepositoryImplTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         messageDataEntityMapper = MessageDataEntityMapper()
+        complaintDataEntityMapper = ComplaintDataEntityMapper()
         messageRepositoryImpl =
-            MessageRepositoryImpl(remoteSource, localSource, messageDataEntityMapper)
+            MessageRepositoryImpl(
+                remoteSource,
+                localSource,
+                messageDataEntityMapper,
+                complaintDataEntityMapper
+            )
     }
 
 
+    //region COMPLAINT
+    @Test
+    fun `Get all complaint success`() {
+        val actual = TestMessageGenerator.getComplaint()
+        Mockito.`when`(remoteSource.getComplaint()).thenReturn(Observable.just(actual))
+        Mockito.`when`(localSource.getComplaints()).thenReturn(Observable.just(actual))
+
+        messageRepositoryImpl.getComplaints()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == complaintDataEntityMapper.dataToEntityList(actual)
+            }
+            .assertComplete()
+
+        Mockito.verify(remoteSource, times(1)).getComplaint()
+        Mockito.verify(localSource, times(1)).getComplaints()
+    }
+
+    @Test
+    fun `Get local complaint when remote fail success`() {
+        val errorMessage = "Unable to ping server address"
+
+        Mockito.`when`(remoteSource.getComplaint())
+            .thenReturn(Observable.error(Throwable(errorMessage)))
+        Mockito.`when`(localSource.getComplaints()).thenReturn(Observable.just(listOf()))
+
+        messageRepositoryImpl.getComplaints().test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).getComplaint()
+        Mockito.verify(localSource, times(1)).getComplaints()
+    }
+
+    @Test
+    fun `Get complaint with identifier success`() {
+        val actual = TestMessageGenerator.getComplaint()
+        Mockito.`when`(localSource.getComplaint(IDENTIFIER.toString()))
+            .thenReturn(Single.just(actual[0]))
+        messageRepositoryImpl.getComplaint(IDENTIFIER.toString())
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == complaintDataEntityMapper.dataToEntityList(actual)
+            }
+            .assertComplete()
+    }
+    //endregion
 
     @Test
     fun `Get local data when remote fail success`() {
@@ -49,6 +109,7 @@ class MessageRepositoryImplTest {
         Mockito.verify(remoteSource, times(1)).getMessages()
         Mockito.verify(localSource, times(1)).getMessages()
     }
+
     @Test
     fun `Get all messages success`() {
         val actual = TestMessageGenerator.getRemoteMessage()

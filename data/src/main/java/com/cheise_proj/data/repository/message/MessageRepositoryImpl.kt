@@ -1,22 +1,75 @@
 package com.cheise_proj.data.repository.message
 
+import com.cheise_proj.data.cache.ComplaintCache
 import com.cheise_proj.data.cache.MessageCache
+import com.cheise_proj.data.mapper.message.ComplaintDataEntityMapper
 import com.cheise_proj.data.mapper.message.MessageDataEntityMapper
+import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
+import com.cheise_proj.domain.entity.message.ComplaintEntity
 import com.cheise_proj.domain.entity.message.MessageEntity
 import com.cheise_proj.domain.repository.MessageRepository
 import io.reactivex.Observable
 import io.reactivex.functions.Function
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MessageRepositoryImpl @Inject constructor(
     private val remoteSource: RemoteSource,
     private val localSource: LocalSource,
-    private val messageDataEntityMapper: MessageDataEntityMapper
+    private val messageDataEntityMapper: MessageDataEntityMapper,
+    private val complaintDataEntityMapper: ComplaintDataEntityMapper
 ) : MessageRepository {
+
+    override fun getComplaints(): Observable<List<ComplaintEntity>> {
+        val complaintObservable: Observable<List<ComplaintEntity>>
+        val identifier = "complaint"
+        val cacheComplaint = ComplaintCache.getComplaint(identifier)
+
+        val local = localSource.getComplaints()
+            .map { t: List<ComplaintData> ->
+                complaintDataEntityMapper.dataToEntityList(t)
+            }
+
+        val remote = remoteSource.getComplaint()
+            .map { t: List<ComplaintData> ->
+                localSource.saveComplaint(t)
+                complaintDataEntityMapper.dataToEntityList(t)
+            }
+            .onErrorResumeNext(Function {
+                println(it.localizedMessage)
+                local
+            })
+
+        complaintObservable = if (cacheComplaint != null) {
+            println("Remote source NOT invoked")
+            val cache = complaintDataEntityMapper.dataToEntityList(cacheComplaint)
+            Observable.just(cache)
+        } else {
+            remote
+        }
+
+        return complaintObservable
+            .map { t: List<ComplaintEntity> ->
+                if (cacheComplaint == null) {
+                    ComplaintCache.addComplaint(
+                        identifier,
+                        complaintDataEntityMapper.entityToDataList(t)
+                    )
+                }
+                return@map t
+            }.mergeWith(local).take(1).distinct()
+    }
+
+    override fun getComplaint(identifier: String): Observable<List<ComplaintEntity>> {
+        return localSource.getComplaint(identifier).toObservable()
+            .map {
+                val data = complaintDataEntityMapper.dataToEntity(it)
+                return@map arrayListOf(data)
+            }
+    }
+
     override fun getMessages(): Observable<List<MessageEntity>> {
         val messagesObservable: Observable<List<MessageEntity>>
         val identifier = "messages"

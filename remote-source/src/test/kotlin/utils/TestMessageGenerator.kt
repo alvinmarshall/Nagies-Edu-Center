@@ -1,5 +1,7 @@
 package utils
 
+import com.cheise_proj.remote_source.model.dto.message.ComplaintDto
+import com.cheise_proj.remote_source.model.dto.message.ComplaintsDto
 import com.cheise_proj.remote_source.model.dto.message.MessageDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 
@@ -20,6 +22,25 @@ object TestMessageGenerator {
                     date = "test date"
                 )
             )
+        )
+    }
+
+    fun getComplaintDto(): ComplaintsDto {
+        return ComplaintsDto(
+            complaint = arrayListOf(
+                ComplaintDto(
+                    id = 1,
+                    level = "test level",
+                    content = "test content",
+                    sender = "test sender",
+                    date = "test date",
+                    receiver = "test teacherName",
+                    studentName = "test studentName",
+                    refNo = "test refNo",
+                    contact = "test contact"
+                )
+            )
+
         )
     }
 }

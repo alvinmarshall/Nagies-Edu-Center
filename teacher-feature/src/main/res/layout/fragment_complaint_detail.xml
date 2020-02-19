@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        tools:context=".ui.message.MessageDetailFragment">
+        tools:context=".ui.complaint.ComplaintDetailFragment">
 
 
     <ScrollView
@@ -56,7 +56,6 @@
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
-                    android:transitionName="@string/message_title_transition"
                     tools:text="@tools:sample/full_names"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/avatar_background"
@@ -71,6 +70,7 @@
                     android:layout_marginBottom="@dimen/padding_size_4dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/colorSecondaryTextDefaultMaterialLight"
+                    android:transitionName="@string/complaint_tile_transition"
                     app:layout_constraintBottom_toBottomOf="@+id/avatar_background"
                     tools:text="@tools:sample/date/mmddyy"
                     app:layout_constraintEnd_toEndOf="parent"

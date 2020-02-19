@@ -17,8 +17,6 @@
 
     <!--    NETWORK-->
     <string name="no_network_connection">No internet connection"</string>
-    <string name="menu_profile">Profile</string>
-    <string name="menu_logout">logout</string>
 
     <!--    PASSWORD-->
     <string name="label_old_password">old password</string>
@@ -29,4 +27,12 @@
     <string name="label_password_header">Change Password ?</string>
     <string name="menu_change_password">Change Password</string>
 
+    <!--   NAV MENU-->
+    <string name="menu_complaint">Complaint</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_logout">logout</string>
+
+    <!--    COMPLAINT TRANSITION-->
+    <string name="complaint_tile_transition">complaint_title_transition</string>
+    <string name="menu_reply">Reply</string>
 </resources>

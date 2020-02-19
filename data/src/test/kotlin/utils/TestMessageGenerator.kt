@@ -1,5 +1,6 @@
 package utils
 
+import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 
 object TestMessageGenerator {
@@ -30,5 +31,22 @@ object TestMessageGenerator {
             )
 
         )
+    }
+
+    fun getComplaint(): List<ComplaintData> {
+        return arrayListOf(
+            ComplaintData(
+                id = 1,
+                contact = "test contact",
+                refNo = "test refNo",
+                studentName = "test studentName",
+                receiver = "test receiver",
+                date = "test date",
+                sender = "test sender",
+                content = "test content",
+                level = "test level"
+            )
+        )
+
     }
 }

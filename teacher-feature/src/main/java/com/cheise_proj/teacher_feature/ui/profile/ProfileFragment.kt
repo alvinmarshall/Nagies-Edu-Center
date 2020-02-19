@@ -2,6 +2,8 @@ package com.cheise_proj.teacher_feature.ui.profile
 
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.cheise_proj.common_module.DELAY_HANDLER
 import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.model.vo.STATUS
@@ -57,7 +60,7 @@ class ProfileFragment : BaseFragment() {
         recyclerView = recycler_view
         recyclerView?.also {
             it.hasFixedSize()
-            it.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+            it.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
     }
 
@@ -69,7 +72,8 @@ class ProfileFragment : BaseFragment() {
 
     private fun configViewModel() {
         viewmodel = ViewModelProvider(this, factory)[ProfileViewModel::class.java]
-        subscribeObservable()
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({ subscribeObservable() }, DELAY_HANDLER)
     }
 
     private fun subscribeObservable() {

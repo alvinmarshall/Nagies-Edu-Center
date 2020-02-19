@@ -3,6 +3,7 @@ package com.cheise_proj.remote_source
 import com.cheise_proj.remote_source.api.ApiService
 import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
 import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
+import com.cheise_proj.remote_source.mapper.message.ComplaintDtoDataMapper
 import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
 import com.cheise_proj.remote_source.mapper.people.PeopleDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
@@ -33,6 +34,7 @@ class RemoteSourceImplTest {
     private lateinit var circularDtoDataMapper: CircularDtoDataMapper
     private lateinit var filesDtoDataMapper: FilesDtoDataMapper
     private lateinit var peopleDtoDataMapper: PeopleDtoDataMapper
+    private lateinit var complaintDtoDataMapper: ComplaintDtoDataMapper
 
     private val username = "test username"
     private val password = "test password"
@@ -51,6 +53,7 @@ class RemoteSourceImplTest {
         circularDtoDataMapper = CircularDtoDataMapper()
         filesDtoDataMapper = FilesDtoDataMapper()
         peopleDtoDataMapper = PeopleDtoDataMapper()
+        complaintDtoDataMapper = ComplaintDtoDataMapper()
 
         remoteSourceImpl = RemoteSourceImpl(
             apiService,
@@ -59,7 +62,8 @@ class RemoteSourceImplTest {
             messageDtoDataMapper,
             circularDtoDataMapper,
             filesDtoDataMapper,
-            peopleDtoDataMapper
+            peopleDtoDataMapper,
+            complaintDtoDataMapper
         )
     }
 
@@ -313,6 +317,40 @@ class RemoteSourceImplTest {
     //endregion
 
     //region MESSAGES
+
+    //complaint
+    @Test
+    fun `Get complaints from remote success`() {
+        val actual = TestMessageGenerator.getComplaintDto()
+        Mockito.`when`(apiService.getComplaint()).thenReturn(Observable.just(actual))
+        remoteSourceImpl.getComplaint().test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == complaintDtoDataMapper.dtoToDataList(actual.complaint)
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Get complaints from remote with no network success`() {
+        val actual = "No internet connection"
+        Mockito.`when`(apiService.getComplaint()).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.getComplaint().test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+    }
+
+    //message
     @Test
     fun `Get messages from remote success`() {
         val actual = TestMessageGenerator.getMessageDto()

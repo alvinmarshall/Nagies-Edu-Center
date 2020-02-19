@@ -1,6 +1,7 @@
 package com.cheise_proj.data.source
 
 import com.cheise_proj.data.model.files.FilesData
+import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
@@ -63,6 +64,15 @@ interface LocalSource {
     //endregion
 
     //region MESSAGE
+
+    //complaint
+    fun saveComplaint(complaintDataList: List<ComplaintData>)
+
+    fun getComplaints(): Observable<List<ComplaintData>>
+
+    fun getComplaint(identifier: String): Single<ComplaintData>
+
+    //message
     fun saveMessages(messageDataList: List<MessageData>)
 
     fun getMessages(): Observable<List<MessageData>>
