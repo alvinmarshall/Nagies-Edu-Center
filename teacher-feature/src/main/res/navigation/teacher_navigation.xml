@@ -22,7 +22,7 @@
     <fragment
             android:id="@+id/attachmentFragment"
             android:name="com.cheise_proj.teacher_feature.ui.attachment.AttachmentFragment"
-            android:label="fragment_attachment"
+            android:label="Attachment"
             tools:layout="@layout/fragment_attachment" />
     <fragment
             android:id="@+id/passwordFragment"

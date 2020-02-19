@@ -7,7 +7,11 @@ import okhttp3.MultipartBody
 
 interface FilesRepository {
 
+    //region UPLOAD FILES
+    fun uploadAssignment(file: MultipartBody.Part): Observable<Int>
+
     fun uploadReceipt(file: MultipartBody.Part): Observable<Int>
+    //endregion
 
     fun getBills(): Observable<List<FilesEntity>>
     fun getBill(identifier: String): Observable<List<FilesEntity>>

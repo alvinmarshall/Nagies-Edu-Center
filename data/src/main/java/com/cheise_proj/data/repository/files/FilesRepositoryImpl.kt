@@ -18,10 +18,21 @@ class FilesRepositoryImpl @Inject constructor(
     private val filesDataEntityMapper: FilesDataEntityMapper
 ) : FilesRepository {
 
+
+    //region UPLOADS
+
+    //region UPLOAD ASSIGNMENT
+    override fun uploadAssignment(file: MultipartBody.Part): Observable<Int> {
+        return remoteSource.uploadAssignment(file)
+    }
+    //endregion
+
     //region RECEIPT
     override fun uploadReceipt(file: MultipartBody.Part): Observable<Int> {
         return remoteSource.uploadReceipt(file)
     }
+    //endregion
+
     //endregion
 
     //region BILL

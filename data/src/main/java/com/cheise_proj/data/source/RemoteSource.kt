@@ -17,6 +17,8 @@ interface RemoteSource {
     //endregion
 
     //region FILES
+    fun uploadAssignment(file: MultipartBody.Part): Observable<Int>
+
     fun uploadReceipt(file: MultipartBody.Part): Observable<Int>
 
     fun getBill(): Observable<List<FilesData>>

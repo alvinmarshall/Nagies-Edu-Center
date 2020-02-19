@@ -1,6 +1,7 @@
 package com.cheise_proj.teacher_feature.di
 
 
+import com.cheise_proj.teacher_feature.ui.attachment.AttachmentFragment
 import com.cheise_proj.teacher_feature.ui.complaint.ComplaintDetailFragment
 import com.cheise_proj.teacher_feature.ui.complaint.ComplaintFragment
 import com.cheise_proj.teacher_feature.ui.password.PasswordFragment
@@ -25,5 +26,8 @@ interface TeacherFragmentModule {
 
     @ContributesAndroidInjector
     fun contributeComplaintDetailFragment(): ComplaintDetailFragment
+
+    @ContributesAndroidInjector
+    fun contributeAttachmentFragment(): AttachmentFragment
 
 }

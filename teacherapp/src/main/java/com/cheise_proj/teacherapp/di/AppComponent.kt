@@ -4,6 +4,8 @@ import android.app.Application
 import com.cheise_proj.teacherapp.TeacherApp
 import com.cheise_proj.teacherapp.di.module.ActivitiesModule
 import com.cheise_proj.teacherapp.di.module.AppModule
+import com.cheise_proj.teacherapp.di.module.workmanager.WorkerSubComponent
+import com.cheise_proj.teacherapp.job.WorkerFactory
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -14,8 +16,8 @@ import javax.inject.Singleton
 @Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivitiesModule::class])
 interface AppComponent : AndroidInjector<TeacherApp> {
 
-//    fun workerFactory(): WorkerFactory
-//    fun workerSubComponentBuilder(): WorkerSubComponent.Builder
+    fun workerFactory(): WorkerFactory
+    fun workerSubComponentBuilder(): WorkerSubComponent.Builder
 
 
     @Component.Builder

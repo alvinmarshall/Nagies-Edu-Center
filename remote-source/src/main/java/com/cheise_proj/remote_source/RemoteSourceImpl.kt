@@ -76,8 +76,15 @@ class RemoteSourceImpl @Inject constructor(
         )
 
     }
+
     //region FILES
 
+    override fun uploadAssignment(file: MultipartBody.Part): Observable<Int> {
+        return apiService.uploadAssignment(file)
+            .map { t: UploadDto ->
+                return@map t.status
+            }
+    }
     //region RECEIPT
     override fun uploadReceipt(file: MultipartBody.Part): Observable<Int> {
         return apiService.uploadReceipt(file)
