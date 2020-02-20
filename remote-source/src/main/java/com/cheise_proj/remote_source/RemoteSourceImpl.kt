@@ -16,7 +16,6 @@ import com.cheise_proj.remote_source.mapper.people.PeopleDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
 import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.dto.files.*
-import com.cheise_proj.remote_source.model.dto.message.ComplaintDto
 import com.cheise_proj.remote_source.model.dto.message.ComplaintsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
 import com.cheise_proj.remote_source.model.dto.people.PeopleDto
@@ -77,14 +76,53 @@ class RemoteSourceImpl @Inject constructor(
 
     }
 
+
     //region FILES
+    override fun uploadReport(
+        file: MultipartBody.Part,
+        refNo: MultipartBody.Part,
+        fullName: MultipartBody.Part
+    ): Observable<Int> {
+        return apiService.uploadReport(file,refNo,fullName)
+            .map { t: UploadDto ->
+                return@map t.status
+            }.onErrorResumeNext(
+                Function {
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+                }
+            )
+
+    }
 
     override fun uploadAssignment(file: MultipartBody.Part): Observable<Int> {
         return apiService.uploadAssignment(file)
             .map { t: UploadDto ->
                 return@map t.status
-            }
+            }.onErrorResumeNext(
+                Function {
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+                }
+            )
     }
+
     //region RECEIPT
     override fun uploadReceipt(file: MultipartBody.Part): Observable<Int> {
         return apiService.uploadReceipt(file)

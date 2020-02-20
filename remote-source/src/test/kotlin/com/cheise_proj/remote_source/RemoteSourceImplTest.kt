@@ -119,6 +119,46 @@ class RemoteSourceImplTest {
 
     //region FILES
 
+    //region REPORT
+    @Test
+    fun `Upload report success`() {
+        val part = TestFilesGenerator.getFilePart()
+        val actual = TestFilesGenerator.getUploadDto()
+        val status = 200
+        Mockito.`when`(apiService.uploadReport(part,part,part)).thenReturn(Observable.just(actual))
+        remoteSourceImpl.uploadReport(part,part,part)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == status
+            }
+            .assertComplete()
+
+    }
+
+    @Test
+    fun `Upload report to remote with no network success`() {
+        val part = TestFilesGenerator.getFilePart()
+        val actual = "No internet connection"
+        Mockito.`when`(apiService.uploadReport(part,part,part)).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.uploadReport(part,part,part)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(apiService, times(1)).uploadReport(part,part,part)
+    }
+    //endregion
+
     //region ASSIGNMENT
     @Test
     fun `Upload assignment success`() {
@@ -134,6 +174,27 @@ class RemoteSourceImplTest {
                 it == status
             }
             .assertComplete()
+    }
+
+    @Test
+    fun `Upload assignment to remote with no network success`() {
+        val part = TestFilesGenerator.getFilePart()
+        val actual = "No internet connection"
+        Mockito.`when`(apiService.uploadAssignment(part)).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.uploadAssignment(part)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(apiService, times(1)).uploadAssignment(part)
     }
     //endregion
 

@@ -20,6 +20,13 @@ class FilesRepositoryImpl @Inject constructor(
 
 
     //region UPLOADS
+    override fun uploadReport(
+        file: MultipartBody.Part,
+        refNo: MultipartBody.Part,
+        fullName: MultipartBody.Part
+    ): Observable<Int> {
+        return remoteSource.uploadReport(file, refNo, fullName)
+    }
 
     //region UPLOAD ASSIGNMENT
     override fun uploadAssignment(file: MultipartBody.Part): Observable<Int> {

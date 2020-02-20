@@ -3,6 +3,7 @@ package com.cheise_proj.teacherapp.di.module.workmanager
 import androidx.work.RxWorker
 import androidx.work.WorkerParameters
 import com.cheise_proj.presentation.job.UploadAssignmentWorker
+import com.cheise_proj.presentation.job.UploadReportWorker
 import com.cheise_proj.teacherapp.di.key.WorkerKey
 import dagger.Binds
 import dagger.BindsInstance
@@ -26,6 +27,12 @@ interface WorkerSubComponent {
 
     @Module
     interface Binders {
+
+        @Binds
+        @IntoMap
+        @WorkerKey(UploadReportWorker::class)
+        fun bindUploadReport(uploadReportWorker: UploadReportWorker): RxWorker
+
         @Binds
         @IntoMap
         @WorkerKey(UploadAssignmentWorker::class)

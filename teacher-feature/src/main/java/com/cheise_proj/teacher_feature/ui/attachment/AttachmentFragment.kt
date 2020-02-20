@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider
 import com.cheise_proj.common_module.REQUEST_CAMERA
 import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.job.UploadAssignmentWorker
+import com.cheise_proj.presentation.job.UploadReportWorker
 import com.cheise_proj.presentation.utils.IRuntimePermission
 import com.cheise_proj.presentation.utils.PermissionDialogListener
 import com.cheise_proj.teacher_feature.R
@@ -67,6 +68,8 @@ class AttachmentFragment : BaseFragment() {
                         toast("upload complete")
                     }
                 })
+
+
         }
     }
 
