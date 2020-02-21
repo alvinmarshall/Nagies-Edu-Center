@@ -13,6 +13,8 @@
                 android:id="@+id/attachmentFragment"
                 android:icon="@drawable/ic_cloud_upload_black_24dp"
                 android:title="@string/menu_upload_files" />
+
+
         <item
                 android:id="@+id/profileFragment"
                 android:icon="@drawable/ic_person_black_24dp"

@@ -12,8 +12,12 @@
     <fragment
             android:id="@+id/studentFragment"
             android:name="com.cheise_proj.teacher_feature.ui.student.StudentFragment"
-            android:label="fragment_student"
-            tools:layout="@layout/fragment_student" />
+            android:label="Students"
+            tools:layout="@layout/fragment_student" >
+        <argument
+                android:name="file_path"
+                app:argType="string" />
+    </fragment>
     <fragment
             android:id="@+id/sendMessageFragment"
             android:name="com.cheise_proj.teacher_feature.ui.send_message.SendMessageFragment"
@@ -23,7 +27,11 @@
             android:id="@+id/attachmentFragment"
             android:name="com.cheise_proj.teacher_feature.ui.attachment.AttachmentFragment"
             android:label="Attachment"
-            tools:layout="@layout/fragment_attachment" />
+            tools:layout="@layout/fragment_attachment" >
+        <action
+                android:id="@+id/action_attachmentFragment_to_studentFragment"
+                app:destination="@id/studentFragment" />
+    </fragment>
     <fragment
             android:id="@+id/passwordFragment"
             android:name="com.cheise_proj.teacher_feature.ui.password.PasswordFragment"

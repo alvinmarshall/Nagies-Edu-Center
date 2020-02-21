@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.navigation.fragment.findNavController
 import com.cheise_proj.common_module.REQUEST_CAMERA
 import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.job.UploadAssignmentWorker
@@ -70,6 +71,14 @@ class AttachmentFragment : BaseFragment() {
                 })
 
 
+        }
+        btn_upload_file_report.setOnClickListener {
+            if (TextUtils.isEmpty(captureImagePath)) {
+                toast("no file selected")
+                return@setOnClickListener
+            }
+            val action = AttachmentFragmentDirections.actionAttachmentFragmentToStudentFragment(captureImagePath)
+            findNavController().navigate(action)
         }
     }
 
