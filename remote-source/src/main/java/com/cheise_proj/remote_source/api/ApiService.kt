@@ -12,6 +12,7 @@ import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -26,12 +27,34 @@ interface ApiService {
 
     //region FILES
 
+    //region REPORT
+    @Multipart
+    @POST("file/uploads")
+    fun uploadReport(
+        @Part file: MultipartBody.Part,
+        @Part refNo: MultipartBody.Part,
+        @Part fullName: MultipartBody.Part,
+        @Query("type") type: String = "report"
+    ): Observable<UploadDto>
+    //endregion
+
+    //region ASSIGNMENT
+    @Multipart
+    @POST("file/uploads")
+    fun uploadAssignment(
+        @Part file: MultipartBody.Part,
+        @Query("type") type: String = "assignment"
+    ): Observable<UploadDto>
+    //endregion
+
+    //region RECEIPT
     @Multipart
     @POST("file/uploads")
     fun uploadReceipt(
         @Part file: MultipartBody.Part,
         @Query("type") type: String = "receipt"
     ): Observable<UploadDto>
+    //endregion
 
     //region BILL
     @GET("file/path")
@@ -80,7 +103,7 @@ interface ApiService {
     @GET("message")
     fun getComplaint(
         @Query("from") from: String = "complaint"
-    ):Observable<ComplaintsDto>
+    ): Observable<ComplaintsDto>
 
     //message
     @GET("message")

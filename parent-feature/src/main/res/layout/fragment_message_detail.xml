@@ -87,6 +87,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
                     tools:text="@tools:sample/lorem/random"
+                    android:textIsSelectable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -2,9 +2,10 @@ package com.wNagiesEducationalCenterj_9905.di.module.workmanager
 
 import androidx.work.RxWorker
 import androidx.work.WorkerParameters
+import com.cheise_proj.presentation.job.UploadAssignmentWorker
 import com.cheise_proj.presentation.job.UploadReceiptWorker
+import com.cheise_proj.presentation.job.UploadReportWorker
 import com.wNagiesEducationalCenterj_9905.di.key.WorkerKey
-import com.wNagiesEducationalCenterj_9905.di.module.domain.DomainModule
 import dagger.Binds
 import dagger.BindsInstance
 import dagger.Module
@@ -27,6 +28,17 @@ interface WorkerSubComponent {
 
     @Module
     interface Binders {
+
+        @Binds
+        @IntoMap
+        @WorkerKey(UploadReportWorker::class)
+        fun bindUploadReport(uploadReportWorker: UploadReportWorker): RxWorker
+
+        @Binds
+        @IntoMap
+        @WorkerKey(UploadAssignmentWorker::class)
+        fun bindUploadAssignment(uploadAssignmentWorker: UploadAssignmentWorker): RxWorker
+
         @Binds
         @IntoMap
         @WorkerKey(UploadReceiptWorker::class)

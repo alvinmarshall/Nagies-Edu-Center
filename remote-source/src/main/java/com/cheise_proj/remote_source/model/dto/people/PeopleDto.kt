@@ -25,9 +25,13 @@ data class TeacherList(
 
 data class StudentList(
     override val id: Int,
+    @SerializedName("studentNo")
     override val refNo: String,
+    @SerializedName("studentName")
     override val name: String,
+    @SerializedName("imageUrl")
     override val photo: String?,
+    @SerializedName("indexNo")
     override var username: String?,
     override val gender: String,
     override val contact: String?

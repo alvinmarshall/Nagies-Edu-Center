@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +54,10 @@ class ReceiptFragment : BaseFragment() {
             }
         }
         btn_upload_file.setOnClickListener {
+            if (TextUtils.isEmpty(captureImagePath)) {
+                toast("no file selected")
+                return@setOnClickListener
+            }
             it.visibility = View.GONE
             UploadReceiptWorker.start(it.context, captureImagePath).observe(viewLifecycleOwner,
                 androidx.lifecycle.Observer { worker ->
