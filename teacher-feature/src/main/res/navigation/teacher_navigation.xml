@@ -59,4 +59,34 @@
                 android:name="complaint"
                 app:argType="integer" />
     </fragment>
+    <fragment
+            android:id="@+id/explorerFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.explorer.ExplorerFragment"
+            android:label="File Manager"
+            tools:layout="@layout/fragment_explorer" >
+        <action
+                android:id="@+id/action_explorerFragment_to_assignmentExplorerFragment"
+                app:destination="@id/assignmentExplorerFragment"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+                android:id="@+id/action_explorerFragment_to_reportExplorerFragment"
+                app:destination="@id/reportExplorerFragment"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+            android:id="@+id/assignmentExplorerFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.explorer.AssignmentExplorerFragment"
+            android:label="Assignment Files"
+            tools:layout="@layout/fragment_assignment_explorer" />
+    <fragment
+            android:id="@+id/reportExplorerFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.explorer.ReportExplorerFragment"
+            android:label="Report Files"
+            tools:layout="@layout/fragment_report_explorer" />
 </navigation>

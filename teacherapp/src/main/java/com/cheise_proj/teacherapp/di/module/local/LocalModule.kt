@@ -39,6 +39,14 @@ class LocalModule {
     @Module
     interface Binders {
 
+        //region FILES
+        @Binds
+        fun bindReportLocalDataMapper(reportLocalDataMapper: ReportLocalDataMapper): LocalMapper<ReportLocal, FilesData>
+
+        @Binds
+        fun bindAssignmentLocalDataMapper(assignmentLocalDataMapper: AssignmentLocalDataMapper): LocalMapper<AssignmentLocal, FilesData>
+        //endregion
+
         //region PEOPLE
         @Binds
         fun bindPeopleLocalDataMapper(peopleLocalDataMapper: PeopleLocalDataMapper): LocalMapper<PeopleLocal, PeopleData>

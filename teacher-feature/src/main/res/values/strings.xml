@@ -56,4 +56,13 @@
     <string name="label_btn_send_report">send report</string>
     <string name="label_btn_send_assignment">send assignment</string>
     <string name="menu_students">Students</string>
+
+    <!--    EXPLORER-->
+    <string name="menu_explorer">File Manager</string>
+    <string name="label_file_explorer_header">File Explorer</string>
+    <string name="label_sub_header_file_explorer">Manager all uploaded files, Sent to students,\n Whether assignment or report on the go</string>
+    <string name="btn_label_assignment">Assignment</string>
+    <string name="btn_label_report">Report</string>
+    <string name="btn_label_delete">Delete</string>
+    <string name="btn_label_download">download</string>
 </resources>

@@ -67,12 +67,13 @@ dependencies {
     // anko
     implementation "org.jetbrains.anko:anko:$rootProject.anko_version"
 
-    implementation 'com.github.MikeOrtiz:TouchImageView:2.3.3'
+    //Custom image view
+    implementation "com.github.MikeOrtiz:TouchImageView:$rootProject.TouchImageViewVersion"
 
     //work manager
     implementation "androidx.work:work-runtime-ktx:$rootProject.worker_version"
     implementation "androidx.work:work-rxjava2:$rootProject.worker_version"
 
     //okhttp
-    implementation "com.squareup.okhttp3:okhttp:4.3.1"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
 }

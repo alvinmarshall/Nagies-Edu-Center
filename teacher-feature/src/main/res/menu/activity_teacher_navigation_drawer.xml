@@ -14,6 +14,11 @@
                 android:icon="@drawable/ic_cloud_upload_black_24dp"
                 android:title="@string/menu_upload_files" />
 
+        <item
+                android:id="@+id/explorerFragment"
+                android:icon="@drawable/ic_folder_open_black_24dp"
+                android:title="@string/menu_explorer" />
+
 
         <item
                 android:id="@+id/profileFragment"

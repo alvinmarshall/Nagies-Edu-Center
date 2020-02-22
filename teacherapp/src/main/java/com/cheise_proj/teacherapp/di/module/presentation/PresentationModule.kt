@@ -2,6 +2,7 @@ package com.cheise_proj.teacherapp.di.module.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.cheise_proj.domain.entity.files.FilesEntity
 import com.cheise_proj.domain.entity.message.ComplaintEntity
 import com.cheise_proj.domain.entity.message.MessageEntity
 import com.cheise_proj.domain.entity.people.PeopleEntity
@@ -9,11 +10,15 @@ import com.cheise_proj.domain.entity.user.ProfileEntity
 import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.mapper.PresentationMapper
+import com.cheise_proj.presentation.mapper.files.AssignmentEntityMapper
+import com.cheise_proj.presentation.mapper.files.ReportEntityMapper
 import com.cheise_proj.presentation.mapper.message.ComplaintEntityMapper
 import com.cheise_proj.presentation.mapper.message.MessageEntityMapper
 import com.cheise_proj.presentation.mapper.people.PeopleEntityMapper
 import com.cheise_proj.presentation.mapper.user.ProfileEntityMapper
 import com.cheise_proj.presentation.mapper.user.UserEntityMapper
+import com.cheise_proj.presentation.model.files.Assignment
+import com.cheise_proj.presentation.model.files.Report
 import com.cheise_proj.presentation.model.message.Complaint
 import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.model.people.People
@@ -22,6 +27,8 @@ import com.cheise_proj.presentation.model.user.User
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.InputValidation
+import com.cheise_proj.presentation.viewmodel.files.AssignmentViewModel
+import com.cheise_proj.presentation.viewmodel.files.ReportViewModel
 import com.cheise_proj.presentation.viewmodel.message.ComplaintViewModel
 import com.cheise_proj.presentation.viewmodel.message.MessageViewModel
 import com.cheise_proj.presentation.viewmodel.people.PeopleViewModel
@@ -39,6 +46,25 @@ import dagger.multibindings.IntoMap
 class PresentationModule {
     @Module
     interface Binders {
+
+        //region FILES
+
+        @Binds
+        fun bindReportEntity(reportEntityMapper: ReportEntityMapper): PresentationMapper<Report, FilesEntity>
+
+        @Binds
+        @ViewModelKey(ReportViewModel::class)
+        @IntoMap
+        fun bindReportViewModel(reportViewModel: ReportViewModel): ViewModel
+
+        @Binds
+        fun bindAssignmentEntity(assignmentEntityMapper: AssignmentEntityMapper): PresentationMapper<Assignment, FilesEntity>
+
+        @Binds
+        @ViewModelKey(AssignmentViewModel::class)
+        @IntoMap
+        fun bindAssignmentViewModel(assignmentViewModel: AssignmentViewModel): ViewModel
+        //endregion
 
         //region PEOPLE
         @Binds

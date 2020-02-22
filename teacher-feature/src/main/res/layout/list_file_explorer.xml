@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_size_8dp"
+        android:layout_marginTop="@dimen/padding_size_8dp"
+        android:layout_marginEnd="@dimen/padding_size_8dp"
+        android:clickable="true"
+        android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground">
+
+        <ImageView
+                android:id="@+id/avatar_image"
+                android:layout_width="@dimen/padding_no_size"
+                android:layout_height="@dimen/padding_no_size"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="H,16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+                android:id="@+id/tv_header"
+                android:layout_width="@dimen/padding_no_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_16dp"
+                android:layout_marginTop="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_16dp"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/avatar_image"
+                tools:text="@tools:sample/full_names" />
+
+        <TextView
+                android:id="@+id/tv_sub_header"
+                android:layout_width="@dimen/padding_no_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_16dp"
+                android:layout_marginTop="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_16dp"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/colorSecondaryTextDefaultMaterialLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_header"
+                tools:text="@tools:sample/date/mmddyy" />
+
+        <View
+                android:id="@+id/v_1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/padding_size_0_5dp"
+                android:layout_marginTop="@dimen/padding_size_8dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_sub_header" />
+
+        <TextView
+                android:id="@+id/btn_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_16dp"
+                android:layout_marginTop="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_16dp"
+                android:layout_marginBottom="@dimen/padding_size_8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_file_download_black_24dp"
+                android:drawableTint="@color/design_default_color_primary"
+                android:elevation="@dimen/padding_size_8dp"
+                android:focusable="true"
+                android:padding="@dimen/padding_size_16dp"
+                android:text="@string/btn_label_download"
+                android:textAllCaps="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_1"
+                tools:ignore="ContentDescription,UnusedAttribute" />
+
+        <TextView
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_16dp"
+                android:layout_marginTop="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_16dp"
+                android:layout_marginBottom="@dimen/padding_size_8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_delete_black_24dp"
+                android:drawableTint="@android:color/holo_red_dark"
+                android:elevation="@dimen/padding_size_8dp"
+                android:focusable="true"
+                android:padding="@dimen/padding_size_16dp"
+                android:text="@string/btn_label_delete"
+                android:textAllCaps="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/btn_download"
+                app:layout_constraintTop_toBottomOf="@+id/v_1"
+                tools:ignore="ContentDescription,UnusedAttribute" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

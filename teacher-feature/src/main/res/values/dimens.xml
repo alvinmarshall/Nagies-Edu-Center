@@ -15,4 +15,5 @@
     <dimen name="tv_size_20sp">20sp</dimen>
     <dimen name="padding_size_16dp">16dp</dimen>
     <dimen name="padding_no_size">0dp</dimen>
+    <dimen name="padding_size_0_5dp">0.5dp</dimen>
 </resources>
