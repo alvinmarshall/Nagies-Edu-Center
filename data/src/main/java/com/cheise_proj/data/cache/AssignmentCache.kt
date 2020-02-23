@@ -25,5 +25,18 @@ class AssignmentCache {
             memCache[identifier] = arrayListOf()
             return null
         }
+
+        fun removeItem(identifier: String, value: Int) {
+            val mutableList = memCache[identifier]?.toMutableList()
+            mutableList?.let {
+                mutableList.removeAll {
+                    it.id == value
+                }
+                memCache[identifier] = mutableList.toList()
+                println("AssignmentCache.removeItem")
+            }
+
+
+        }
     }
 }

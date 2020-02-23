@@ -12,6 +12,12 @@ import okhttp3.MultipartBody
 
 interface RemoteSource {
 
+
+    //region DELETE FILES
+    fun deleteAssignment(identifier: String, url: String): Observable<Boolean>
+    //endregion
+
+
     //region PEOPLE
     fun getPeople(type: String): Observable<List<PeopleData>>
     //endregion

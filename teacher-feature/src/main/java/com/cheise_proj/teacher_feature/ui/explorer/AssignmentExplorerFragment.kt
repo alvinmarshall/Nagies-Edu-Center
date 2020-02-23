@@ -35,7 +35,6 @@ import com.cheise_proj.teacher_feature.base.BaseFragment
 import com.cheise_proj.teacher_feature.ui.explorer.adapter.ExplorerAdapter
 import com.ortiz.touchview.TouchImageView
 import kotlinx.android.synthetic.main.fragment_assignment_explorer.*
-import kotlinx.android.synthetic.main.nav_header_teacher_navigation.view.*
 import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
@@ -68,18 +67,43 @@ class AssignmentExplorerFragment : BaseFragment() {
                             downloadData = data.second.photo ?: ""
                             startDownload(downloadData)
                         }
-                        ExplorersAction.DELETE -> toast("delete file")
+                        ExplorersAction.DELETE -> {
+                            with(second) {
+                                subscribeDeleteObserver(id.toString(), path)
+                            }
+                        }
                     }
                 }
             }
         }
+
+    private fun subscribeDeleteObserver(id: String, path: String?) {
+        viewModel.deleteAssignment(id, path!!)
+            .observe(viewLifecycleOwner,
+                Observer {
+                    when (it.status) {
+                        STATUS.LOADING -> println("please wait...")
+                        STATUS.SUCCESS -> {
+                            it.data?.let { success ->
+                                if (success) {
+                                    toast("File deleted")
+                                    subscribeAssignmentObserver()
+                                } else {
+                                    toast("Reference file already deleted")
+                                }
+                            }
+
+                        }
+                        STATUS.ERROR -> toast("error ${it.message}")
+                    }
+                })
+    }
 
     private fun startDownload(downloadData: String) {
         if (permission.askForPermissions()) {
             prepareToDownload(downloadData)
         }
     }
-
 
     private fun setDialogPreview(url: String?) {
         val lay = LayoutInflater.from(context)
@@ -140,15 +164,22 @@ class AssignmentExplorerFragment : BaseFragment() {
     private fun configViewModel() {
         viewModel = ViewModelProvider(this, factory)[AssignmentViewModel::class.java]
         val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed({ subscribeObserver() }, DELAY_HANDLER)
+        handler.postDelayed({ subscribeAssignmentObserver() }, DELAY_HANDLER)
     }
 
-    private fun subscribeObserver() {
+    private fun subscribeAssignmentObserver() {
         viewModel.getAssignments().observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 STATUS.LOADING -> println("loading...")
                 STATUS.SUCCESS -> {
                     hideProgress()
+                    it.data?.let { data ->
+                        if (data.isEmpty()) {
+                            showNoDataAlert()
+                        } else {
+                            showNoDataAlert(false)
+                        }
+                    }
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
                 }

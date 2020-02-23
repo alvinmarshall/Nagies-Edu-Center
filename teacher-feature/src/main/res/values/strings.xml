@@ -51,7 +51,7 @@
     </string>
     <string name="menu_upload_files">Upload files</string>
     <string name="label_upload_img_hint">Capture or browse for image</string>
-    <string name="label_upload_file_sub_header">Send files to your student on the go</string>
+    <string name="label_upload_file_sub_header">Send your student attachment files \nlike an assignment or report on the go.</string>
     <string name="label_upload_file_header">Transfer Files</string>
     <string name="label_btn_send_report">send report</string>
     <string name="label_btn_send_assignment">send assignment</string>

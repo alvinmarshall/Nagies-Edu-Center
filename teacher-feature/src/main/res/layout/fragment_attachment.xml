@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:cardUseCompatPadding="true"
         tools:context=".ui.attachment.AttachmentFragment">
 
-
-    <com.google.android.material.card.MaterialCardView
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true">
+            android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
 
             <TextView
                     android:id="@+id/tv_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ic_cloud_upload_black_24dp"
                     android:gravity="center_horizontal"
                     android:padding="@dimen/padding_size_16dp"
                     android:text="@string/label_upload_file_header"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     android:textColor="@color/design_default_color_primary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -31,13 +32,14 @@
 
             <TextView
                     android:id="@+id/tv_2"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_size_16dp"
+                    android:layout_marginTop="@dimen/padding_size_8dp"
                     android:layout_marginEnd="@dimen/padding_size_16dp"
                     android:padding="@dimen/padding_size_16dp"
                     android:text="@string/label_upload_file_sub_header"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_1" />
@@ -102,6 +104,5 @@
                     app:layout_constraintTop_toBottomOf="@id/btn_upload_file" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-</ScrollView>
+    </ScrollView>
+</com.google.android.material.card.MaterialCardView>

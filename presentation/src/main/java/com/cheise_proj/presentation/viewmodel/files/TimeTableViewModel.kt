@@ -24,6 +24,7 @@ class TimeTableViewModel @Inject constructor(
         return getTimeTableTask.buildUseCase()
             .map { t: List<FilesEntity> ->
                 t.forEach {
+                    it.path = it.photo
                     it.photo = serverPath.setCorrectPath(it.photo)
                 }
                 timeTableEntityMapper.entityToPresentationList(t)

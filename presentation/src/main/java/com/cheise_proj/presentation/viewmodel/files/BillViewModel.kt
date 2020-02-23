@@ -24,6 +24,7 @@ class BillViewModel @Inject constructor(
         return getBillTask.buildUseCase()
             .map { t: List<FilesEntity> ->
                 t.forEach {
+                    it.path = it.photo
                     it.photo = serverPath.setCorrectPath(it.photo)
                 }
                 billEntityMapper.entityToPresentationList(t)

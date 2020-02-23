@@ -11,6 +11,10 @@ import io.reactivex.Single
 
 interface LocalSource {
 
+    //region DELETE FILES
+    fun deleteAssignment(identifier: String)
+    //endregion
+
     //region PEOPLE
     fun getPeopleList(): Observable<List<PeopleData>>
 

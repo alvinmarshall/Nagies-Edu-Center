@@ -107,6 +107,12 @@ object TestFilesGenerator {
 
 
     //region ASSIGNMENT
+    fun getDeleteDto(): DeleteDto {
+        return DeleteDto(
+            message = "file deleted success", status = 200
+        )
+    }
+
     fun getAssignmentDto(): AssignmentsDto {
         return AssignmentsDto(
             data = arrayListOf(

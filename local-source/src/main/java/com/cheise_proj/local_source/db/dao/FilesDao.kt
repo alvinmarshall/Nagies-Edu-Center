@@ -81,6 +81,9 @@ interface FilesDao {
     @Query("DELETE FROM assignment")
     fun deleteAssignment()
 
+    @Query("DELETE FROM assignment WHERE id = :identifier")
+    fun deleteAssignmentByIdentifier(identifier: String)
+
     @Transaction
     fun clearAndInsertAssignment(assignmentLocal: List<AssignmentLocal>) {
         deleteAssignment()

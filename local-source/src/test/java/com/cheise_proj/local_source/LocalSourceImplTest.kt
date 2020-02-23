@@ -80,6 +80,14 @@ class LocalSourceImplTest {
         )
     }
 
+    //region DELETE FILES
+    @Test
+    fun `Delete assignment from local success`() {
+        localSourceImpl.deleteAssignment(IDENTIFIER)
+        Mockito.verify(filesDao, times(1)).deleteAssignmentByIdentifier(IDENTIFIER)
+    }
+    //endregion
+
     //region people
     @Test
     fun `Get people list success`() {
@@ -108,6 +116,14 @@ class LocalSourceImplTest {
             }
             .assertComplete()
     }
+
+    @Test
+    fun `Save people local success`() {
+        val actual = TestPeopleGenerator.getPeople()
+        localSourceImpl.savePeople(peopleLocalDataMapper.localToDataList(actual))
+        Mockito.verify(peopleDao, times(1)).clearAndInsertPeople(actual)
+    }
+
     //endregion
 
     //region BILL

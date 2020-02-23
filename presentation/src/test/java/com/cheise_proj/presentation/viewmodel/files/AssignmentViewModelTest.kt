@@ -2,6 +2,7 @@ package com.cheise_proj.presentation.viewmodel.files
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.FilesRepository
+import com.cheise_proj.domain.usecase.files.DeleteAssignmentTask
 import com.cheise_proj.domain.usecase.files.GetAssignmentTask
 import com.cheise_proj.presentation.mapper.files.AssignmentEntityMapper
 import com.cheise_proj.presentation.model.vo.STATUS
@@ -24,9 +25,18 @@ import org.mockito.MockitoAnnotations
 @RunWith(JUnit4::class)
 class AssignmentViewModelTest {
 
+
+    companion object {
+        private const val IDENTIFIER: String = "1"
+        private const val ERROR_MESSAGE = "An error occurred"
+        private const val IS_SUCCESS = true
+        private const val IS_FAILURE = false
+    }
+
     private lateinit var assignmentViewModel: AssignmentViewModel
     private lateinit var assignmentEntityMapper: AssignmentEntityMapper
     private lateinit var getAssignmentTask: GetAssignmentTask
+    private lateinit var deleteAssignmentTask: DeleteAssignmentTask
 
     @Mock
     lateinit var filesRepository: FilesRepository
@@ -42,7 +52,57 @@ class AssignmentViewModelTest {
         assignmentEntityMapper = AssignmentEntityMapper()
         getAssignmentTask =
             GetAssignmentTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        assignmentViewModel = AssignmentViewModel(getAssignmentTask, assignmentEntityMapper, path)
+        deleteAssignmentTask =
+            DeleteAssignmentTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
+
+        assignmentViewModel = AssignmentViewModel(
+            getAssignmentTask,
+            assignmentEntityMapper,
+            path,
+            deleteAssignmentTask
+        )
+    }
+
+    @Test
+    fun `Delete assignment success`() {
+        val actual = IS_SUCCESS
+        val url = "test url"
+        Mockito.`when`(filesRepository.deleteAssignment(IDENTIFIER, url))
+            .thenReturn(Observable.just(actual))
+        val deleteLive = assignmentViewModel.deleteAssignment(IDENTIFIER, url)
+        deleteLive.observeForever { }
+        assertTrue(
+            deleteLive.value?.status == STATUS.SUCCESS && deleteLive.value?.data == actual
+        )
+        Mockito.verify(filesRepository, times(1)).deleteAssignment(IDENTIFIER, url)
+    }
+
+    @Test
+    fun `Delete assignment with errors`() {
+        val actual = ERROR_MESSAGE
+        val url = "test url"
+        Mockito.`when`(filesRepository.deleteAssignment(IDENTIFIER, url))
+            .thenReturn(Observable.error(Throwable(actual)))
+        val deleteLive = assignmentViewModel.deleteAssignment(IDENTIFIER, url)
+        deleteLive.observeForever { }
+        assertTrue(
+            deleteLive.value?.status == STATUS.ERROR && deleteLive.value?.message == actual
+        )
+        Mockito.verify(filesRepository, times(1)).deleteAssignment(IDENTIFIER, url)
+    }
+
+    @Test
+    fun `Delete assignment failed`() {
+        val actual = IS_FAILURE
+        val url = "test url"
+        Mockito.`when`(filesRepository.deleteAssignment(IDENTIFIER, url))
+            .thenReturn(Observable.just(actual))
+        val deleteLive = assignmentViewModel.deleteAssignment(IDENTIFIER, url)
+        deleteLive.observeForever { }
+        assertTrue(
+            deleteLive.value?.status == STATUS.SUCCESS && deleteLive.value?.data == actual
+        )
+        Mockito.verify(filesRepository, times(1)).deleteAssignment(IDENTIFIER, url)
     }
 
     @Test
@@ -104,8 +164,4 @@ class AssignmentViewModelTest {
         Mockito.verify(filesRepository, times(1)).getAssignment(IDENTIFIER)
     }
 
-    companion object {
-        private const val IDENTIFIER: String = "1"
-        private const val ERROR_MESSAGE = "An error occurred"
-    }
 }

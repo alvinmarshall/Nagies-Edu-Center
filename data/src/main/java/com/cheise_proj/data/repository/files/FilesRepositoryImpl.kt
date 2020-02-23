@@ -17,6 +17,25 @@ class FilesRepositoryImpl @Inject constructor(
     private val localSource: LocalSource,
     private val filesDataEntityMapper: FilesDataEntityMapper
 ) : FilesRepository {
+    companion object {
+        private const val HTTP_OK = 200
+    }
+
+    //region DELETE FILES
+
+    override fun deleteAssignment(identifier: String, url: String): Observable<Boolean> {
+        return remoteSource.deleteAssignment(identifier, url)
+            .map { isDeleted ->
+                if (isDeleted) {
+                    val cacheIdentifier = "assignment"
+                    AssignmentCache.removeItem(cacheIdentifier, identifier.toInt())
+                    localSource.deleteAssignment(identifier)
+                    return@map isDeleted
+                }
+                return@map isDeleted
+            }
+    }
+    //endregion
 
 
     //region UPLOADS

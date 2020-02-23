@@ -12,10 +12,19 @@ import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
+
+    //region DELETE FILES
+    @DELETE("file/{id}")
+    fun deleteAssignment(
+        @Path("id") id: String?,
+        @Query("path") path: String?,
+        @Query("type") type: String = "assignment",
+        @Query("format") format: String = "image"
+    ): Observable<DeleteDto>
+    //endregion
 
     //region PEOPLE
     @GET("students/teacher")

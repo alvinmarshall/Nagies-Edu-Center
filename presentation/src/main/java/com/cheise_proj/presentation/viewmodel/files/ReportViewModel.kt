@@ -24,6 +24,7 @@ class ReportViewModel @Inject constructor(
         return getReportTask.buildUseCase()
             .map { t: List<FilesEntity> ->
                 t.forEach {
+                    it.path = it.photo
                     it.photo = serverPath.setCorrectPath(it.photo)
                 }
                 reportEntityMapper.entityToPresentationList(t)

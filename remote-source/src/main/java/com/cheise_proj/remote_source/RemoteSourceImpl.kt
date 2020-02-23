@@ -24,6 +24,7 @@ import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 import okhttp3.MultipartBody
+import retrofit2.http.HTTP
 import java.util.*
 import javax.inject.Inject
 
@@ -42,7 +43,34 @@ class RemoteSourceImpl @Inject constructor(
     companion object {
         private const val NO_CONNECTIVITY = "No internet connection"
         private const val INVALID_CREDENTIALS = "username or password invalid"
+        private const val HTTP_OK = 200
     }
+
+    //region DELETE FILES
+
+    //region ASSIGNMENT
+    override fun deleteAssignment(identifier: String, url: String): Observable<Boolean> {
+        return apiService.deleteAssignment(identifier, url).map { t: DeleteDto ->
+            println("remote message: ${t.message}")
+            if (t.status == HTTP_OK) return@map true
+            return@map false
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )
+    }
+    //endregion
+    //endregion
 
     override fun getPeople(type: String): Observable<List<PeopleData>> {
         return when (type) {
@@ -83,7 +111,7 @@ class RemoteSourceImpl @Inject constructor(
         refNo: MultipartBody.Part,
         fullName: MultipartBody.Part
     ): Observable<Int> {
-        return apiService.uploadReport(file,refNo,fullName)
+        return apiService.uploadReport(file, refNo, fullName)
             .map { t: UploadDto ->
                 return@map t.status
             }.onErrorResumeNext(

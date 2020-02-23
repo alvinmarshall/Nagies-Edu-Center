@@ -7,6 +7,10 @@ import okhttp3.MultipartBody
 
 interface FilesRepository {
 
+    //region DELETE FILES
+    fun deleteAssignment(identifier: String, url: String): Observable<Boolean>
+    //region
+
     //region UPLOAD FILES
     fun uploadReport(
         file: MultipartBody.Part,
