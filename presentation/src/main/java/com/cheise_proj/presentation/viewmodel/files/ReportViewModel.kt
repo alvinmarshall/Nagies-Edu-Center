@@ -3,6 +3,7 @@ package com.cheise_proj.presentation.viewmodel.files
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.toLiveData
 import com.cheise_proj.domain.entity.files.FilesEntity
+import com.cheise_proj.domain.usecase.files.DeleteReportTask
 import com.cheise_proj.domain.usecase.files.GetReportTask
 import com.cheise_proj.presentation.mapper.files.ReportEntityMapper
 import com.cheise_proj.presentation.model.files.Report
@@ -17,8 +18,22 @@ import javax.inject.Inject
 class ReportViewModel @Inject constructor(
     private val getReportTask: GetReportTask,
     private val reportEntityMapper: ReportEntityMapper,
-    private val serverPath: IServerPath
+    private val serverPath: IServerPath,
+    private val deleteReportTask: DeleteReportTask
 ) : BaseViewModel() {
+
+    fun deleteReport(identifier: String, url: String): LiveData<Resource<Boolean>> {
+        return deleteReportTask.buildUseCase(deleteReportTask.Params(identifier, url))
+            .map { t: Boolean ->
+                Resource.onSuccess(t)
+
+            }
+            .startWith(Resource.onLoading())
+            .onErrorResumeNext(Function { Observable.just(Resource.onError(it.message)) })
+            .toFlowable(BackpressureStrategy.LATEST)
+            .toLiveData()
+
+    }
 
     fun getReports(): LiveData<Resource<List<Report>>> {
         return getReportTask.buildUseCase()

@@ -9,16 +9,15 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cheise_proj.common_module.REQUEST_CAMERA
 import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.job.UploadAssignmentWorker
-import com.cheise_proj.presentation.job.UploadReportWorker
 import com.cheise_proj.presentation.utils.IRuntimePermission
 import com.cheise_proj.presentation.utils.PermissionDialogListener
 import com.cheise_proj.teacher_feature.R
@@ -77,7 +76,9 @@ class AttachmentFragment : BaseFragment() {
                 toast("no file selected")
                 return@setOnClickListener
             }
-            val action = AttachmentFragmentDirections.actionAttachmentFragmentToStudentFragment(captureImagePath)
+            val action = AttachmentFragmentDirections.actionAttachmentFragmentToStudentFragment(
+                captureImagePath
+            )
             findNavController().navigate(action)
         }
     }

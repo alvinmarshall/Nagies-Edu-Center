@@ -46,7 +46,30 @@ class RemoteSourceImpl @Inject constructor(
         private const val HTTP_OK = 200
     }
 
+
     //region DELETE FILES
+    //region REPORT
+    override fun deleteReport(identifier: String, url: String): Observable<Boolean> {
+        return apiService.deleteReport(identifier, url).map { t: DeleteDto ->
+            println("remote message: ${t.message}")
+            if (t.status == HTTP_OK) return@map true
+            return@map false
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )
+    }
+    //endregion
 
     //region ASSIGNMENT
     override fun deleteAssignment(identifier: String, url: String): Observable<Boolean> {

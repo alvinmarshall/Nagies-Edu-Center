@@ -66,6 +66,9 @@ interface FilesDao {
         deleteReport()
         saveReport(reportLocalList)
     }
+
+    @Query("DELETE FROM report WHERE id = :identifier")
+    fun deleteReportByIdentifier(identifier: String)
     //endregion
 
     //region ASSIGNMENT

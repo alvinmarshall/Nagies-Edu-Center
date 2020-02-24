@@ -108,6 +108,11 @@ class LocalSourceImpl @Inject constructor(
     //endregion
 
     //region REPORT
+    override fun deleteReport(identifier: String) {
+        println("deleteReport...")
+        filesDao.deleteReportByIdentifier(identifier)
+    }
+
     override fun getReports(): Observable<List<FilesData>> {
         return filesDao.getReports().map { t: List<ReportLocal> ->
             println("getReports...")

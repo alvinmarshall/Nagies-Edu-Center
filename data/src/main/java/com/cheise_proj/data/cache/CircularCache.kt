@@ -7,22 +7,23 @@ class CircularCache {
     companion object {
         private val memCache = HashMap<String, List<FilesData>>()
         private var cacheLastUpdateTime: Long = 0
+        private const val IDENTIFIER = "CircularCache"
 
-        fun addCirculars(identifier: String, filesDataList: List<FilesData>) {
+        fun addCirculars(filesDataList: List<FilesData>) {
             println("CircularCache.addCirculars")
-            if (memCache[identifier] == null) {
-                memCache[identifier] = arrayListOf()
+            if (memCache[IDENTIFIER] == null) {
+                memCache[IDENTIFIER] = arrayListOf()
             }
-            memCache[identifier] = filesDataList
+            memCache[IDENTIFIER] = filesDataList
             cacheLastUpdateTime = System.currentTimeMillis()
         }
 
-        fun getCirculars(identifier: String): List<FilesData>? {
+        fun getCirculars(): List<FilesData>? {
             println("CircularCache.getCirculars")
             val isCachedExpired =
                 (System.currentTimeMillis() - cacheLastUpdateTime) >= STALE_MS
-            if (!isCachedExpired) return memCache[identifier]
-            memCache[identifier] = arrayListOf()
+            if (!isCachedExpired) return memCache[IDENTIFIER]
+            memCache[IDENTIFIER] = arrayListOf()
             return null
         }
     }

@@ -18,6 +18,14 @@ interface ApiService {
 
     //region DELETE FILES
     @DELETE("file/{id}")
+    fun deleteReport(
+        @Path("id") id: String?,
+        @Query("path") path: String?,
+        @Query("type") type: String = "report",
+        @Query("format") format: String = "image"
+    ): Observable<DeleteDto>
+
+    @DELETE("file/{id}")
     fun deleteAssignment(
         @Path("id") id: String?,
         @Query("path") path: String?,

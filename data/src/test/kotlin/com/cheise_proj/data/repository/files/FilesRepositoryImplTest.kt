@@ -42,6 +42,42 @@ class FilesRepositoryImplTest {
     }
 
     //region DELETE FILES
+
+    //region REPORT
+    @Test
+    fun `Delete report remote and local success`() {
+        val actual = IS_SUCCESS
+        Mockito.`when`(remoteSource.deleteReport(IDENTIFIER, URL))
+            .thenReturn(Observable.just(actual))
+        filesRepositoryImpl.deleteReport(IDENTIFIER, URL)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                println("isReport deleted ? $it")
+                it == actual
+            }
+            .assertComplete()
+        Mockito.verify(localSource, times(1)).deleteReport(IDENTIFIER)
+    }
+
+    @Test
+    fun `Delete report remote with error`() {
+        val actual = ERROR_MESSAGE
+        Mockito.`when`(remoteSource.deleteReport(IDENTIFIER, URL))
+            .thenReturn(Observable.error(Throwable(actual)))
+        filesRepositoryImpl.deleteReport(IDENTIFIER, URL)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(localSource, times(0)).deleteReport(IDENTIFIER)
+    }
+
+    //endregion
+
     //region ASSIGNMENT
     @Test
     fun `Delete assignment remote and local success`() {

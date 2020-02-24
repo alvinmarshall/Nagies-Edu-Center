@@ -81,11 +81,23 @@ class LocalSourceImplTest {
     }
 
     //region DELETE FILES
+
+    //region REPORT
+    @Test
+    fun `Delete report from local success`() {
+        localSourceImpl.deleteReport(IDENTIFIER)
+        Mockito.verify(filesDao, times(1)).deleteReportByIdentifier(IDENTIFIER)
+    }
+    //endregion
+
+    //region ASSIGNMENT
     @Test
     fun `Delete assignment from local success`() {
         localSourceImpl.deleteAssignment(IDENTIFIER)
         Mockito.verify(filesDao, times(1)).deleteAssignmentByIdentifier(IDENTIFIER)
     }
+    //endregion
+
     //endregion
 
     //region people

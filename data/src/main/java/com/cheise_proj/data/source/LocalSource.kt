@@ -12,6 +12,8 @@ import io.reactivex.Single
 interface LocalSource {
 
     //region DELETE FILES
+    fun deleteReport(identifier: String)
+
     fun deleteAssignment(identifier: String)
     //endregion
 

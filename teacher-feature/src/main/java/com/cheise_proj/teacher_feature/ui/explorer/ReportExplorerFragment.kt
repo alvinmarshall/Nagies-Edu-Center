@@ -66,11 +66,37 @@ class ReportExplorerFragment : BaseFragment() {
                             downloadData = data.second.photo ?: ""
                             startDownload(downloadData)
                         }
-                        ExplorersAction.DELETE -> toast("delete file")
+                        ExplorersAction.DELETE -> {
+                            with(second) {
+                                subscribeDeleteObserver(id.toString(), path)
+                            }
+                        }
                     }
                 }
             }
         }
+
+    private fun subscribeDeleteObserver(id: String, path: String?) {
+        viewModel.deleteReport(id, path!!)
+            .observe(viewLifecycleOwner,
+                Observer {
+                    when (it.status) {
+                        STATUS.LOADING -> println("please wait...")
+                        STATUS.SUCCESS -> {
+                            it.data?.let { success ->
+                                if (success) {
+                                    toast("File deleted")
+                                    subscribeReportObserver()
+                                } else {
+                                    toast("Reference file already deleted")
+                                }
+                            }
+
+                        }
+                        STATUS.ERROR -> toast("error ${it.message}")
+                    }
+                })
+    }
 
     private fun startDownload(downloadData: String) {
         if (permission.askForPermissions()) {
@@ -137,15 +163,22 @@ class ReportExplorerFragment : BaseFragment() {
     private fun configViewModel() {
         viewModel = ViewModelProvider(this, factory)[ReportViewModel::class.java]
         val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed({ subscribeObserver() }, DELAY_HANDLER)
+        handler.postDelayed({ subscribeReportObserver() }, DELAY_HANDLER)
     }
 
-    private fun subscribeObserver() {
+    private fun subscribeReportObserver() {
         viewModel.getReports().observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 STATUS.LOADING -> println("loading...")
                 STATUS.SUCCESS -> {
                     hideProgress()
+                    it.data?.let { data ->
+                        if (data.isEmpty()) {
+                            showNoDataAlert()
+                        } else {
+                            showNoDataAlert(false)
+                        }
+                    }
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
                 }

@@ -55,10 +55,10 @@
     <string name="label_confirm_password">confirm password</string>
     <string name="label_change_password">change password</string>
     <string name="label_password_header">Change Password ?</string>
-    <string name="label_password_sub_title">Remember to use the new password at login page</string>
+    <string name="label_password_sub_title">Remember to use the new password at login page.</string>
 
     <!--    RECEIPT-->
-    <string name="label_receipt_sub_header">Send receipt image to school account office</string>
+    <string name="label_receipt_sub_header">All bank related transactions to the school,\ncan be uploaded to the account office.</string>
     <string name="label_receipt_header">Transfer files</string>
     <string name="label_receipt_hint">Capture or browse for image</string>
     <string name="label_send">send</string>

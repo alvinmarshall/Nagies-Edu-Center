@@ -7,22 +7,23 @@ class MessageCache {
     companion object {
         private val memCache = HashMap<String, List<MessageData>>()
         private var cacheLastUpdateTime: Long = 0
+        private const val IDENTIFIER = "MessageCache"
 
-        fun addMessage(identifier: String, filesDataList: List<MessageData>) {
+        fun addMessage(filesDataList: List<MessageData>) {
             println("MessageCache.addMessage")
-            if (memCache[identifier] == null) {
-                memCache[identifier] = arrayListOf()
+            if (memCache[IDENTIFIER] == null) {
+                memCache[IDENTIFIER] = arrayListOf()
             }
-            memCache[identifier] = filesDataList
+            memCache[IDENTIFIER] = filesDataList
             cacheLastUpdateTime = System.currentTimeMillis()
         }
 
-        fun getMessage(identifier: String): List<MessageData>? {
+        fun getMessage(): List<MessageData>? {
             println("MessageCache.getMessage")
             val isCachedExpired =
                 (System.currentTimeMillis() - cacheLastUpdateTime) >= STALE_MS
-            if (!isCachedExpired) return memCache[identifier]
-            memCache[identifier] = arrayListOf()
+            if (!isCachedExpired) return memCache[IDENTIFIER]
+            memCache[IDENTIFIER] = arrayListOf()
             return null
         }
     }

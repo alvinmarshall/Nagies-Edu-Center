@@ -78,6 +78,40 @@ class RemoteSourceImplTest {
     //region DELETE FILES
     //region ASSIGNMENT
     @Test
+    fun `Delete report from remote success`() {
+        val deleteDto = TestFilesGenerator.getDeleteDto()
+        val actual = IS_SUCCESS
+        val url = "test url"
+        Mockito.`when`(apiService.deleteReport(IDENTIFIER, url))
+            .thenReturn(Observable.just(deleteDto))
+        remoteSourceImpl.deleteReport(IDENTIFIER, url)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == actual
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Delete report from remote with no network`() {
+        val actual = NETWORK_STATE
+        val url = "test url"
+        Mockito.`when`(apiService.deleteReport(IDENTIFIER, url))
+            .thenReturn(Observable.error(Throwable(NO_NETWORK_ERROR)))
+        remoteSourceImpl.deleteReport(IDENTIFIER, url)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+    }
+    //endregion
+
+    //region ASSIGNMENT
+    @Test
     fun `Delete assignment from remote success`() {
         val deleteDto = TestFilesGenerator.getDeleteDto()
         val actual = IS_SUCCESS
