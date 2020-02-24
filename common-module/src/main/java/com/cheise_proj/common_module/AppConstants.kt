@@ -76,7 +76,7 @@ enum class CircularAction {
     VIEW, DOWNLOAD
 }
 
-enum class ViewFilesAction {
+enum class ExplorersAction {
     VIEW, DOWNLOAD, DELETE
 }
 

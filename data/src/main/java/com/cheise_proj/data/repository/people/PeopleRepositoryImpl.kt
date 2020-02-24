@@ -19,8 +19,7 @@ class PeopleRepositoryImpl @Inject constructor(
 
     override fun getPeopleList(type: String): Observable<List<PeopleEntity>> {
         val peopleObservable: Observable<List<PeopleEntity>>
-        val identifier = "people"
-        val cachePeople = PeopleCache.getPeople(identifier)
+        val cachePeople = PeopleCache.getPeople()
 
         val local = localSource.getPeopleList()
             .map { t: List<PeopleData> ->
@@ -48,7 +47,7 @@ class PeopleRepositoryImpl @Inject constructor(
         return peopleObservable
             .map { t: List<PeopleEntity> ->
                 if (cachePeople == null) {
-                    PeopleCache.addPeople(identifier, peopleDataEntityMapper.entityToDataList(t))
+                    PeopleCache.addPeople(peopleDataEntityMapper.entityToDataList(t))
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()

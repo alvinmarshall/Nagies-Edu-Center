@@ -19,6 +19,33 @@ class FilesRepositoryImpl @Inject constructor(
 ) : FilesRepository {
 
 
+    //region DELETE FILES
+    override fun deleteReport(identifier: String, url: String): Observable<Boolean> {
+        return remoteSource.deleteReport(identifier, url)
+            .map { isDeleted ->
+                if (isDeleted) {
+                    ReportCache.removeItem(identifier.toInt())
+                    localSource.deleteReport(identifier)
+                    return@map isDeleted
+                }
+                return@map isDeleted
+            }
+    }
+
+    override fun deleteAssignment(identifier: String, url: String): Observable<Boolean> {
+        return remoteSource.deleteAssignment(identifier, url)
+            .map { isDeleted ->
+                if (isDeleted) {
+                    AssignmentCache.removeItem(identifier.toInt())
+                    localSource.deleteAssignment(identifier)
+                    return@map isDeleted
+                }
+                return@map isDeleted
+            }
+    }
+    //endregion
+
+
     //region UPLOADS
     override fun uploadReport(
         file: MultipartBody.Part,
@@ -45,8 +72,7 @@ class FilesRepositoryImpl @Inject constructor(
     //region BILL
     override fun getBills(): Observable<List<FilesEntity>> {
         val billObservable: Observable<List<FilesEntity>>
-        val identifier = "bill"
-        val cacheBill = BillCache.getBill(identifier)
+        val cacheBill = BillCache.getBill()
 
         val local = localSource.getBills()
             .map { t: List<FilesData> ->
@@ -75,7 +101,6 @@ class FilesRepositoryImpl @Inject constructor(
             .map { t: List<FilesEntity> ->
                 if (cacheBill == null) {
                     BillCache.addBill(
-                        identifier,
                         filesDataEntityMapper.entityToDataList(t)
                     )
                 }
@@ -95,8 +120,7 @@ class FilesRepositoryImpl @Inject constructor(
     //region TIMETABLE
     override fun getTimeTables(): Observable<List<FilesEntity>> {
         val timeTableObservable: Observable<List<FilesEntity>>
-        val identifier = "timetable"
-        val cacheTimeTable = TimeTableCache.getTimeTable(identifier)
+        val cacheTimeTable = TimeTableCache.getTimeTable()
 
         val local = localSource.getTimeTables()
             .map { t: List<FilesData> ->
@@ -125,7 +149,6 @@ class FilesRepositoryImpl @Inject constructor(
             .map { t: List<FilesEntity> ->
                 if (cacheTimeTable == null) {
                     TimeTableCache.addTimeTable(
-                        identifier,
                         filesDataEntityMapper.entityToDataList(t)
                     )
                 }
@@ -145,8 +168,7 @@ class FilesRepositoryImpl @Inject constructor(
     //region REPORT
     override fun getReports(): Observable<List<FilesEntity>> {
         val reportObservable: Observable<List<FilesEntity>>
-        val identifier = "report"
-        val cacheReport = ReportCache.getReport(identifier)
+        val cacheReport = ReportCache.getReport()
 
         val local = localSource.getReports()
             .map { t: List<FilesData> ->
@@ -175,7 +197,6 @@ class FilesRepositoryImpl @Inject constructor(
             .map { t: List<FilesEntity> ->
                 if (cacheReport == null) {
                     ReportCache.addReport(
-                        identifier,
                         filesDataEntityMapper.entityToDataList(t)
                     )
                 }
@@ -198,8 +219,7 @@ class FilesRepositoryImpl @Inject constructor(
     //region ASSIGNMENT
     override fun getAssignments(): Observable<List<FilesEntity>> {
         val assignmentObservable: Observable<List<FilesEntity>>
-        val identifier = "assignment"
-        val cacheAssignment = AssignmentCache.getAssignment(identifier)
+        val cacheAssignment = AssignmentCache.getAssignment()
 
         val local = localSource.getAssignments()
             .map { t: List<FilesData> ->
@@ -228,7 +248,6 @@ class FilesRepositoryImpl @Inject constructor(
             .map { t: List<FilesEntity> ->
                 if (cacheAssignment == null) {
                     AssignmentCache.addAssignment(
-                        identifier,
                         filesDataEntityMapper.entityToDataList(t)
                     )
                 }
@@ -248,8 +267,7 @@ class FilesRepositoryImpl @Inject constructor(
     //region CIRCULAR
     override fun getCirculars(): Observable<List<FilesEntity>> {
         val circularObservable: Observable<List<FilesEntity>>
-        val identifier = "circular"
-        val cacheCircular = CircularCache.getCirculars(identifier)
+        val cacheCircular = CircularCache.getCirculars()
         val local = localSource.getCirculars()
             .map { t: List<FilesData> ->
                 filesDataEntityMapper.dataToEntityList(t)
@@ -277,7 +295,6 @@ class FilesRepositoryImpl @Inject constructor(
             .map { t: List<FilesEntity> ->
                 if (cacheCircular == null) {
                     CircularCache.addCirculars(
-                        identifier,
                         filesDataEntityMapper.entityToDataList(t)
                     )
                 }

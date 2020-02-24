@@ -19,6 +19,14 @@ import utils.TestFilesGenerator
 @RunWith(JUnit4::class)
 class FilesRepositoryImplTest {
 
+    companion object {
+        private const val IDENTIFIER = "1"
+        private const val ERROR_MESSAGE = "Unable to ping server"
+        private const val HTTP_OK = 200
+        private const val IS_SUCCESS = true
+        private const val URL = "test url"
+    }
+
     private lateinit var filesRepositoryImpl: FilesRepositoryImpl
     private lateinit var filesDataEntityMapper: FilesDataEntityMapper
     @Mock
@@ -33,14 +41,87 @@ class FilesRepositoryImplTest {
         filesRepositoryImpl = FilesRepositoryImpl(remoteSource, localSource, filesDataEntityMapper)
     }
 
+    //region DELETE FILES
+
+    //region REPORT
+    @Test
+    fun `Delete report remote and local success`() {
+        val actual = IS_SUCCESS
+        Mockito.`when`(remoteSource.deleteReport(IDENTIFIER, URL))
+            .thenReturn(Observable.just(actual))
+        filesRepositoryImpl.deleteReport(IDENTIFIER, URL)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                println("isReport deleted ? $it")
+                it == actual
+            }
+            .assertComplete()
+        Mockito.verify(localSource, times(1)).deleteReport(IDENTIFIER)
+    }
+
+    @Test
+    fun `Delete report remote with error`() {
+        val actual = ERROR_MESSAGE
+        Mockito.`when`(remoteSource.deleteReport(IDENTIFIER, URL))
+            .thenReturn(Observable.error(Throwable(actual)))
+        filesRepositoryImpl.deleteReport(IDENTIFIER, URL)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(localSource, times(0)).deleteReport(IDENTIFIER)
+    }
+
+    //endregion
+
+    //region ASSIGNMENT
+    @Test
+    fun `Delete assignment remote and local success`() {
+        val actual = IS_SUCCESS
+        Mockito.`when`(remoteSource.deleteAssignment(IDENTIFIER, URL))
+            .thenReturn(Observable.just(actual))
+        filesRepositoryImpl.deleteAssignment(IDENTIFIER, URL)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                println("isAssignment deleted ? $it")
+                it == actual
+            }
+            .assertComplete()
+        Mockito.verify(localSource, times(1)).deleteAssignment(IDENTIFIER)
+    }
+
+    @Test
+    fun `Delete assignment remote with error`() {
+        val actual = ERROR_MESSAGE
+        Mockito.`when`(remoteSource.deleteAssignment(IDENTIFIER, URL))
+            .thenReturn(Observable.error(Throwable(actual)))
+        filesRepositoryImpl.deleteAssignment(IDENTIFIER, URL)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(localSource, times(0)).deleteAssignment(IDENTIFIER)
+    }
+
+    //endregion
+    //endregion
+
     //region REPORT
     @Test
     fun `Upload report to remote success`() {
         val part = TestFilesGenerator.getFilePart()
-        val actual = 200
-        Mockito.`when`(remoteSource.uploadReport(part,part,part))
+        val actual = HTTP_OK
+        Mockito.`when`(remoteSource.uploadReport(part, part, part))
             .thenReturn(Observable.just(actual))
-        filesRepositoryImpl.uploadReport(part,part,part)
+        filesRepositoryImpl.uploadReport(part, part, part)
             .test()
             .assertSubscribed()
             .assertValueCount(1)
@@ -54,7 +135,7 @@ class FilesRepositoryImplTest {
     @Test
     fun `Upload assignment to remote success`() {
         val filePart = TestFilesGenerator.getFilePart()
-        val actual = 200
+        val actual = HTTP_OK
         Mockito.`when`(remoteSource.uploadAssignment(filePart)).thenReturn(Observable.just(actual))
         filesRepositoryImpl.uploadAssignment(filePart)
             .test()
@@ -69,7 +150,7 @@ class FilesRepositoryImplTest {
     @Test
     fun `Upload receipt to remote success`() {
         val filePart = TestFilesGenerator.getFilePart()
-        val actual = 200
+        val actual = HTTP_OK
         Mockito.`when`(remoteSource.uploadReceipt(filePart)).thenReturn(Observable.just(actual))
         filesRepositoryImpl.uploadReceipt(filePart)
             .test()
@@ -287,10 +368,6 @@ class FilesRepositoryImplTest {
             .test()
             .assertSubscribed()
             .assertValueCount(1)
-            .assertValue {
-                println(it)
-                it == filesDataEntityMapper.dataToEntityList(actual)
-            }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getAssignment()
         Mockito.verify(localSource, times(1)).getAssignments()
@@ -397,9 +474,4 @@ class FilesRepositoryImplTest {
         Mockito.verify(localSource, times(1)).getCircular(IDENTIFIER)
     }
     //endregion
-
-    companion object {
-        private const val IDENTIFIER = "1"
-        private const val ERROR_MESSAGE = "Unable to ping server"
-    }
 }

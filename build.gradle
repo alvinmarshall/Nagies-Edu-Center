@@ -79,6 +79,12 @@ buildscript {
 
         //time
         threetenabp_version = '1.1.0'
+
+        //TouchImageView
+        TouchImageViewVersion = '2.3.3'
+
+        //okhttp
+        okhttpVersion = '4.3.1'
     }
     repositories {
         google()

@@ -7,22 +7,23 @@ class PeopleCache {
     companion object {
         private val memCache = HashMap<String, List<PeopleData>>()
         private var cacheLastUpdateTime: Long = 0
+        private const val IDENTIFIER = "PeopleCache"
 
-        fun addPeople(identifier: String, filesDataList: List<PeopleData>) {
+        fun addPeople(filesDataList: List<PeopleData>) {
             println("PeopleCache.addPeople")
-            if (memCache[identifier] == null) {
-                memCache[identifier] = arrayListOf()
+            if (memCache[IDENTIFIER] == null) {
+                memCache[IDENTIFIER] = arrayListOf()
             }
-            memCache[identifier] = filesDataList
+            memCache[IDENTIFIER] = filesDataList
             cacheLastUpdateTime = System.currentTimeMillis()
         }
 
-        fun getPeople(identifier: String): List<PeopleData>? {
+        fun getPeople(): List<PeopleData>? {
             println("PeopleCache.getPeople")
             val isCachedExpired =
                 (System.currentTimeMillis() - cacheLastUpdateTime) >= STALE_MS
-            if (!isCachedExpired) return memCache[identifier]
-            memCache[identifier] = arrayListOf()
+            if (!isCachedExpired) return memCache[IDENTIFIER]
+            memCache[IDENTIFIER] = arrayListOf()
             return null
         }
     }

@@ -27,6 +27,14 @@ import utils.TestUserGenerator
 @RunWith(JUnit4::class)
 class RemoteSourceImplTest {
 
+    companion object {
+        private const val NETWORK_STATE = "No internet connection"
+        private const val NO_NETWORK_ERROR = "Unable to resolve host"
+        private const val IDENTIFIER = "1"
+        private const val HTTP_OK = 200
+        private const val IS_SUCCESS = true
+    }
+
     private lateinit var remoteSourceImpl: RemoteSourceImpl
     private lateinit var userDtoDataMapper: UserDtoDataMapper
     private lateinit var profileDtoDataMapper: ProfileDtoDataMapper
@@ -67,6 +75,76 @@ class RemoteSourceImplTest {
         )
     }
 
+    //region DELETE FILES
+    //region ASSIGNMENT
+    @Test
+    fun `Delete report from remote success`() {
+        val deleteDto = TestFilesGenerator.getDeleteDto()
+        val actual = IS_SUCCESS
+        val url = "test url"
+        Mockito.`when`(apiService.deleteReport(IDENTIFIER, url))
+            .thenReturn(Observable.just(deleteDto))
+        remoteSourceImpl.deleteReport(IDENTIFIER, url)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == actual
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Delete report from remote with no network`() {
+        val actual = NETWORK_STATE
+        val url = "test url"
+        Mockito.`when`(apiService.deleteReport(IDENTIFIER, url))
+            .thenReturn(Observable.error(Throwable(NO_NETWORK_ERROR)))
+        remoteSourceImpl.deleteReport(IDENTIFIER, url)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+    }
+    //endregion
+
+    //region ASSIGNMENT
+    @Test
+    fun `Delete assignment from remote success`() {
+        val deleteDto = TestFilesGenerator.getDeleteDto()
+        val actual = IS_SUCCESS
+        val url = "test url"
+        Mockito.`when`(apiService.deleteAssignment(IDENTIFIER, url))
+            .thenReturn(Observable.just(deleteDto))
+        remoteSourceImpl.deleteAssignment(IDENTIFIER, url)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == actual
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Delete assignment from remote with no network`() {
+        val actual = NETWORK_STATE
+        val url = "test url"
+        Mockito.`when`(apiService.deleteAssignment(IDENTIFIER, url))
+            .thenReturn(Observable.error(Throwable(NO_NETWORK_ERROR)))
+        remoteSourceImpl.deleteAssignment(IDENTIFIER, url)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+    }
+    //endregion
+    //endregion
+
     //region PEOPLE
     @Test
     fun `Get class teacher from remote success`() {
@@ -98,7 +176,7 @@ class RemoteSourceImplTest {
 
     @Test
     fun `Get people from remote with no network`() {
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.getClassTeacher()).thenReturn(
             Observable.error(
                 Throwable(
@@ -124,9 +202,10 @@ class RemoteSourceImplTest {
     fun `Upload report success`() {
         val part = TestFilesGenerator.getFilePart()
         val actual = TestFilesGenerator.getUploadDto()
-        val status = 200
-        Mockito.`when`(apiService.uploadReport(part,part,part)).thenReturn(Observable.just(actual))
-        remoteSourceImpl.uploadReport(part,part,part)
+        val status = HTTP_OK
+        Mockito.`when`(apiService.uploadReport(part, part, part))
+            .thenReturn(Observable.just(actual))
+        remoteSourceImpl.uploadReport(part, part, part)
             .test()
             .assertSubscribed()
             .assertValueCount(1)
@@ -140,22 +219,22 @@ class RemoteSourceImplTest {
     @Test
     fun `Upload report to remote with no network success`() {
         val part = TestFilesGenerator.getFilePart()
-        val actual = "No internet connection"
-        Mockito.`when`(apiService.uploadReport(part,part,part)).thenReturn(
+        val actual = NETWORK_STATE
+        Mockito.`when`(apiService.uploadReport(part, part, part)).thenReturn(
             Observable.error(
                 Throwable(
                     NO_NETWORK_ERROR
                 )
             )
         )
-        remoteSourceImpl.uploadReport(part,part,part)
+        remoteSourceImpl.uploadReport(part, part, part)
             .test()
             .assertSubscribed()
             .assertError {
                 it.localizedMessage == actual
             }
             .assertNotComplete()
-        Mockito.verify(apiService, times(1)).uploadReport(part,part,part)
+        Mockito.verify(apiService, times(1)).uploadReport(part, part, part)
     }
     //endregion
 
@@ -164,7 +243,7 @@ class RemoteSourceImplTest {
     fun `Upload assignment success`() {
         val filePart = TestFilesGenerator.getFilePart()
         val actual = TestFilesGenerator.getUploadDto()
-        val status = 200
+        val status = HTTP_OK
         Mockito.`when`(apiService.uploadAssignment(filePart)).thenReturn(Observable.just(actual))
         remoteSourceImpl.uploadAssignment(filePart)
             .test()
@@ -179,7 +258,7 @@ class RemoteSourceImplTest {
     @Test
     fun `Upload assignment to remote with no network success`() {
         val part = TestFilesGenerator.getFilePart()
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.uploadAssignment(part)).thenReturn(
             Observable.error(
                 Throwable(
@@ -203,7 +282,7 @@ class RemoteSourceImplTest {
     fun `Upload receipt success`() {
         val filePart = TestFilesGenerator.getFilePart()
         val actual = TestFilesGenerator.getUploadDto()
-        val status = 200
+        val status = HTTP_OK
         Mockito.`when`(apiService.uploadReceipt(filePart)).thenReturn(Observable.just(actual))
         remoteSourceImpl.uploadReceipt(filePart)
             .test()
@@ -234,7 +313,7 @@ class RemoteSourceImplTest {
 
     @Test
     fun `Get all bill from remote with no network success`() {
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.getBilling()).thenReturn(
             Observable.error(
                 Throwable(
@@ -271,7 +350,7 @@ class RemoteSourceImplTest {
 
     @Test
     fun `Get all timetables from remote with no network success`() {
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.getTimeTable()).thenReturn(
             Observable.error(
                 Throwable(
@@ -309,7 +388,7 @@ class RemoteSourceImplTest {
 
     @Test
     fun `Get all reports from remote with no network success`() {
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.getReport()).thenReturn(
             Observable.error(
                 Throwable(
@@ -345,7 +424,7 @@ class RemoteSourceImplTest {
 
     @Test
     fun `Get assignment from network with no network throws an exception`() {
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.getAssignment()).thenReturn(Observable.error(Throwable(actual)))
         remoteSourceImpl.getAssignment()
             .test()
@@ -375,7 +454,7 @@ class RemoteSourceImplTest {
 
     @Test
     fun `Get all circulars from remote with no network success`() {
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.getCircular()).thenReturn(
             Observable.error(
                 Throwable(
@@ -413,7 +492,7 @@ class RemoteSourceImplTest {
 
     @Test
     fun `Get complaints from remote with no network success`() {
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.getComplaint()).thenReturn(
             Observable.error(
                 Throwable(
@@ -445,7 +524,7 @@ class RemoteSourceImplTest {
 
     @Test
     fun `Get messages from remote with no network success`() {
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         Mockito.`when`(apiService.getMessages()).thenReturn(
             Observable.error(
                 Throwable(
@@ -546,7 +625,7 @@ class RemoteSourceImplTest {
     @Test
     fun `Update user password with no network`() {
         val request = TestUserGenerator.getChangePasswordRequest()
-        val actual = "No internet connection"
+        val actual = NETWORK_STATE
         with(request) {
             Mockito.`when`(apiService.changeAccountPassword(this))
                 .thenReturn(Observable.error(Throwable(NO_NETWORK_ERROR)))
@@ -560,8 +639,4 @@ class RemoteSourceImplTest {
     }
 
     //endregion
-
-    companion object {
-        private const val NO_NETWORK_ERROR = "Unable to resolve host"
-    }
 }

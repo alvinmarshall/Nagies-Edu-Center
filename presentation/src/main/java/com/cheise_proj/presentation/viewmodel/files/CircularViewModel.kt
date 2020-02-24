@@ -24,6 +24,7 @@ class CircularViewModel @Inject constructor(
         return getCircularTask.buildUseCase()
             .map { t: List<FilesEntity> ->
                 t.forEach {
+                    it.path = it.photo
                     it.photo = serverPath.setCorrectPath(it.photo)
                 }
                 circularEntityMapper.entityToPresentationList(t)

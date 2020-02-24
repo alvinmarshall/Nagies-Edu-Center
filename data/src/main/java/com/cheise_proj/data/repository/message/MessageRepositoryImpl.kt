@@ -24,8 +24,7 @@ class MessageRepositoryImpl @Inject constructor(
 
     override fun getComplaints(): Observable<List<ComplaintEntity>> {
         val complaintObservable: Observable<List<ComplaintEntity>>
-        val identifier = "complaint"
-        val cacheComplaint = ComplaintCache.getComplaint(identifier)
+        val cacheComplaint = ComplaintCache.getComplaint()
 
         val local = localSource.getComplaints()
             .map { t: List<ComplaintData> ->
@@ -54,7 +53,6 @@ class MessageRepositoryImpl @Inject constructor(
             .map { t: List<ComplaintEntity> ->
                 if (cacheComplaint == null) {
                     ComplaintCache.addComplaint(
-                        identifier,
                         complaintDataEntityMapper.entityToDataList(t)
                     )
                 }
@@ -72,8 +70,7 @@ class MessageRepositoryImpl @Inject constructor(
 
     override fun getMessages(): Observable<List<MessageEntity>> {
         val messagesObservable: Observable<List<MessageEntity>>
-        val identifier = "messages"
-        val cacheMessages = MessageCache.getMessage(identifier)
+        val cacheMessages = MessageCache.getMessage()
 
         val local = localSource.getMessages()
             .map { t: List<MessageData> ->
@@ -102,7 +99,6 @@ class MessageRepositoryImpl @Inject constructor(
             .map { t: List<MessageEntity> ->
                 if (cacheMessages == null) {
                     MessageCache.addMessage(
-                        identifier,
                         messageDataEntityMapper.entityToDataList(t)
                     )
                 }
