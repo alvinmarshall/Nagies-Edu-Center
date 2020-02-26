@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/padding_size_8dp">
+
+
+    <RelativeLayout
+            android:id="@+id/avatar_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_size_8dp"
+            android:padding="@dimen/padding_size_4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed">
+
+        <ImageView
+                android:id="@+id/avatar_image"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription"
+                tools:src="@color/normal" />
+
+        <TextView
+                android:id="@+id/tv_icon_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:maxLength="2"
+                android:textAllCaps="true"
+                tools:text="KD" />
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/tv_sender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_size_8dp"
+            android:layout_marginTop="@dimen/padding_size_4dp"
+            app:layout_constraintStart_toEndOf="@+id/avatar_background"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/full_names" />
+
+    <TextView
+            android:id="@+id/tv_sender_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_size_8dp"
+            android:layout_marginTop="@dimen/padding_size_4dp"
+            android:background="@drawable/rounded_rectangle_orange"
+            android:maxWidth="240dp"
+            android:padding="@dimen/padding_size_8dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toEndOf="@id/avatar_background"
+            app:layout_constraintTop_toBottomOf="@id/tv_sender"
+            tools:text="@tools:sample/lorem/random" />
+
+    <TextView
+            android:id="@+id/tv_sender_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_size_4dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_sender_content"
+            app:layout_constraintStart_toEndOf="@id/tv_sender_content"
+            tools:text="@tools:sample/date/hhmm" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

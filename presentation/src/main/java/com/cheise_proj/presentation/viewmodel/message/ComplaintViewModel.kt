@@ -16,8 +16,8 @@ import javax.inject.Inject
 class ComplaintViewModel @Inject constructor(
     private val getComplaintTask: GetComplaintTask,
     private val complaintEntityMapper: ComplaintEntityMapper
-) : BaseViewModel() {
 
+) : BaseViewModel() {
 
     fun getComplaintList(): LiveData<Resource<List<Complaint>>> {
         return getComplaintTask.buildUseCase()

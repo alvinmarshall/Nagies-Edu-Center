@@ -13,6 +13,16 @@ interface MessageRepository {
     //endregion
 
     //region MESSAGE
+    fun sendComplaint(content: String, identifier: String?): Observable<Boolean>
+
+    fun sendMessage(
+        content: String,
+        receiverName: String?,
+        identifier: String?
+    ): Observable<Boolean>
+
+    fun getSentMessages(): Observable<List<MessageEntity>>
+
     fun getMessages(): Observable<List<MessageEntity>>
 
     fun getMessage(identifier: Int): Observable<List<MessageEntity>>

@@ -8,9 +8,8 @@ import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.TestMessageGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import junit.framework.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

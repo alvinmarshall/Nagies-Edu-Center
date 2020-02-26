@@ -48,7 +48,17 @@ interface RemoteSource {
     //endregion
 
     //region MESSAGE
+    fun sendComplaint(content: String, identifier: String?): Observable<Boolean>
+
+    fun sendMessage(
+        content: String,
+        receiverName: String?,
+        identifier: String?
+    ): Observable<Boolean>
+
     fun getComplaint(): Observable<List<ComplaintData>>
+
+    fun getSentMessages(): Observable<List<MessageData>>
 
     fun getMessages(): Observable<List<MessageData>>
 
