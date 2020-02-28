@@ -24,6 +24,46 @@ class MessageRepositoryImpl @Inject constructor(
     private val complaintDataEntityMapper: ComplaintDataEntityMapper
 ) : MessageRepository {
 
+
+    override fun getSentComplaints(): Observable<List<ComplaintEntity>> {
+        val complaintObservable: Observable<List<ComplaintEntity>>
+        val cacheComplaint = ComplaintCache.getComplaint()
+
+        val local = localSource.getComplaints()
+            .map { t: List<ComplaintData> ->
+                complaintDataEntityMapper.dataToEntityList(t)
+            }
+
+        val remote = remoteSource.getSentComplaint()
+            .map { t: List<ComplaintData> ->
+                localSource.saveComplaint(t)
+                complaintDataEntityMapper.dataToEntityList(t)
+            }
+            .onErrorResumeNext(Function {
+                println(it.localizedMessage)
+                local
+            })
+
+        complaintObservable = if (cacheComplaint != null) {
+            println("Remote source NOT invoked")
+            val cache = complaintDataEntityMapper.dataToEntityList(cacheComplaint)
+            Observable.just(cache)
+        } else {
+            remote
+        }
+
+        return complaintObservable
+            .map { t: List<ComplaintEntity> ->
+                if (cacheComplaint == null) {
+                    ComplaintCache.addComplaint(
+                        complaintDataEntityMapper.entityToDataList(t)
+                    )
+                }
+                return@map t
+            }.mergeWith(local).take(1).distinct()
+
+    }
+
     override fun getComplaints(): Observable<List<ComplaintEntity>> {
         val complaintObservable: Observable<List<ComplaintEntity>>
         val cacheComplaint = ComplaintCache.getComplaint()
@@ -72,6 +112,29 @@ class MessageRepositoryImpl @Inject constructor(
 
     override fun sendComplaint(content: String, identifier: String?): Observable<Boolean> {
         return remoteSource.sendComplaint(content, identifier)
+            .map {
+                if (it) {
+                    val id = System.currentTimeMillis().toInt()
+                    val date =
+                        SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(Date())
+                    ComplaintCache.insertOneItem(
+                        ComplaintData(
+                            id = id,
+                            content = content,
+                            receiver = identifier!!,
+                            contact = "",
+                            date = date,
+                            level = "",
+                            refNo = "",
+                            sender = "You",
+                            studentName = ""
+                        )
+                    )
+                    return@map it
+                }
+                return@map it
+            }
+
     }
 
     override fun sendMessage(

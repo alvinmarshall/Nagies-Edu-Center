@@ -77,7 +77,6 @@ class ProfileViewModel @Inject constructor(
                 data.gender,
                 data.adminDate,
                 data.level,
-                data.guardian,
                 data.contact,
                 data.faculty,
                 data.username

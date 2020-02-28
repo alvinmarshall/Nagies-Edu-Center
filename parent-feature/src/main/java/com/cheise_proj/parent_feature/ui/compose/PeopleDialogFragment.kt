@@ -1,72 +1,49 @@
-package com.cheise_proj.teacher_feature.ui.student
-
+package com.cheise_proj.parent_feature.ui.compose
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cheise_proj.parent_feature.AdapterClickListener
+import com.cheise_proj.parent_feature.R
+import com.cheise_proj.parent_feature.ui.compose.adapter.TeacherBasicAdapter
 import com.cheise_proj.presentation.factory.ViewModelFactory
-import com.cheise_proj.presentation.job.UploadReportWorker
 import com.cheise_proj.presentation.model.people.People
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.viewmodel.people.PeopleViewModel
-import com.cheise_proj.teacher_feature.AdapterClickListener
-import com.cheise_proj.teacher_feature.R
-import com.cheise_proj.teacher_feature.base.BaseFragment
-import com.cheise_proj.teacher_feature.ui.student.adapter.StudentAdapter
-import kotlinx.android.synthetic.main.fragment_student.*
-import org.jetbrains.anko.support.v4.toast
+import dagger.android.support.DaggerDialogFragment
+import kotlinx.android.synthetic.main.fragment_people_dialog.*
 import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class StudentFragment : BaseFragment() {
-
+class PeopleDialogFragment : DaggerDialogFragment() {
     @Inject
     lateinit var factory: ViewModelFactory
 
     private lateinit var viewModel: PeopleViewModel
-    private lateinit var adapter: StudentAdapter
+    private lateinit var adapter: TeacherBasicAdapter
     private lateinit var recyclerView: RecyclerView
+    private var peopleClickListener: AdapterClickListener<People>? = null
 
-    private val args: StudentFragmentArgs by navArgs()
+
+
+    fun setDialogCallback(callback: AdapterClickListener<People>) {
+        peopleClickListener = callback
+    }
 
     private val adapterClickListener = object : AdapterClickListener<People> {
         override fun onClick(data: People?) {
             data?.let {
-                showUploadDialog(data, args.filePath)
+                peopleClickListener?.onClick(data)
             }
         }
-    }
-
-    private fun showUploadDialog(
-        data: People,
-        path: String
-    ) {
-        val builder = AlertDialog.Builder(context!!)
-        builder.setMessage("You're about to send a report to \n${data.name}, Do you wish to continue ?")
-        builder.setPositiveButton("yes") { dialog, _ ->
-            dialog.dismiss()
-            UploadReportWorker.start(context!!, path, data.refNo, data.name)
-                .observe(viewLifecycleOwner,
-                    Observer {
-                        if (it.state.isFinished) {
-                            toast("upload complete")
-                            activity?.onBackPressed()
-                        }
-                    })
-        }
-        builder.setNegativeButton("no", null)
-        builder.setCancelable(false)
-        builder.create().show()
     }
 
     override fun onCreateView(
@@ -74,7 +51,7 @@ class StudentFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student, container, false)
+        return inflater.inflate(R.layout.fragment_people_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,7 +66,7 @@ class StudentFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        adapter = StudentAdapter()
+        adapter = TeacherBasicAdapter()
         adapter.apply {
             setAdapterClickListener(adapterClickListener)
         }
@@ -102,18 +79,11 @@ class StudentFragment : BaseFragment() {
     }
 
     private fun subscribeObserver() {
-        viewModel.getPeopleList("student").observe(viewLifecycleOwner, Observer {
+        viewModel.getPeopleList("teacher").observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 STATUS.LOADING -> println("loading...")
                 STATUS.SUCCESS -> {
                     hideProgress()
-                    it.data?.let { data ->
-                        if (data.isEmpty()) {
-                            showNoDataAlert()
-                        } else {
-                            showNoDataAlert(false)
-                        }
-                    }
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
                 }
@@ -125,6 +95,5 @@ class StudentFragment : BaseFragment() {
     private fun hideProgress() {
         progressBar.visibility = View.GONE
     }
-
 
 }

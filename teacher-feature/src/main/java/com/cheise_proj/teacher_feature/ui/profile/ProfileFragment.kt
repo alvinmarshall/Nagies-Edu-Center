@@ -25,6 +25,7 @@ import com.cheise_proj.teacher_feature.R
 import com.cheise_proj.teacher_feature.base.BaseFragment
 import com.cheise_proj.teacher_feature.ui.profile.adapter.ProfileAdapter
 import kotlinx.android.synthetic.main.fragment_profile.*
+import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
 /**
@@ -84,13 +85,21 @@ class ProfileFragment : BaseFragment() {
                     when (resources.status) {
                         STATUS.LOADING -> println("loading...")
                         STATUS.SUCCESS -> {
+                            hideLoadingProgress()
+                            resources?.data?.let { data ->
+                                if (data.isEmpty()) {
+                                    showNoDataAlert()
+                                } else {
+                                    showNoDataAlert(false)
+                                }
+                            }
                             adapter.submitList(resources.data)
                             setProfileAvatar()
                             recyclerView?.adapter = adapter
-                            hideLoadingProgress()
                         }
                         STATUS.ERROR -> {
                             hideLoadingProgress()
+                            toast("error ${resources.message}")
                             println("err ${resources.message}")
                         }
                     }

@@ -334,6 +334,25 @@ class RemoteSourceImpl @Inject constructor(
                 }
             )
     }
+
+    override fun getSentComplaint(): Observable<List<ComplaintData>> {
+        return apiService.getSentComplaint().map { t: ComplaintsDto ->
+            println("dto ${t.complaint}")
+            complaintDtoDataMapper.dtoToDataList(t.complaint)
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )    }
     //endregion
     //endregion
 

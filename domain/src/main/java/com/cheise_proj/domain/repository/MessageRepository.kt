@@ -7,6 +7,8 @@ import io.reactivex.Observable
 interface MessageRepository {
 
     //region COMPLAINT
+    fun getSentComplaints(): Observable<List<ComplaintEntity>>
+
     fun getComplaints(): Observable<List<ComplaintEntity>>
 
     fun getComplaint(identifier: String): Observable<List<ComplaintEntity>>

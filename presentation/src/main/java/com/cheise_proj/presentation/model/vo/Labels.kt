@@ -32,7 +32,6 @@ object Labels {
         return mutableListOf(
             Pair("ref", R.drawable.ic_list_black_24dp),
             Pair("Name", R.drawable.ic_person_black_24dp),
-            Pair("Dob", R.drawable.ic_event_black_24dp),
             Pair("Gender", R.drawable.ic_wc_black_24dp),
             Pair("Admission Date", R.drawable.ic_event_black_24dp),
             Pair("Level", R.drawable.ic_business_black_24dp),

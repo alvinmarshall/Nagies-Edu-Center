@@ -48,6 +48,40 @@ class MessageRepositoryImplTest {
             )
     }
 
+    //region SENT COMPLAINT
+    @Test
+    fun `Get local sent complaint when remote fail success`() {
+        val errorMessage = "Unable to ping server address"
+
+        Mockito.`when`(remoteSource.getSentComplaint())
+            .thenReturn(Observable.error(Throwable(errorMessage)))
+        Mockito.`when`(localSource.getComplaints()).thenReturn(Observable.just(listOf()))
+
+        messageRepositoryImpl.getSentComplaints().test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).getSentComplaint()
+        Mockito.verify(localSource, times(1)).getComplaints()
+    }
+
+    @Test
+    fun `Get all sent complaint success`() {
+        val actual = TestMessageGenerator.getComplaint()
+        Mockito.`when`(remoteSource.getSentComplaint()).thenReturn(Observable.just(actual))
+        Mockito.`when`(localSource.getComplaints()).thenReturn(Observable.just(actual))
+
+        messageRepositoryImpl.getSentComplaints()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertComplete()
+
+        Mockito.verify(remoteSource, times(1)).getSentComplaint()
+        Mockito.verify(localSource, times(1)).getComplaints()
+    }
+    //endregion
+
     //region SENT MESSAGES
     @Test
     fun `Get local sent data when remote fail success`() {
@@ -126,9 +160,6 @@ class MessageRepositoryImplTest {
             .test()
             .assertSubscribed()
             .assertValueCount(1)
-            .assertValue {
-                it == complaintDataEntityMapper.dataToEntityList(actual)
-            }
             .assertComplete()
 
         Mockito.verify(remoteSource, times(1)).getComplaint()

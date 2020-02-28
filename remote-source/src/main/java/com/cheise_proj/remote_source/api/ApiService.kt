@@ -19,6 +19,11 @@ import retrofit2.http.*
 
 interface ApiService {
 
+    //region SENT COMPLAINT
+    @GET("message/sent")
+    fun getSentComplaint(): Observable<ComplaintsDto>
+    //endregion
+
     //region SENT MESSAGE
     @GET("message/sent")
     fun getSentMessages(): Observable<MessagesDto>

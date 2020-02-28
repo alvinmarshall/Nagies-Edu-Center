@@ -36,4 +36,14 @@ abstract class BaseFragment : DaggerFragment() {
     }
 
     //endregion
+
+    protected fun showNoDataAlert(show:Boolean = true){
+        alertDialog?.setTitle("No Data Alert")
+        alertDialog?.setMessage("Sorry, No data available right now...")
+        if (show){
+            alertDialog?.create()?.show()
+        }else{
+            alertDialog?.create()?.dismiss()
+        }
+    }
 }

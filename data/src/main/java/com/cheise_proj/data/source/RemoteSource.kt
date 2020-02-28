@@ -56,6 +56,7 @@ interface RemoteSource {
         identifier: String?
     ): Observable<Boolean>
 
+    fun getSentComplaint(): Observable<List<ComplaintData>>
     fun getComplaint(): Observable<List<ComplaintData>>
 
     fun getSentMessages(): Observable<List<MessageData>>

@@ -13,7 +13,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:orientation="vertical"
         android:gravity="bottom" android:id="@+id/linearLayout"
-        android:textAlignment="center">
+        android:textAlignment="gravity">
 
     <ImageView
             android:layout_width="100dp"

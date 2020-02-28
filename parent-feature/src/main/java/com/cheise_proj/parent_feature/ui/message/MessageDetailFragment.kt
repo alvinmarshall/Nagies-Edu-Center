@@ -3,11 +3,10 @@ package com.cheise_proj.parent_feature.ui.message
 
 import android.os.Bundle
 import android.transition.TransitionInflater
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 import com.cheise_proj.parent_feature.R
@@ -31,10 +30,13 @@ class MessageDetailFragment : BaseFragment() {
     lateinit var colorGenerator: IColorGenerator
     private lateinit var messageViewModel: MessageViewModel
     private val args: MessageDetailFragmentArgs by navArgs()
+    private var messageReply: Message? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        setHasOptionsMenu(true)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
 
     }
 
@@ -49,6 +51,28 @@ class MessageDetailFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         configureViewModel(args.identifier)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.message_detail_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_reply -> {
+                navigateToComposeComplaint()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun navigateToComposeComplaint() {
+        val action =
+            MessageDetailFragmentDirections.actionMessageDetailFragmentToComposeComplaintFragment(
+                messageReply
+            )
+        findNavController().navigate(action)
     }
 
     private fun configureViewModel(identifier: Int) {
@@ -74,6 +98,7 @@ class MessageDetailFragment : BaseFragment() {
         }
 
         tv_icon_text.text = GetFirstLettersOfStringsImpl.getLetters(data?.sender)
+        messageReply = data
     }
 
 

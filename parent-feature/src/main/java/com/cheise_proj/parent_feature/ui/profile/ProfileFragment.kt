@@ -22,6 +22,7 @@ import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.viewmodel.user.ProfileViewModel
 import kotlinx.android.synthetic.main.profile_fragment.*
+import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
 class ProfileFragment : BaseFragment() {
@@ -78,13 +79,21 @@ class ProfileFragment : BaseFragment() {
                     when (it.status) {
                         STATUS.LOADING -> println("loading...")
                         STATUS.SUCCESS -> {
+                            hideLoadingProgress()
+                            it.data?.let { data ->
+                                if (data.isEmpty()) {
+                                    showNoDataAlert()
+                                } else {
+                                    showNoDataAlert(false)
+                                }
+                            }
                             adapter.submitList(it.data)
                             setProfileAvatar()
                             recyclerView?.adapter = adapter
-                            hideLoadingProgress()
                         }
                         STATUS.ERROR -> {
                             hideLoadingProgress()
+                            toast("error ${it.message}")
                             println("err ${it.message}")
                         }
                     }
