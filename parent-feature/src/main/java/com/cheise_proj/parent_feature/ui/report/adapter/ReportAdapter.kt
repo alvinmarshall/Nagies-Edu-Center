@@ -61,9 +61,7 @@ class ReportAdapter :
             itemView.supporting_text2.text = date
 
             itemView.media_image.apply {
-                GlideApp.with(this.context).load(item?.photo).centerCrop().diskCacheStrategy(
-                    DiskCacheStrategy.ALL
-                ).into(this)
+                GlideApp.with(this.context).load(item?.photo).centerCrop().into(this)
             }
             itemView.setOnClickListener {
                 adapterClickListener?.onClick(Pair(item?.photo, false))

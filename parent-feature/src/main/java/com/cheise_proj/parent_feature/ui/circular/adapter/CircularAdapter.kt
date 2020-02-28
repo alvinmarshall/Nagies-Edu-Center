@@ -44,9 +44,7 @@ class CircularAdapter :
             itemView.tv_header.text = header
             itemView.tv_sub_header.text = subHeader
             itemView.avatar_image.apply {
-                GlideApp.with(this.context).load(item?.photo).centerCrop().diskCacheStrategy(
-                    DiskCacheStrategy.ALL
-                ).into(this)
+                GlideApp.with(this.context).load(item?.photo).centerCrop().into(this)
             }
             itemView.setOnClickListener {
                 adapterClickListener?.onClick(Pair(item?.photo, false))

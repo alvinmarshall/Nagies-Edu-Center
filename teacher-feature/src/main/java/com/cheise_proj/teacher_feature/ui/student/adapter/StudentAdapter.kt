@@ -46,9 +46,7 @@ class StudentAdapter :
                 item_ref.text = ref
                 item_index.text = level
                 item_gender.text = gender
-                GlideApp.with(context).load(item?.photo).centerCrop().diskCacheStrategy(
-                    DiskCacheStrategy.AUTOMATIC
-                ).into(item_img)
+                GlideApp.with(context).load(item?.photo).centerCrop().into(item_img)
                 btn_upload_report.setOnClickListener { adapterClickListener?.onClick(item) }
             }
 

@@ -55,7 +55,13 @@ class StudentFragment : BaseFragment() {
         builder.setMessage("You're about to send a report to \n${data.name}, Do you wish to continue ?")
         builder.setPositiveButton("yes") { dialog, _ ->
             dialog.dismiss()
-            UploadReportWorker.start(context!!, path, data.refNo, data.name)
+            UploadReportWorker.start(
+                context!!,
+                path,
+                data.refNo,
+                data.name,
+                R.id.attachmentFragment
+            )
                 .observe(viewLifecycleOwner,
                     Observer {
                         if (it.state.isFinished) {

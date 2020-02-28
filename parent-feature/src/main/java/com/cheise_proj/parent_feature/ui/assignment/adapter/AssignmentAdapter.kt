@@ -46,9 +46,7 @@ class AssignmentAdapter :
             itemView.tv_sub_header.text = subHeader
             itemView.avatar_image.apply {
                 GlideApp.with(this.context).load(item?.photo).thumbnail(0.5f).centerCrop()
-                    .diskCacheStrategy(
-                        DiskCacheStrategy.AUTOMATIC
-                    ).into(this)
+                    .into(this)
             }
             itemView.setOnClickListener {
                 adapterClickListener?.onClick(Pair(item?.photo, false))

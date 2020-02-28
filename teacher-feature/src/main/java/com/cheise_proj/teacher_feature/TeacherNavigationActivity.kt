@@ -41,7 +41,6 @@ class TeacherNavigationActivity : BaseActivity() {
     private val textBadgeViews = arrayListOf<TextView>()
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teacher_navigation)

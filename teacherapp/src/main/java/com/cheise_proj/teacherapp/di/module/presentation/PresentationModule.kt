@@ -24,6 +24,7 @@ import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.model.people.People
 import com.cheise_proj.presentation.model.user.Profile
 import com.cheise_proj.presentation.model.user.User
+import com.cheise_proj.presentation.notification.ITeacherNotification
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.InputValidation
@@ -34,6 +35,7 @@ import com.cheise_proj.presentation.viewmodel.message.MessageViewModel
 import com.cheise_proj.presentation.viewmodel.people.PeopleViewModel
 import com.cheise_proj.presentation.viewmodel.user.ProfileViewModel
 import com.cheise_proj.presentation.viewmodel.user.UserViewModel
+import com.cheise_proj.teacher_feature.notification.CreateTeacherTeacherNotification
 import com.cheise_proj.teacherapp.di.key.ViewModelKey
 import com.cheise_proj.teacherapp.preference.PreferenceImpl
 import com.cheise_proj.teacherapp.utils.ServerPathUtils
@@ -125,6 +127,11 @@ class PresentationModule {
 
         @Binds
         fun bindInputValidation(inputValidationImpl: InputValidationImpl): InputValidation
+
+        //region NOTIFICATION
+        @Binds
+        fun createTeacherNotification(createTeacherNotification: CreateTeacherTeacherNotification): ITeacherNotification
+        //endregion
     }
 
 }

@@ -61,7 +61,7 @@ class AttachmentFragment : BaseFragment() {
                 return@setOnClickListener
             }
             it.visibility = View.GONE
-            UploadAssignmentWorker.start(it.context, captureImagePath).observe(viewLifecycleOwner,
+            UploadAssignmentWorker.start(it.context, captureImagePath,R.id.attachmentFragment).observe(viewLifecycleOwner,
                 androidx.lifecycle.Observer { worker ->
                     if (worker.state.isFinished) {
                         it.visibility = View.VISIBLE

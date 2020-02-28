@@ -180,7 +180,20 @@ class RemoteSourceImpl @Inject constructor(
         return apiService.uploadReceipt(file)
             .map { t: UploadDto ->
                 return@map t.status
-            }
+            }.onErrorResumeNext(
+                Function {
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+                }
+            )
     }
     //endregion
 

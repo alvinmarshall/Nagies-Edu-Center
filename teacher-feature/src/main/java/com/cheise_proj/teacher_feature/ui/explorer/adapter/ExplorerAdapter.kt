@@ -61,9 +61,7 @@ class ExplorerAdapter :
                     )
                 }
 
-                GlideApp.with(context).load(item?.photo).centerCrop().diskCacheStrategy(
-                    DiskCacheStrategy.AUTOMATIC
-                ).into(avatar_image)
+                GlideApp.with(context).load(item?.photo).centerCrop().into(avatar_image)
             }
         }
     }
