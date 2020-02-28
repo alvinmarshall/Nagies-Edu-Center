@@ -27,6 +27,14 @@ class ComplaintCache {
             memCache[IDENTIFIER] = arrayListOf()
             return null
         }
+
+        fun insertOneItem(value: ComplaintData) {
+            val mutableList = memCache[IDENTIFIER]?.toMutableList()
+            mutableList?.add(value)
+            mutableList?.let {
+                memCache[IDENTIFIER] = mutableList
+            }
+        }
     }
 
 

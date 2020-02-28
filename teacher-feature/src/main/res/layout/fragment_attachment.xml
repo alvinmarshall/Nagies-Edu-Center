@@ -97,7 +97,7 @@
                     android:layout_marginEnd="@dimen/padding_size_16dp"
                     android:layout_marginBottom="@dimen/padding_size_16dp"
                     android:padding="@dimen/padding_size_16dp"
-                    android:text="@string/label_btn_send_report"
+                    android:text="@string/btn_label_report"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

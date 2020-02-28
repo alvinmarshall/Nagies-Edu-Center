@@ -102,6 +102,13 @@ class TeacherFragment : BaseFragment() {
                 STATUS.LOADING -> println("loading...")
                 STATUS.SUCCESS -> {
                     hideLoadingProgress()
+                    it.data?.let { data ->
+                        if (data.isEmpty()) {
+                            showNoDataAlert()
+                        } else {
+                            showNoDataAlert(false)
+                        }
+                    }
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
                 }

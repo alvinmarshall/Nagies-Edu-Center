@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:showIn="navigation_view">
-
     <group android:checkableBehavior="single">
         <item
                 android:id="@+id/complaintFragment"
                 android:icon="@drawable/ic_chat_black_24dp"
-                android:title="@string/menu_complaint" />
+                android:title="@string/menu_complaint"
+                app:actionViewClass="android.widget.TextView" />
+        <item
+                android:id="@+id/sendMessageFragment"
+                android:icon="@drawable/ic_create_black_24dp"
+                android:title="@string/menu_compose" />
+    </group>
 
+    <group android:checkableBehavior="single">
         <item
                 android:id="@+id/attachmentFragment"
                 android:icon="@drawable/ic_cloud_upload_black_24dp"
@@ -18,8 +25,9 @@
                 android:id="@+id/explorerFragment"
                 android:icon="@drawable/ic_folder_open_black_24dp"
                 android:title="@string/menu_explorer" />
+    </group>
 
-
+    <group android:checkableBehavior="single">
         <item
                 android:id="@+id/profileFragment"
                 android:icon="@drawable/ic_person_black_24dp"
@@ -29,6 +37,5 @@
                 android:id="@+id/passwordFragment"
                 android:icon="@drawable/ic_lock_black_24dp"
                 android:title="@string/menu_change_password" />
-
     </group>
 </menu>

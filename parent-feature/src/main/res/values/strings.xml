@@ -19,7 +19,7 @@
     <string name="menu_change_password">Change Password</string>
     <string name="menu_reports_pdf">Report</string>
     <string name="menu_announcement">Announcement</string>
-    <string name="menu_send_complaint">Send Complaint</string>
+    <string name="menu_send_complaint">Compose Complaint</string>
     <string name="menu_bill">Bill</string>
     <string name="menu_time_table">TimeTable</string>
     <string name="menu_class_teacher">Class Teacher</string>
@@ -67,4 +67,9 @@
     <!--    FILE AUTHORITY-->
     <string name="file_provider_authority" translatable="false">%1$s.FileProvider</string>
     <string name="label_perform_action">Perform Action</string>
+
+    <string name="label_enter_message">Enter Message</string>
+    <string name="menu_reply">Reply</string>
+    <string name="btn_label_select">select</string>
+
 </resources>

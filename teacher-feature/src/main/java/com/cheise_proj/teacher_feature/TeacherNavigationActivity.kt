@@ -2,19 +2,25 @@ package com.cheise_proj.teacher_feature
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.cheise_proj.presentation.viewmodel.SharedViewModel
 import com.cheise_proj.teacher_feature.base.BaseActivity
 import com.cheise_proj.teacher_feature.utils.ConnectionLiveData
 import com.google.android.material.navigation.NavigationView
@@ -31,6 +37,10 @@ class TeacherNavigationActivity : BaseActivity() {
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
+    private lateinit var sharedViewModel: SharedViewModel
+    private val textBadgeViews = arrayListOf<TextView>()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +55,9 @@ class TeacherNavigationActivity : BaseActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
 
         setupNavigation()
+        initNavBadge()
         setProfileData(navView)
+        configureViewModel()
         openNavigationMenu()
         subscribeNetworkChange(snack)
 
@@ -63,6 +75,34 @@ class TeacherNavigationActivity : BaseActivity() {
                 snack.dismiss()
             }
         })
+    }
+
+    private fun configureViewModel() {
+        sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        sharedViewModel.getBadgeValue().observe(this, Observer {
+            setNavMenuBadge(it)
+        })
+    }
+
+    private fun setNavMenuBadge(badge: Pair<Int, Int?>?) {
+        val str = if (badge?.second != null && badge.second!! > 0) "${badge.second} +" else ""
+        when (badge?.first) {
+            R.id.complaintFragment -> textBadgeViews[0].text = str
+        }
+    }
+
+    private fun initNavBadge() {
+        val menuNav = navView.menu
+        textBadgeViews.add(menuNav.findItem(R.id.complaintFragment).actionView as TextView)
+
+        textBadgeViews.forEach {
+            it.apply {
+                gravity = Gravity.CENTER_VERTICAL
+                typeface = Typeface.DEFAULT_BOLD
+                setTextColor(ContextCompat.getColor(baseContext, android.R.color.holo_red_dark))
+            }
+        }
+
     }
 
     private fun setupNavigation() {

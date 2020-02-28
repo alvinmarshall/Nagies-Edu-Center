@@ -25,16 +25,24 @@
     <string name="label_change_password">change password</string>
     <string name="label_password_sub_title">Remember to use the new password at login page</string>
     <string name="label_password_header">Change Password ?</string>
-    <string name="menu_change_password">Change Password</string>
 
     <!--   NAV MENU-->
+    <string name="group_label_account">Account</string>
+    <string name="group_label_files">Files</string>
+    <string name="group_label_message">Message</string>
+
+    <string name="menu_explorer">File Manager</string>
     <string name="menu_complaint">Complaint</string>
     <string name="menu_profile">Profile</string>
+    <string name="menu_upload_files">Upload</string>
+
     <string name="menu_logout">logout</string>
+    <string name="menu_change_password">Password</string>
+    <string name="menu_reply">Reply</string>
+    <string name="menu_compose">Compose Message</string>
 
     <!--    COMPLAINT TRANSITION-->
     <string name="complaint_tile_transition">complaint_title_transition</string>
-    <string name="menu_reply">Reply</string>
 
 
     <!--    FILE AUTHORITY-->
@@ -49,20 +57,21 @@
     <string name="permission_storage_explained">Without this permission this app is unable to open files. Are you sure
         you want to deny this permission.
     </string>
-    <string name="menu_upload_files">Upload files</string>
+
     <string name="label_upload_img_hint">Capture or browse for image</string>
     <string name="label_upload_file_sub_header">Send your student attachment files \nlike an assignment or report on the go.</string>
     <string name="label_upload_file_header">Transfer Files</string>
-    <string name="label_btn_send_report">send report</string>
+    <string name="label_btn_send_report">select</string>
     <string name="label_btn_send_assignment">send assignment</string>
     <string name="menu_students">Students</string>
 
     <!--    EXPLORER-->
-    <string name="menu_explorer">File Manager</string>
     <string name="label_file_explorer_header">File Explorer</string>
     <string name="label_sub_header_file_explorer">Manager all uploaded files, Sent to students,\n Whether assignment or report on the go</string>
     <string name="btn_label_assignment">Assignment</string>
     <string name="btn_label_report">Report</string>
     <string name="btn_label_delete">Delete</string>
     <string name="btn_label_download">download</string>
+    <string name="btn_label_send">send</string>
+    <string name="label_enter_message">Enter Message</string>
 </resources>

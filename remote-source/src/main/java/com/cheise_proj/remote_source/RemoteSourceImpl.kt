@@ -18,13 +18,15 @@ import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
 import com.cheise_proj.remote_source.model.dto.files.*
 import com.cheise_proj.remote_source.model.dto.message.ComplaintsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
+import com.cheise_proj.remote_source.model.dto.message.SentMessageDto
 import com.cheise_proj.remote_source.model.dto.people.PeopleDto
 import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
+import com.cheise_proj.remote_source.model.request.ComplaintRequest
 import com.cheise_proj.remote_source.model.request.LoginRequest
+import com.cheise_proj.remote_source.model.request.MessageRequest
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 import okhttp3.MultipartBody
-import retrofit2.http.HTTP
 import java.util.*
 import javax.inject.Inject
 
@@ -126,7 +128,6 @@ class RemoteSourceImpl @Inject constructor(
         )
 
     }
-
 
     //region FILES
     override fun uploadReport(
@@ -246,7 +247,6 @@ class RemoteSourceImpl @Inject constructor(
     }
     //endregion
 
-
     override fun getAssignment(): Observable<List<FilesData>> {
         return apiService.getAssignment().map { t: AssignmentsDto ->
             filesDtoDataMapper.dtoToDataList(t.data)
@@ -287,6 +287,72 @@ class RemoteSourceImpl @Inject constructor(
         )
 
     }
+
+    override fun sendComplaint(content: String, identifier: String?): Observable<Boolean> {
+        return apiService.sendComplaint(ComplaintRequest(content, identifier))
+            .map { t: SentMessageDto ->
+                if (t.sentResponse.status == HTTP_OK) return@map true
+                return@map false
+            }.onErrorResumeNext(
+                Function {
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+                }
+            )
+    }
+
+    override fun sendMessage(
+        content: String,
+        receiverName: String?,
+        identifier: String?
+    ): Observable<Boolean> {
+        return apiService.sendMessage(MessageRequest(content, receiverName, identifier))
+            .map { t: SentMessageDto ->
+                println("SentMessageDto $t")
+                if (t.sentResponse.status == HTTP_OK) return@map true
+                return@map false
+            }.onErrorResumeNext(
+                Function {
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+                }
+            )
+    }
+
+    override fun getSentComplaint(): Observable<List<ComplaintData>> {
+        return apiService.getSentComplaint().map { t: ComplaintsDto ->
+            println("dto ${t.complaint}")
+            complaintDtoDataMapper.dtoToDataList(t.complaint)
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )    }
     //endregion
     //endregion
 
@@ -311,6 +377,26 @@ class RemoteSourceImpl @Inject constructor(
                 }
             }
         )
+    }
+
+    override fun getSentMessages(): Observable<List<MessageData>> {
+        return apiService.getSentMessages().map { t: MessagesDto ->
+            messageDtoDataMapper.dtoToDataList(t.message)
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )
+
     }
 
     //message

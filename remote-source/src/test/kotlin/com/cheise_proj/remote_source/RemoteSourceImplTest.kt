@@ -75,8 +75,91 @@ class RemoteSourceImplTest {
         )
     }
 
+
+    //region SEND MESSAGE
+    //region MESSAGE
+    @Test
+    fun `Send message success`() {
+        val messageRequest = TestMessageGenerator.getMessageRequest()
+        val sentDto = TestMessageGenerator.getSentMessageDto()
+        val actual = IS_SUCCESS
+        Mockito.`when`(apiService.sendMessage(messageRequest)).thenReturn(Observable.just(sentDto))
+        with(messageRequest) {
+            remoteSourceImpl.sendMessage(content, receiverName, identifier)
+                .test()
+                .assertSubscribed()
+                .assertValueCount(1)
+                .assertValue { it == actual }
+                .assertComplete()
+        }
+    }
+
+    @Test
+    fun `Send message with no network`() {
+        val messageRequest = TestMessageGenerator.getMessageRequest()
+        val actual = NETWORK_STATE
+        Mockito.`when`(apiService.sendMessage(messageRequest)).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        with(messageRequest) {
+            remoteSourceImpl.sendMessage(content, receiverName, identifier)
+                .test()
+                .assertSubscribed()
+                .assertError {
+                    it.localizedMessage == actual
+                }
+                .assertNotComplete()
+        }
+    }
+
+    //endregion
+
+    //region COMPLAINT
+    @Test
+    fun `Send complaint success`() {
+        val complaintResult = TestMessageGenerator.getComplaintRequest()
+        val sentMessageDto = TestMessageGenerator.getSentMessageDto()
+        val actual = IS_SUCCESS
+        Mockito.`when`(apiService.sendComplaint(complaintResult))
+            .thenReturn(Observable.just(sentMessageDto))
+        with(complaintResult) {
+            remoteSourceImpl.sendComplaint(content, identifier)
+                .test()
+                .assertSubscribed()
+                .assertValueCount(1)
+                .assertValue { it == actual }
+                .assertComplete()
+        }
+    }
+
+    @Test
+    fun `Send complaint with no network`() {
+        val complaintResult = TestMessageGenerator.getComplaintRequest()
+        val actual = NETWORK_STATE
+        Mockito.`when`(apiService.sendComplaint(complaintResult)).thenReturn(
+            Observable.error(
+                Throwable(NO_NETWORK_ERROR)
+            )
+        )
+        with(complaintResult) {
+            remoteSourceImpl.sendComplaint(content, identifier)
+                .test()
+                .assertSubscribed()
+                .assertError { it.localizedMessage == actual }
+                .assertNotComplete()
+        }
+    }
+
+    //endregion
+
+    //endregion
+
     //region DELETE FILES
-    //region ASSIGNMENT
+    //region REPORT
     @Test
     fun `Delete report from remote success`() {
         val deleteDto = TestFilesGenerator.getDeleteDto()
@@ -476,6 +559,40 @@ class RemoteSourceImplTest {
 
     //region MESSAGES
 
+    //region SENT COMPLAINT
+    //complaint
+    @Test
+    fun `Get sent complaints from remote success`() {
+        val actual = TestMessageGenerator.getComplaintDto()
+        Mockito.`when`(apiService.getSentComplaint()).thenReturn(Observable.just(actual))
+        remoteSourceImpl.getSentComplaint().test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == complaintDtoDataMapper.dtoToDataList(actual.complaint)
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Get sent complaints from remote with no network success`() {
+        val actual = NETWORK_STATE
+        Mockito.`when`(apiService.getSentComplaint()).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.getSentComplaint().test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+    }
+    //endregion
+
     //complaint
     @Test
     fun `Get complaints from remote success`() {
@@ -507,6 +624,41 @@ class RemoteSourceImplTest {
             }
             .assertNotComplete()
     }
+
+    //region SENT MESSAGE
+
+    @Test
+    fun `Get sent messages from remote success`() {
+        val actual = TestMessageGenerator.getMessageDto()
+        Mockito.`when`(apiService.getSentMessages()).thenReturn(Observable.just(actual))
+        remoteSourceImpl.getSentMessages().test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == messageDtoDataMapper.dtoToDataList(actual.message)
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Get sent messages from remote with no network success`() {
+        val actual = NETWORK_STATE
+        Mockito.`when`(apiService.getSentMessages()).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.getSentMessages().test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+    }
+
+    //endregion
 
     //message
     @Test

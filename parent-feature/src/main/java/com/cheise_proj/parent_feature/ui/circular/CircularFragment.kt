@@ -93,7 +93,7 @@ class CircularFragment : BaseFragment() {
         val view = lay.inflate(R.layout.prev_avatar, root)
         val img = view.findViewById<TouchImageView>(R.id.avatar_image)
         val dialogBuilder = AlertDialog.Builder(context)
-        GlideApp.with(context!!).load(url).centerCrop().into(object :CustomTarget<Drawable>(){
+        GlideApp.with(context!!).load(url).centerCrop().into(object : CustomTarget<Drawable>() {
             override fun onLoadCleared(placeholder: Drawable?) {
 
             }
@@ -143,6 +143,13 @@ class CircularFragment : BaseFragment() {
                 STATUS.LOADING -> println("loading...")
                 STATUS.SUCCESS -> {
                     hideLoadingProgress()
+                    it.data?.let { data ->
+                        if (data.isEmpty()) {
+                            showNoDataAlert()
+                        } else {
+                            showNoDataAlert(false)
+                        }
+                    }
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
                     sharedViewModel.setBadgeValue(Pair(R.id.circularFragment2, it?.data?.size))

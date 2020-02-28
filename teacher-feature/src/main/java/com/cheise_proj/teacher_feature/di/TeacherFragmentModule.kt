@@ -8,6 +8,8 @@ import com.cheise_proj.teacher_feature.ui.explorer.AssignmentExplorerFragment
 import com.cheise_proj.teacher_feature.ui.explorer.ReportExplorerFragment
 import com.cheise_proj.teacher_feature.ui.password.PasswordFragment
 import com.cheise_proj.teacher_feature.ui.profile.ProfileFragment
+import com.cheise_proj.teacher_feature.ui.send_message.PeopleDialogFragment
+import com.cheise_proj.teacher_feature.ui.send_message.SendMessageFragment
 import com.cheise_proj.teacher_feature.ui.student.StudentFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -37,5 +39,11 @@ interface TeacherFragmentModule {
 
     @ContributesAndroidInjector
     fun contributionReportExplorerFragment(): ReportExplorerFragment
+
+    @ContributesAndroidInjector
+    fun contributeSendMessageFragment(): SendMessageFragment
+
+    @ContributesAndroidInjector
+    fun contributePeopleDialogFragment(): PeopleDialogFragment
 
 }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.factory.ViewModelFactory
@@ -30,6 +31,7 @@ class ComplaintDetailFragment : BaseFragment() {
     lateinit var factory: ViewModelFactory
     @Inject
     lateinit var colorGenerator: IColorGenerator
+    private var complaintData: Complaint? = null
 
     private lateinit var viewModel: ComplaintViewModel
 
@@ -62,10 +64,18 @@ class ComplaintDetailFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_reply -> {
-                AlertDialog.Builder(context!!).setMessage("Not Implemented").show()
+                navigateToReplyMessage()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun navigateToReplyMessage() {
+        val action =
+            ComplaintDetailFragmentDirections.actionComplaintDetailFragmentToSendMessageFragment(
+                complaintData
+            )
+        findNavController().navigate(action)
     }
 
     private fun configViewModel() {
@@ -95,6 +105,7 @@ class ComplaintDetailFragment : BaseFragment() {
         }
 
         tv_icon_text.text = GetFirstLettersOfStringsImpl.getLetters(data?.sender)
+        complaintData = data
     }
 
 }

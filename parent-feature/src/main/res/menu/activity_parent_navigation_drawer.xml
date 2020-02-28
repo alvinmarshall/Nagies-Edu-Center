@@ -26,8 +26,8 @@
                 android:title="@string/menu_upload_receipt" />
 
         <item
-                android:id="@+id/sendComplaintFragment"
-                android:icon="@drawable/ic_message_black_24dp"
+                android:id="@+id/composeComplaintFragment"
+                android:icon="@drawable/ic_create_black_24dp"
                 android:title="@string/menu_send_complaint" />
         <item
                 android:id="@+id/profileFragment2"

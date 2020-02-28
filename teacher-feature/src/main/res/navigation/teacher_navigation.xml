@@ -21,8 +21,14 @@
     <fragment
             android:id="@+id/sendMessageFragment"
             android:name="com.cheise_proj.teacher_feature.ui.send_message.SendMessageFragment"
-            android:label="fragment_send_message"
-            tools:layout="@layout/fragment_send_message" />
+            android:label="Sent Messages"
+            tools:layout="@layout/fragment_send_message">
+        <argument
+                android:name="complaint"
+                android:defaultValue="@null"
+                app:argType="com.cheise_proj.presentation.model.message.Complaint"
+                app:nullable="true" />
+    </fragment>
     <fragment
             android:id="@+id/attachmentFragment"
             android:name="com.cheise_proj.teacher_feature.ui.attachment.AttachmentFragment"
@@ -58,6 +64,9 @@
         <argument
                 android:name="complaint"
                 app:argType="integer" />
+        <action
+                android:id="@+id/action_complaintDetailFragment_to_sendMessageFragment"
+                app:destination="@id/sendMessageFragment" />
     </fragment>
     <fragment
             android:id="@+id/explorerFragment"
@@ -89,4 +98,8 @@
             android:name="com.cheise_proj.teacher_feature.ui.explorer.ReportExplorerFragment"
             android:label="Report Files"
             tools:layout="@layout/fragment_report_explorer" />
+    <dialog
+            android:id="@+id/peopleDialogFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.send_message.PeopleDialogFragment"
+            android:label="PeopleDialogFragment" />
 </navigation>

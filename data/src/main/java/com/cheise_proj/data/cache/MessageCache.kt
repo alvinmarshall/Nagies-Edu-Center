@@ -26,6 +26,14 @@ class MessageCache {
             memCache[IDENTIFIER] = arrayListOf()
             return null
         }
+        
+        fun insertOneItem(value:MessageData){
+            val mutableList = memCache[IDENTIFIER]?.toMutableList()
+            mutableList?.add(value)
+            mutableList?.let {
+                memCache[IDENTIFIER] = mutableList
+            }
+        }
     }
 
 }

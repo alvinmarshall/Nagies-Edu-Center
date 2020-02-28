@@ -46,10 +46,6 @@
             android:name="com.cheise_proj.parent_feature.ui.teacher.TeacherFragment"
             android:label="Class Teacher" />
     <fragment
-            android:id="@+id/sendComplaintFragment"
-            android:name="com.cheise_proj.parent_feature.ui.complaint.SendComplaintFragment"
-            android:label="SendComplaint" />
-    <fragment
             android:id="@+id/assignmentFragment"
             android:name="com.cheise_proj.parent_feature.ui.assignment.AssignmentFragment"
             android:label="Assignment" />
@@ -60,9 +56,23 @@
         <argument
                 android:name="identifier"
                 app:argType="integer" />
+        <action
+                android:id="@+id/action_messageDetailFragment_to_composeComplaintFragment"
+                app:destination="@id/composeComplaintFragment" />
     </fragment>
     <fragment
             android:id="@+id/receiptFragment"
             android:name="com.cheise_proj.parent_feature.ui.receipt.ReceiptFragment"
             android:label="Upload Receipt" />
+    <fragment
+            android:id="@+id/composeComplaintFragment"
+            android:name="com.cheise_proj.parent_feature.ui.compose.ComposeComplaintFragment"
+            android:label="Sent Complaint"
+            tools:layout="@layout/fragment_compose_complaint">
+        <argument
+                android:name="message"
+                android:defaultValue="@null"
+                app:argType="com.cheise_proj.presentation.model.message.Message"
+                app:nullable="true" />
+    </fragment>
 </navigation>

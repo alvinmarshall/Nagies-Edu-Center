@@ -1,11 +1,32 @@
 package utils
 
-import com.cheise_proj.remote_source.model.dto.message.ComplaintDto
-import com.cheise_proj.remote_source.model.dto.message.ComplaintsDto
-import com.cheise_proj.remote_source.model.dto.message.MessageDto
-import com.cheise_proj.remote_source.model.dto.message.MessagesDto
+import com.cheise_proj.remote_source.model.dto.message.*
+import com.cheise_proj.remote_source.model.request.ComplaintRequest
+import com.cheise_proj.remote_source.model.request.MessageRequest
 
 object TestMessageGenerator {
+
+    fun getMessageRequest(): MessageRequest {
+        return MessageRequest(
+            content = "test content",
+            identifier = "test identifier",
+            receiverName = "test receiver name"
+        )
+    }
+
+    fun getSentMessageDto(): SentMessageDto {
+        return SentMessageDto(
+            SentMessage(status = 200, title = "message sent")
+        )
+    }
+
+    fun getComplaintRequest(): ComplaintRequest {
+        return ComplaintRequest(
+            content = "test content",
+            identifier = "test identifier"
+        )
+    }
+
     fun getMessageDto(): MessagesDto {
         return MessagesDto(
             arrayListOf(

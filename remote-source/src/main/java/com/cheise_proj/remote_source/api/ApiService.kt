@@ -3,18 +3,48 @@ package com.cheise_proj.remote_source.api
 import com.cheise_proj.remote_source.model.dto.files.*
 import com.cheise_proj.remote_source.model.dto.message.ComplaintsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
+import com.cheise_proj.remote_source.model.dto.message.SentMessageDto
 import com.cheise_proj.remote_source.model.dto.people.PeopleDto
 import com.cheise_proj.remote_source.model.dto.user.PasswordDto
 import com.cheise_proj.remote_source.model.dto.user.ProfileDto
 import com.cheise_proj.remote_source.model.dto.user.UserDto
 import com.cheise_proj.remote_source.model.request.ChangePasswordRequest
+import com.cheise_proj.remote_source.model.request.ComplaintRequest
 import com.cheise_proj.remote_source.model.request.LoginRequest
+import com.cheise_proj.remote_source.model.request.MessageRequest
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface ApiService {
+
+    //region SENT COMPLAINT
+    @GET("message/sent")
+    fun getSentComplaint(): Observable<ComplaintsDto>
+    //endregion
+
+    //region SENT MESSAGE
+    @GET("message/sent")
+    fun getSentMessages(): Observable<MessagesDto>
+    //endregion
+
+    //region SEND MESSAGE
+    // teacher sending this message to entire class / specific parent
+    @POST("message")
+    fun sendMessage(
+        @Body message: MessageRequest,
+        @Query("to") to: String = "parent"
+    ): Observable<SentMessageDto>
+
+
+    @POST("message")
+    // parent sending this message to specific class teacher
+    fun sendComplaint(
+        @Body complaint: ComplaintRequest,
+        @Query("to") to: String = "teacher"
+    ): Observable<SentMessageDto>
+    //endregion
 
     //region DELETE FILES
     @DELETE("file/{id}")

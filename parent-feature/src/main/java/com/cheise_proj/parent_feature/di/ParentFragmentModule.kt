@@ -3,7 +3,8 @@ package com.cheise_proj.parent_feature.di
 import com.cheise_proj.parent_feature.ui.assignment.AssignmentFragment
 import com.cheise_proj.parent_feature.ui.bill.BillFragment
 import com.cheise_proj.parent_feature.ui.circular.CircularFragment
-import com.cheise_proj.parent_feature.ui.complaint.SendComplaintFragment
+import com.cheise_proj.parent_feature.ui.compose.ComposeComplaintFragment
+import com.cheise_proj.parent_feature.ui.compose.PeopleDialogFragment
 import com.cheise_proj.parent_feature.ui.message.MessageDetailFragment
 import com.cheise_proj.parent_feature.ui.message.MessageFragment
 import com.cheise_proj.parent_feature.ui.password.PasswordFragment
@@ -28,7 +29,7 @@ interface ParentFragmentModule {
     fun contributeMessageFragment(): MessageFragment
 
     @ContributesAndroidInjector
-    fun contributePasswordtFragment(): PasswordFragment
+    fun contributePasswordFragment(): PasswordFragment
 
     @ContributesAndroidInjector
     fun contributeProfileFragment(): ProfileFragment
@@ -43,14 +44,17 @@ interface ParentFragmentModule {
     fun contributeTimeTableFragment(): TimeTableFragment
 
     @ContributesAndroidInjector
-    fun contributeSendComplaintFragment(): SendComplaintFragment
-
-    @ContributesAndroidInjector
     fun contributeMessageDetailFragment(): MessageDetailFragment
 
     @ContributesAndroidInjector
     fun contributeAssignmentFragment(): AssignmentFragment
 
     @ContributesAndroidInjector
-    fun contributeReceiptFragment():ReceiptFragment
+    fun contributeReceiptFragment(): ReceiptFragment
+
+    @ContributesAndroidInjector
+    fun contributeComposeComplaintFragment(): ComposeComplaintFragment
+
+    @ContributesAndroidInjector
+    fun contributePeopleDialogFragment(): PeopleDialogFragment
 }

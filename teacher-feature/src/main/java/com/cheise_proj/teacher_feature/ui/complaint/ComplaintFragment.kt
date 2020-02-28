@@ -19,6 +19,7 @@ import com.cheise_proj.common_module.DELAY_HANDLER
 import com.cheise_proj.presentation.factory.ViewModelFactory
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IColorGenerator
+import com.cheise_proj.presentation.viewmodel.SharedViewModel
 import com.cheise_proj.presentation.viewmodel.message.ComplaintViewModel
 import com.cheise_proj.teacher_feature.AdapterClickListener
 import com.cheise_proj.teacher_feature.R
@@ -40,6 +41,8 @@ class ComplaintFragment : BaseFragment() {
     lateinit var generator: IColorGenerator
 
     private lateinit var viewModel: ComplaintViewModel
+    private lateinit var sharedViewModel: SharedViewModel
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ComplaintAdapter
 
@@ -83,6 +86,9 @@ class ComplaintFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         initAdapter()
         viewModel = ViewModelProvider(this, factory)[ComplaintViewModel::class.java]
+        sharedViewModel = activity?.run {
+            ViewModelProvider(this)[SharedViewModel::class.java]
+        }!!
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({subscribeObserver()}, DELAY_HANDLER)
 //        subscribeObserver()
@@ -96,6 +102,7 @@ class ComplaintFragment : BaseFragment() {
                     hideProgress()
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
+                    sharedViewModel.setBadgeValue(Pair(R.id.complaintFragment, it.data?.size))
                 }
                 STATUS.ERROR -> {
                     hideProgress()

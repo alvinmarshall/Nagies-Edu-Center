@@ -87,8 +87,8 @@ class MessageFragment : BaseFragment() {
         sharedViewModel = activity?.run {
             ViewModelProvider(this)[SharedViewModel::class.java]
         }!!
-                val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed({subscribeObserver()}, DELAY_HANDLER)
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({ subscribeObserver() }, DELAY_HANDLER)
 //        subscribeObserver()
     }
 
@@ -99,6 +99,13 @@ class MessageFragment : BaseFragment() {
                 STATUS.LOADING -> println("loading...")
                 STATUS.SUCCESS -> {
                     hideLoadingProgress()
+                    it.data?.let { data ->
+                        if (data.isEmpty()) {
+                            showNoDataAlert()
+                        } else {
+                            showNoDataAlert(false)
+                        }
+                    }
                     sharedViewModel.setBadgeValue(Pair(R.id.messageFragment, it.data?.size))
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter

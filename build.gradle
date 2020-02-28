@@ -54,8 +54,8 @@ buildscript {
         mockkVersion = '1.9.3'
 
         // architecture component
-        worker_version = '2.3.1'
-        room_version = '2.2.3'
+        worker_version = '2.3.2'
+        room_version = '2.2.4'
         rx_room_version = '1.1.1'
         archCoreTestVersion = '2.1.0'
         lifecyle_version = '2.2.0'
@@ -94,7 +94,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
         classpath 'com.google.gms:google-services:4.3.3'
