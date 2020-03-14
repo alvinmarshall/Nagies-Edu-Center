@@ -4,5 +4,5 @@ import android.app.Activity
 
 interface TeacherNavigation {
     fun goToLocation(location:String?)
-    fun logout(activity: Activity)
+    fun logout(activity: Activity,topic:String)
 }

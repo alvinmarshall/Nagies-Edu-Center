@@ -28,7 +28,7 @@ class TimeTableAdapter :
     }
 
     override fun onBindViewHolder(holder: TimeTableVh, position: Int) {
-        holder.bind(getItem(position),adapterClickListener)
+        holder.bind(getItem(position), adapterClickListener)
     }
 
     fun setAdapterClickListener(callback: AdapterClickListener<Pair<String?, Boolean>>) {
@@ -46,9 +46,7 @@ class TimeTableAdapter :
             itemView.tv_header.text = header
             itemView.tv_sub_header.text = subHeader
             itemView.avatar_image.apply {
-                GlideApp.with(this.context).load(item?.photo).centerCrop().diskCacheStrategy(
-                    DiskCacheStrategy.AUTOMATIC
-                ).into(this)
+                GlideApp.with(this.context).load(item?.photo).centerCrop().into(this)
             }
             itemView.setOnClickListener {
                 adapterClickListener?.onClick(Pair(item?.photo, false))

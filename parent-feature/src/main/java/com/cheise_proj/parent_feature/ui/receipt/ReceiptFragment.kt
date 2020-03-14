@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import com.cheise_proj.common_module.REQUEST_CAMERA
-import com.cheise_proj.parent_feature.BuildConfig
 import com.cheise_proj.parent_feature.R
 import com.cheise_proj.parent_feature.base.BaseFragment
 import com.cheise_proj.parent_feature.utils.RealPathUtil
@@ -59,13 +58,14 @@ class ReceiptFragment : BaseFragment() {
                 return@setOnClickListener
             }
             it.visibility = View.GONE
-            UploadReceiptWorker.start(it.context, captureImagePath).observe(viewLifecycleOwner,
-                androidx.lifecycle.Observer { worker ->
-                    if (worker.state.isFinished) {
-                        it.visibility = View.VISIBLE
-                        toast("upload complete")
-                    }
-                })
+            UploadReceiptWorker.start(it.context, captureImagePath, R.id.receiptFragment)
+                .observe(viewLifecycleOwner,
+                    androidx.lifecycle.Observer { worker ->
+                        if (worker.state.isFinished) {
+                            it.visibility = View.VISIBLE
+                            toast("upload complete")
+                        }
+                    })
         }
     }
 

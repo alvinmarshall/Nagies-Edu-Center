@@ -48,7 +48,6 @@ class TeacherAdapter :
                 GlideApp.with(this.context)
                     .load(item?.photo)
                     .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(this)
             }
             itemView.btn_item_call.setOnClickListener {

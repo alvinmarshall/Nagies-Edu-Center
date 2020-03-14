@@ -8,6 +8,7 @@ import com.cheise_proj.domain.entity.message.MessageEntity
 import com.cheise_proj.domain.entity.people.PeopleEntity
 import com.cheise_proj.domain.entity.user.ProfileEntity
 import com.cheise_proj.domain.entity.user.UserEntity
+import com.cheise_proj.parent_feature.notification.CreateParentNotification
 import com.cheise_proj.parentapp.di.key.ViewModelKey
 import com.cheise_proj.parentapp.preference.PreferenceImpl
 import com.cheise_proj.parentapp.utils.ServerPathUtils
@@ -26,6 +27,7 @@ import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.model.people.People
 import com.cheise_proj.presentation.model.user.Profile
 import com.cheise_proj.presentation.model.user.User
+import com.cheise_proj.presentation.notification.IParentNotification
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.InputValidation
@@ -98,6 +100,7 @@ class PresentationModule {
         //region MESSAGE
         @Binds
         fun bindComplaintEntity(complaintEntityMapper: ComplaintEntityMapper): PresentationMapper<Complaint, ComplaintEntity>
+
         @Binds
         fun bindMessageEntity(messageEntityMapper: MessageEntityMapper): PresentationMapper<Message, MessageEntity>
 
@@ -144,6 +147,11 @@ class PresentationModule {
 
         @Binds
         fun bindInputValidation(inputValidationImpl: InputValidationImpl): InputValidation
+
+        //region NOTIFICATION
+        @Binds
+        fun createParentNotification(createParentNotification: CreateParentNotification): IParentNotification
+        //endregion
     }
 
 }
