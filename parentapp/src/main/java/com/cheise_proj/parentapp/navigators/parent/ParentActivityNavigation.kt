@@ -7,6 +7,7 @@ import com.cheise_proj.login_feature.ui.role.RoleActivity
 import com.cheise_proj.parent_feature.ParentNavigation
 import com.cheise_proj.presentation.model.vo.UserSession
 import com.cheise_proj.presentation.utils.IPreference
+import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject
 
 class ParentActivityNavigation @Inject constructor(
@@ -16,7 +17,7 @@ class ParentActivityNavigation @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun logout(activity: Activity) {
+    override fun logout(activity: Activity, topic: String) {
         removeNotification(activity)
         val session = UserSession(false, null, null, null)
         session.uuid = 0
@@ -24,6 +25,7 @@ class ParentActivityNavigation @Inject constructor(
         session.token = null
         session.name = null
         pref.setUserSession(session)
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
         activity.startActivity(RoleActivity.getIntent(activity))
         activity.finish()
     }
@@ -33,4 +35,6 @@ class ParentActivityNavigation @Inject constructor(
             activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancelAll()
     }
+
+
 }

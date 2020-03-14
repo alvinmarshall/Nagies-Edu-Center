@@ -72,4 +72,17 @@
     <string name="menu_reply">Reply</string>
     <string name="btn_label_select">select</string>
 
+    <!--    FCM-->
+    <string name="fcm_topic_parent">parent</string>
+    <string name="fcm_topic_dev_parent">dev_parent</string>
+
+    <string name="notification_type_message">message</string>
+    <string name="notification_type_announcement">announcement</string>
+    <string name="notification_type_password_reset">password</string>
+
+    <string name="notification_type_report_image">report_image</string>
+    <string name="notification_type_assignment_image">assignment_image</string>
+
+
+
 </resources>

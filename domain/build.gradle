@@ -10,6 +10,6 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$rootProject.mockito_version"
 
     //okhttp
-    implementation "com.squareup.okhttp3:okhttp:4.3.1"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
 }
 

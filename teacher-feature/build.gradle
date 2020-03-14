@@ -78,4 +78,7 @@ dependencies {
 
     //okhttp
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
+
+    //firebase messaging
+    implementation "com.google.firebase:firebase-messaging:$rootProject.firebase_msg_version"
 }

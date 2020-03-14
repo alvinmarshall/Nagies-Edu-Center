@@ -26,7 +26,7 @@ import com.cheise_proj.local_source.model.user.UserLocal
         PeopleLocal::class,
         ComplaintLocal::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class LocalDatabase : RoomDatabase() {

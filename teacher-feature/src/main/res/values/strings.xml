@@ -74,4 +74,11 @@
     <string name="btn_label_download">download</string>
     <string name="btn_label_send">send</string>
     <string name="label_enter_message">Enter Message</string>
+
+    <!--    FCM-->
+    <string name="fcm_topic_teacher">teachers</string>
+    <string name="fcm_topic_dev_teacher">dev_teachers</string>
+
+    <string name="notification_type_password_reset">password</string>
+    <string name="notification_type_complaint">complaint</string>
 </resources>

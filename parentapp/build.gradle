@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 android {
     compileSdkVersion rootProject.compileSdkVersion
     compileOptions {
@@ -65,6 +67,9 @@ dependencies {
     //work manager
     implementation "androidx.work:work-runtime-ktx:$rootProject.worker_version"
     implementation "androidx.work:work-rxjava2:$rootProject.worker_version"
+
+    //firebase messaging
+    implementation "com.google.firebase:firebase-messaging:$rootProject.firebase_msg_version"
 
     implementation project(path: ':parent-feature')
     implementation project(path: ':login-feature')

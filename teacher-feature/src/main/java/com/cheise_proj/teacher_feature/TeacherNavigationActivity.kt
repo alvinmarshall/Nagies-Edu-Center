@@ -25,6 +25,7 @@ import com.cheise_proj.teacher_feature.base.BaseActivity
 import com.cheise_proj.teacher_feature.utils.ConnectionLiveData
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.content_teacher_navigation.*
 
 class TeacherNavigationActivity : BaseActivity() {
@@ -59,6 +60,7 @@ class TeacherNavigationActivity : BaseActivity() {
         configureViewModel()
         openNavigationMenu()
         subscribeNetworkChange(snack)
+        firebaseMessageSubscription()
 
 
     }
@@ -132,13 +134,28 @@ class TeacherNavigationActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_logout -> navigation.logout(this)
+            R.id.action_logout -> navigation.logout(this,getTeacherTopic())
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, drawerLayout)
+    }
+
+    private fun firebaseMessageSubscription() {
+        FirebaseMessaging.getInstance().subscribeToTopic(getTeacherTopic()).addOnCompleteListener {
+            if (!it.isSuccessful) {
+                println("Task Failed")
+                return@addOnCompleteListener
+            }
+            println("subscribe teacher topic")
+        }
+    }
+
+    private fun getTeacherTopic(): String {
+        return if (BuildConfig.DEBUG) getString(R.string.fcm_topic_dev_teacher) else getString(R.string.fcm_topic_teacher)
+
     }
 
 }

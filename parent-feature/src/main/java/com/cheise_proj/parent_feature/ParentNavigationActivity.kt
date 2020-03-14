@@ -33,6 +33,7 @@ import com.cheise_proj.parent_feature.utils.ConnectionLiveData
 import com.cheise_proj.presentation.viewmodel.SharedViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.content_parent_navigation.*
 
 class ParentNavigationActivity : BaseActivity() {
@@ -46,10 +47,7 @@ class ParentNavigationActivity : BaseActivity() {
     private lateinit var navView: NavigationView
     private lateinit var sharedViewModel: SharedViewModel
     private val textBadgeViews = arrayListOf<TextView>()
-    override fun onResume() {
-        super.onResume()
-//        setBackgroundChanger()
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +66,7 @@ class ParentNavigationActivity : BaseActivity() {
         configureViewModel()
         openNavigationMenu()
         subscribeNetworkChange(snack)
+        firebaseMessageSubscription()
 //        dialogUseBackgroundChanger()
 
     }
@@ -193,7 +192,7 @@ class ParentNavigationActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_logout -> navigation.logout(this)
+            R.id.action_logout -> navigation.logout(this,getParentTopic())
         }
         return super.onOptionsItemSelected(item)
     }
@@ -201,5 +200,20 @@ class ParentNavigationActivity : BaseActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, drawerLayout)
+    }
+
+    private fun firebaseMessageSubscription() {
+        FirebaseMessaging.getInstance().subscribeToTopic(getParentTopic()).addOnCompleteListener {
+            if (!it.isSuccessful) {
+                println("Task Failed")
+                return@addOnCompleteListener
+            }
+            println("subscribe parent topic")
+        }
+    }
+
+    private fun getParentTopic(): String {
+        return if (BuildConfig.DEBUG) getString(R.string.fcm_topic_dev_parent) else getString(R.string.fcm_topic_parent)
+
     }
 }

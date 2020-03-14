@@ -11,4 +11,8 @@
     <string name="pref_login_uuid_key">login_user_uuid</string>
     <string name="pref_first_time_login_key">first_time_login</string>
     <string name="pref_use_background_changer_key">use_background_changer</string>
+
+    <!--    FCM-->
+    <string name="fcm_topic_global">global</string>
+    <string name="fcm_topic_dev_global">dev_global</string>
 </resources>

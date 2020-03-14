@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">teacherapp</string>
+    <string name="app_name">teacherApp</string>
+
+    <!--    FCM-->
+    <string name="fcm_topic_global">global</string>
+    <string name="fcm_topic_dev_global">dev_global</string>
 </resources>
