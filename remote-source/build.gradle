@@ -7,6 +7,9 @@ dependencies {
     testImplementation "junit:junit:$rootProject.junitVersion"
     testImplementation "org.mockito:mockito-core:$rootProject.mockito_version"
 
+    //okhttp
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
+
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"
@@ -14,8 +17,6 @@ dependencies {
 
     //inject
     implementation "javax.inject:javax.inject:$rootProject.javaxInjectVersion"
-
     implementation project(path: ':data')
-
 }
 

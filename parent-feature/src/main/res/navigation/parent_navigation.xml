@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/parent_navigation"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parent_navigation"
         app:startDestination="@id/messageFragment">
 
     <fragment
             android:id="@+id/timeTableFragment"
             android:name="com.cheise_proj.parent_feature.ui.timetable.TimeTableFragment"
             android:label="TimeTable" />
-    <fragment
-            android:id="@+id/announcementFragment2"
-            android:name="com.cheise_proj.parent_feature.ui.announcement.AnnouncementFragment"
-            android:label="Announcement" />
     <fragment
             android:id="@+id/billFragment"
             android:name="com.cheise_proj.parent_feature.ui.bill.BillFragment"
@@ -22,7 +20,15 @@
     <fragment
             android:id="@+id/messageFragment"
             android:name="com.cheise_proj.parent_feature.ui.message.MessageFragment"
-            android:label="Messages" />
+            android:label="Messages" >
+        <action
+                android:id="@+id/action_messageFragment_to_messageDetailFragment"
+                app:destination="@id/messageDetailFragment"
+                app:enterAnim="@anim/fragment_open_enter"
+                app:exitAnim="@anim/fragment_close_exit"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
             android:id="@+id/passwordFragment"
             android:name="com.cheise_proj.parent_feature.ui.password.PasswordFragment"
@@ -40,11 +46,33 @@
             android:name="com.cheise_proj.parent_feature.ui.teacher.TeacherFragment"
             android:label="Class Teacher" />
     <fragment
-            android:id="@+id/sendComplaintFragment"
-            android:name="com.cheise_proj.parent_feature.ui.complaint.SendComplaintFragment"
-            android:label="SendComplaint" />
-    <fragment
             android:id="@+id/assignmentFragment"
             android:name="com.cheise_proj.parent_feature.ui.assignment.AssignmentFragment"
             android:label="Assignment" />
+    <fragment
+            android:id="@+id/messageDetailFragment"
+            android:name="com.cheise_proj.parent_feature.ui.message.MessageDetailFragment"
+            android:label="Detail">
+        <argument
+                android:name="identifier"
+                app:argType="integer" />
+        <action
+                android:id="@+id/action_messageDetailFragment_to_composeComplaintFragment"
+                app:destination="@id/composeComplaintFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/receiptFragment"
+            android:name="com.cheise_proj.parent_feature.ui.receipt.ReceiptFragment"
+            android:label="Upload Receipt" />
+    <fragment
+            android:id="@+id/composeComplaintFragment"
+            android:name="com.cheise_proj.parent_feature.ui.compose.ComposeComplaintFragment"
+            android:label="Sent Complaint"
+            tools:layout="@layout/fragment_compose_complaint">
+        <argument
+                android:name="message"
+                android:defaultValue="@null"
+                app:argType="com.cheise_proj.presentation.model.message.Message"
+                app:nullable="true" />
+    </fragment>
 </navigation>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">presentation</string>
+
+    <!--    PASSWORD RESET-->
+    <string name="password_reset_loading">please wait…</string>
+    <string name="password_reset_success">password updated successful</string>
+    <string name="password_reset_failed">updating password failed</string>
+    <string name="password_reset_mismatch">password mismatch</string>
 </resources>

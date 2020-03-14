@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        tools:context=".ui.message.MessageDetailFragment">
+
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                    android:id="@+id/avatar_background"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_12dp"
+                    android:layout_marginTop="@dimen/padding_size_12dp"
+                    android:padding="@dimen/padding_size_4dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed">
+
+                <ImageView
+                        android:id="@+id/avatar_image"
+                        android:layout_width="@dimen/img_avatar_size"
+                        android:layout_height="@dimen/img_avatar_size"
+                        android:scaleType="centerCrop"
+                        tools:ignore="ContentDescription"
+                        tools:src="@color/normal" />
+
+                <TextView
+                        android:id="@+id/tv_icon_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:maxLength="2"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/tv_size_20sp"
+                        tools:text="KD" />
+            </RelativeLayout>
+
+            <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="@dimen/padding_no_size"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_12dp"
+                    android:layout_marginTop="@dimen/padding_size_4dp"
+                    android:layout_marginEnd="@dimen/padding_size_16dp"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
+                    android:transitionName="@string/message_title_transition"
+                    tools:text="@tools:sample/full_names"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/avatar_background"
+                    app:layout_constraintTop_toTopOf="@+id/avatar_background" />
+
+            <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="@dimen/padding_no_size"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_12dp"
+                    android:layout_marginEnd="@dimen/padding_size_16dp"
+                    android:layout_marginBottom="@dimen/padding_size_4dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/colorSecondaryTextDefaultMaterialLight"
+                    app:layout_constraintBottom_toBottomOf="@+id/avatar_background"
+                    tools:text="@tools:sample/date/mmddyy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/avatar_background" />
+
+            <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="@dimen/padding_no_size"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_16dp"
+                    android:layout_marginTop="@dimen/padding_size_16dp"
+                    android:layout_marginEnd="@dimen/padding_size_16dp"
+                    android:layout_marginBottom="@dimen/padding_size_16dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
+                    tools:text="@tools:sample/lorem/random"
+                    android:textIsSelectable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</com.google.android.material.card.MaterialCardView>

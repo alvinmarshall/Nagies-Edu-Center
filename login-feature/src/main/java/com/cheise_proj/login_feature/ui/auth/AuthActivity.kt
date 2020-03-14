@@ -3,7 +3,6 @@ package com.cheise_proj.login_feature.ui.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.Observer
@@ -11,7 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.cheise_proj.login_feature.AuthNavigation
 import com.cheise_proj.login_feature.R
 import com.cheise_proj.presentation.factory.ViewModelFactory
+import com.cheise_proj.presentation.model.user.User
 import com.cheise_proj.presentation.model.vo.STATUS
+import com.cheise_proj.presentation.model.vo.UserSession
+import com.cheise_proj.presentation.utils.IPreference
+import com.cheise_proj.presentation.utils.InputValidation
 import com.cheise_proj.presentation.viewmodel.user.UserViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -20,12 +23,18 @@ import javax.inject.Inject
 class AuthActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var navigation: AuthNavigation
+
+    @Inject
+    lateinit var inputValidation: InputValidation
+
     @Inject
     lateinit var factory: ViewModelFactory
 
+    @Inject
+    lateinit var preference: IPreference
+
     private lateinit var imageView: ImageView
     private lateinit var userViewModel: UserViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,36 +42,61 @@ class AuthActivity : DaggerAppCompatActivity() {
         val role = getUserRoleExtras()
         configureViewModel()
         btn_login.setOnClickListener {
-            userViewModel.authenticateUser("creche", "1234", "parent").observe(this, Observer {
-                showErrorMessage(it.message)
-                when (it.status) {
-                    STATUS.LOADING -> showProgress()
-                    STATUS.SUCCESS -> {
-                        showProgress(false)
-                        println("data ${it.data}")
-                    }
+            inputValidation.hideKeyboard(it)
+            role?.let { r -> authenticateUser(r) }
+        }
+    }
 
-                    STATUS.ERROR -> {
-                        showProgress(false)
-                        println("error ${it.message}")
+    private fun authenticateUser(role: String) {
+        if (!inputValidation.isEditTextFilled(et_username)) return
+        if (!inputValidation.isEditTextFilled(et_password)) return
+
+        val username: String = et_username.text.trim().toString()
+        val password: String = et_password.text.trim().toString()
+
+        subscribeLoginObservers(username, password, role)
+    }
+
+    private fun subscribeLoginObservers(username: String, password: String, role: String) {
+        userViewModel.authenticateUser(username, password, role).observe(this, Observer {
+            showErrorMessage(it.message)
+            when (it.status) {
+                STATUS.LOADING -> showProgress()
+                STATUS.SUCCESS -> {
+                    showProgress(false)
+                    if (it.data == null) return@Observer
+                    setSession(it.data!!, role)
+                    when (role) {
+                        getString(R.string.label_parent_login) -> {
+                            navigation.loginToParent(this)
+                        }
+                        getString(R.string.label_teacher_login) -> {
+                            navigation.loginToTeacher(this)
+                        }
                     }
                 }
-            })
 
-//            role?.let {
-//                when (it) {
-//                    getString(R.string.label_parent_login) -> {
-//                        navigation.loginToParent(this)
-//                    }
-//                    getString(R.string.label_teacher_login) -> {
-//                        navigation.loginToTeacher(this)
-//                    }
-//                }
-//
-//            }
-        }
+                STATUS.ERROR -> {
+                    showProgress(false)
+                    println("error ${it.message}")
+                }
+            }
+        })
 
     }
+
+    private fun setSession(data: User, role: String) {
+        with(data) {
+            val session =
+                UserSession(true, role, username, level)
+            session.name = name
+            session.token = token
+            session.photo = photo
+            session.uuid = uuid
+            preference.setUserSession(session)
+        }
+    }
+
 
     private fun configureViewModel() {
         userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
@@ -79,15 +113,9 @@ class AuthActivity : DaggerAppCompatActivity() {
     private fun showErrorMessage(msg: String?) {
         label_msg_error.visibility = View.GONE
         msg?.let {
-            if (msg.contains("Unable to resolve host")) {
-                label_msg_error.text = "No internet connection"
-            }
-            if (msg.contains("HTTP 401")) {
-                label_msg_error.text = "Username or password incorrect"
-            }
+            label_msg_error.text = it
             label_msg_error.visibility = View.VISIBLE
         }
-
     }
 
     private fun getUserRoleExtras(): String? {

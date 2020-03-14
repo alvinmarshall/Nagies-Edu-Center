@@ -7,21 +7,21 @@ buildscript {
         compileSdkVersion = 29
         minSdkVersion = 22
         targetSdkVersion = 29
-        versionCode = 1
-        versionName = '1.0'
+        versionCode = 9
+        versionName = '2.0.0'
 
         //kotlin
-        ktxVersion = '1.1.0'
+        ktxVersion = '1.2.0'
         dokka_version = '0.10.0'
 
         // ui
         constraintlayoutVersion = '1.1.3'
         appcompatVersion = '1.1.0'
-        material_version = '1.0.0'
+        material_version = '1.1.0'
         recyclerviewVersion = material_version
         cardViewVersion = material_version
 
-        glide_version = '4.9.0'
+        glide_version = '4.11.0'
         //preference version
         pref_version = '1.1.0'
 
@@ -54,31 +54,37 @@ buildscript {
         mockkVersion = '1.9.3'
 
         // architecture component
-        work_version = '2.0.1'
-        room_version = '2.2.3'
+        worker_version = '2.3.2'
+        room_version = '2.2.4'
         rx_room_version = '1.1.1'
         archCoreTestVersion = '2.1.0'
-        lifecyle_version = '2.2.0-rc03'
-        navigation_version = '2.2.0-rc04'
+        lifecyle_version = '2.2.0'
+        navigation_version = '2.2.1'
 
         //firebase version
         firebase_version = '17.2.0'
-        firebase_msg_version = '20.0.0'
+        firebase_msg_version = '20.1.1'
 
         //retrofit version
-        retrofit_version = '2.6.0'
+        retrofit_version = '2.7.1'
         rx_retrofit_adapter = '2.4.0'
 
         //json object
         moshiversion = '1.8.0'
-        gson_version = '2.8.5'
+        gson_version = '2.8.6'
 
         //dependency inject
         javaxInjectVersion = "1"
-        dagger_version = '2.22'
+        dagger_version = '2.26'
 
         //time
         threetenabp_version = '1.1.0'
+
+        //TouchImageView
+        TouchImageViewVersion = '2.3.3'
+
+        //okhttp
+        okhttpVersion = '4.4.0'
     }
     repositories {
         google()
@@ -88,7 +94,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
         classpath 'com.google.gms:google-services:4.3.3'
@@ -101,7 +107,8 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven { url 'https://jitpack.io' }
+
     }
 }
 

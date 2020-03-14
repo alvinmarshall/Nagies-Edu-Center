@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mobile_navigation"
+        app:startDestination="@id/complaintFragment">
+    <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.profile.ProfileFragment"
+            android:label="Profile"
+            tools:layout="@layout/fragment_profile" />
+    <fragment
+            android:id="@+id/studentFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.student.StudentFragment"
+            android:label="Students"
+            tools:layout="@layout/fragment_student" >
+        <argument
+                android:name="file_path"
+                app:argType="string" />
+    </fragment>
+    <fragment
+            android:id="@+id/sendMessageFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.send_message.SendMessageFragment"
+            android:label="Sent Messages"
+            tools:layout="@layout/fragment_send_message">
+        <argument
+                android:name="complaint"
+                android:defaultValue="@null"
+                app:argType="com.cheise_proj.presentation.model.message.Complaint"
+                app:nullable="true" />
+    </fragment>
+    <fragment
+            android:id="@+id/attachmentFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.attachment.AttachmentFragment"
+            android:label="Attachment"
+            tools:layout="@layout/fragment_attachment" >
+        <action
+                android:id="@+id/action_attachmentFragment_to_studentFragment"
+                app:destination="@id/studentFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/passwordFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.password.PasswordFragment"
+            android:label="Password"
+            tools:layout="@layout/fragment_password" />
+    <fragment
+            android:id="@+id/complaintFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.complaint.ComplaintFragment"
+            android:label="Messages"
+            tools:layout="@layout/fragment_complaint" >
+        <action
+                android:id="@+id/action_complaintFragment_to_complaintDetailFragment"
+                app:destination="@id/complaintDetailFragment"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/fragment_open_enter"
+                app:popExitAnim="@anim/fragment_open_exit" />
+    </fragment>
+    <fragment
+            android:id="@+id/complaintDetailFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.complaint.ComplaintDetailFragment"
+            android:label="Detail"
+            tools:layout="@layout/fragment_complaint_detail">
+        <argument
+                android:name="complaint"
+                app:argType="integer" />
+        <action
+                android:id="@+id/action_complaintDetailFragment_to_sendMessageFragment"
+                app:destination="@id/sendMessageFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/explorerFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.explorer.ExplorerFragment"
+            android:label="File Manager"
+            tools:layout="@layout/fragment_explorer" >
+        <action
+                android:id="@+id/action_explorerFragment_to_assignmentExplorerFragment"
+                app:destination="@id/assignmentExplorerFragment"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+                android:id="@+id/action_explorerFragment_to_reportExplorerFragment"
+                app:destination="@id/reportExplorerFragment"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+            android:id="@+id/assignmentExplorerFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.explorer.AssignmentExplorerFragment"
+            android:label="Assignment Files"
+            tools:layout="@layout/fragment_assignment_explorer" />
+    <fragment
+            android:id="@+id/reportExplorerFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.explorer.ReportExplorerFragment"
+            android:label="Report Files"
+            tools:layout="@layout/fragment_report_explorer" />
+    <dialog
+            android:id="@+id/peopleDialogFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.send_message.PeopleDialogFragment"
+            android:label="PeopleDialogFragment" />
+</navigation>

@@ -9,7 +9,7 @@
         <item name="primaryTextColor">@color/colorPrimaryTextLight</item>
         <item name="secondaryTextColor">@color/colorSecondaryTextLight</item>
         <item name="cardBackgroundColor">@color/colorCardLight</item>
-        <item name="backgroundColor">@color/colorBackgroundLight</item>
+<!--        <item name="backgroundColor">@color/colorPrimaryTextLight</item>-->
         <item name="drawableTintColor">@color/colorDrawableTintLight</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -21,6 +21,10 @@
 
     <style name="SpinnerTheme" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
         <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.MaterialComponents">
+        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
 </resources>

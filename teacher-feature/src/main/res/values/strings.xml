@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">teacher-feature</string>
+    <string name="action_settings">Settings</string>
+
+    <!--    LOGIN-->
+    <string name="pref_isLogin_key">user_login</string>
+    <string name="pref_login_username_key">login_username</string>
+    <string name="pref_login_name_key">login_name</string>
+    <string name="pref_login_level_key">login_level</string>
+    <string name="pref_login_user_role_key">login_user_role</string>
+    <string name="pref_login_user_token_key">user_token</string>
+    <string name="pref_login_avatar_key">user_avatar</string>
+    <string name="pref_login_uuid_key">login_user_uuid</string>
+    <string name="pref_first_time_login_key">first_time_login</string>
+
+    <string name="pref_use_background_changer_key">use_background_changer</string>
+
+    <!--    NETWORK-->
+    <string name="no_network_connection">No internet connection"</string>
+
+    <!--    PASSWORD-->
+    <string name="label_old_password">old password</string>
+    <string name="label_new_password">new password</string>
+    <string name="label_confirm_password">confirm password</string>
+    <string name="label_change_password">change password</string>
+    <string name="label_password_sub_title">Remember to use the new password at login page</string>
+    <string name="label_password_header">Change Password ?</string>
+
+    <!--   NAV MENU-->
+    <string name="group_label_account">Account</string>
+    <string name="group_label_files">Files</string>
+    <string name="group_label_message">Message</string>
+
+    <string name="menu_explorer">File Manager</string>
+    <string name="menu_complaint">Complaint</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_upload_files">Upload</string>
+
+    <string name="menu_logout">logout</string>
+    <string name="menu_change_password">Password</string>
+    <string name="menu_reply">Reply</string>
+    <string name="menu_compose">Compose Message</string>
+
+    <!--    COMPLAINT TRANSITION-->
+    <string name="complaint_tile_transition">complaint_title_transition</string>
+
+
+    <!--    FILE AUTHORITY-->
+    <string name="file_provider_authority" translatable="false">%1$s.FileProvider</string>
+
+    <!--    DATE FORMAT-->
+    <string name="date_long_format">yyyyMMdd_HHmmss</string>
+
+    <!-- PERMISSION-->
+    <string name="permission_denied">Permission Denied</string>
+    <string name="permission_storage_message">Allow application to read &amp; write storage</string>
+    <string name="permission_storage_explained">Without this permission this app is unable to open files. Are you sure
+        you want to deny this permission.
+    </string>
+
+    <string name="label_upload_img_hint">Capture or browse for image</string>
+    <string name="label_upload_file_sub_header">Send your student attachment files \nlike an assignment or report on the go.</string>
+    <string name="label_upload_file_header">Transfer Files</string>
+    <string name="label_btn_send_report">select</string>
+    <string name="label_btn_send_assignment">send assignment</string>
+    <string name="menu_students">Students</string>
+
+    <!--    EXPLORER-->
+    <string name="label_file_explorer_header">File Explorer</string>
+    <string name="label_sub_header_file_explorer">Manager all uploaded files, Sent to students,\n Whether assignment or report on the go</string>
+    <string name="btn_label_assignment">Assignment</string>
+    <string name="btn_label_report">Report</string>
+    <string name="btn_label_delete">Delete</string>
+    <string name="btn_label_download">download</string>
+    <string name="btn_label_send">send</string>
+    <string name="label_enter_message">Enter Message</string>
+
+    <!--    FCM-->
+    <string name="fcm_topic_teacher">teachers</string>
+    <string name="fcm_topic_dev_teacher">dev_teachers</string>
+
+    <string name="notification_type_password_reset">password</string>
+    <string name="notification_type_complaint">complaint</string>
+</resources>

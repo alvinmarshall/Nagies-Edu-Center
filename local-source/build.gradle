@@ -4,7 +4,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.compileSdkVersion
-
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
@@ -32,11 +35,12 @@ dependencies {
 
     //Testing
     testImplementation "junit:junit:$rootProject.junitVersion"
+    androidTestImplementation "junit:junit:$rootProject.junitVersion"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockito_version"
     testImplementation "androidx.arch.core:core-testing:$rootProject.archCoreTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.expresso_version"
     androidTestImplementation "androidx.test:runner:$rootProject.testRulesVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.archCoreTestVersion"
 
 
     //inject
@@ -56,4 +60,5 @@ dependencies {
     implementation "androidx.room:room-ktx:$rootProject.room_version"
     testImplementation "androidx.room:room-testing:$rootProject.room_version"
     implementation "androidx.room:room-rxjava2:$rootProject.room_version"
+    implementation project(path: ':common-module')
 }

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground">
+
+        <TextView
+                android:id="@+id/item_name"
+                android:layout_width="@dimen/padding_no_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorPrimaryTextDefaultMaterialLight"
+                app:layout_constraintEnd_toStartOf="@id/item_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/full_names" />
+
+        <TextView
+                android:id="@+id/item_ref"
+                android:layout_width="@dimen/padding_no_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorSecondaryTextDefaultMaterialLight"
+                app:layout_constraintEnd_toStartOf="@+id/item_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_name"
+                tools:text="@tools:sample/us_zipcodes" />
+
+        <TextView
+                android:id="@+id/item_index"
+                android:layout_width="@dimen/padding_no_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorSecondaryTextDefaultMaterialLight"
+                app:layout_constraintEnd_toStartOf="@+id/item_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_ref"
+                tools:text="@tools:sample/us_zipcodes" />
+
+        <TextView
+                android:id="@+id/item_gender"
+                android:layout_width="@dimen/padding_no_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorSecondaryTextDefaultMaterialLight"
+                app:layout_constraintEnd_toStartOf="@+id/item_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_index"
+                tools:text="@tools:sample/lorem" />
+
+        <ImageView
+                android:id="@+id/item_img"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+        <Button
+                android:id="@+id/btn_select"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/padding_size_8dp"
+                android:layout_marginEnd="@dimen/padding_size_8dp"
+                android:minWidth="0dp"
+                android:paddingStart="@dimen/padding_size_8dp"
+                android:paddingEnd="@dimen/padding_size_8dp"
+                android:text="@string/btn_label_select"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_img" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

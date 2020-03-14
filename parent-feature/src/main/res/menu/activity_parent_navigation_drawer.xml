@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:showIn="navigation_view">
 
@@ -7,22 +8,26 @@
         <item
                 android:id="@+id/messageFragment"
                 android:icon="@drawable/ic_dashboard_black_24dp"
-                android:title="@string/menu_message" />
+                android:title="@string/menu_message"
+                app:actionViewClass="android.widget.TextView" />
         <item
                 android:id="@+id/circularFragment2"
                 android:icon="@drawable/ic_description_black_24dp"
-                android:title="@string/menu_circular" />
+                android:title="@string/menu_circular"
+                app:actionViewClass="android.widget.TextView" />
         <item
                 android:id="@+id/billFragment"
                 android:icon="@drawable/ic_format_bold_black_24dp"
-                android:title="@string/menu_bill" />
+                android:title="@string/menu_bill"
+                app:actionViewClass="android.widget.TextView" />
         <item
-                android:id="@+id/announcementFragment2"
-                android:icon="@drawable/ic_radio_black_24dp"
-                android:title="@string/menu_announcement" />
+                android:id="@+id/receiptFragment"
+                android:icon="@drawable/ic_file_upload_black_24dp"
+                android:title="@string/menu_upload_receipt" />
+
         <item
-                android:id="@+id/sendComplaintFragment"
-                android:icon="@drawable/ic_message_black_24dp"
+                android:id="@+id/composeComplaintFragment"
+                android:icon="@drawable/ic_create_black_24dp"
                 android:title="@string/menu_send_complaint" />
         <item
                 android:id="@+id/profileFragment2"
@@ -31,16 +36,19 @@
         <item
                 android:id="@+id/assignmentFragment"
                 android:icon="@drawable/ic_description_black_24dp"
-                android:title="@string/menu_assignment" />
+                android:title="@string/menu_assignment"
+                app:actionViewClass="android.widget.TextView" />
 
         <item
                 android:id="@+id/reportFragment2"
                 android:icon="@drawable/ic_description_black_24dp"
-                android:title="@string/menu_report" />
+                android:title="@string/menu_report"
+                app:actionViewClass="android.widget.TextView" />
         <item
                 android:id="@+id/timeTableFragment"
                 android:icon="@drawable/ic_schedule_black_24dp"
-                android:title="@string/menu_time_table" />
+                android:title="@string/menu_time_table"
+                app:actionViewClass="android.widget.TextView" />
 
         <item
                 android:id="@+id/teacherFragment"

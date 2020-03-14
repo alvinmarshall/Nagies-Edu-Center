@@ -1,6 +1,7 @@
 package com.cheise_proj.common_module
-
-val LOGIN_ROLE_OPTIONS = arrayListOf("parent", "teacher")
+const val STALE_MS: Long = 30 * 1000 // Data is stale after 30 seconds
+const val PARENT_ROLE = "Parent"
+const val TEACHER_ROLE = "Teacher"
 const val USER_SELECTED_ROLE_PREF_KEY = "USER_SELECTED_ROLE_PREF_KEY"
 const val INFORDAS_BASE_URL = "https://infodasgh.com/api/v1/"
 const val DEV_INFORDAS_BASE_URL = "https://developers.nagies.infodasgh.com/api/v1/"
@@ -11,10 +12,10 @@ const val SERVER_URL = "https://infodasgh.com/api/v1/file/download?path="
 const val DEV_SERVER_URL = "https://developers.nagies.infodasgh.com/api/v1/file/download?path="
 const val PERMISSION_PREF = "permission_pref"
 const val REQUEST_EXTERNAL_STORAGE = 100
-const val USER_FULL_NAME_PREF_KEY = "full_name_key"
-const val USER_LEVEL_NAME_PREF_KEY = "level_name_key"
-const val USER_IMAGE_URL_PREF_KEY = "image_url_key"
-const val USER_NAME_PREF_KEY = "username_key"
+const val REQUEST_CAMERA = 220
+const val AUTHORIZATION_HEADER = "Authorization"
+const val DELAY_HANDLER: Long = 300
+const val PICSUM_URL = "https://picsum.photos/200/300/?blur=5&random=1"
 enum class DBEntities {
     ASSIGNMENT, REPORT, CIRCULAR, BILLING, TIME_TABLE
 }
@@ -75,7 +76,7 @@ enum class CircularAction {
     VIEW, DOWNLOAD
 }
 
-enum class ViewFilesAction {
+enum class ExplorersAction {
     VIEW, DOWNLOAD, DELETE
 }
 

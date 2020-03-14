@@ -2,9 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 android {
     compileSdkVersion rootProject.compileSdkVersion
-
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
     defaultConfig {
         applicationId "com.cheise_proj.parentapp"
@@ -14,6 +19,7 @@ android {
         versionName rootProject.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationIdSuffix = 'parent'
     }
 
     buildTypes {
@@ -55,6 +61,15 @@ dependencies {
     //Gson
     implementation "com.google.code.gson:gson:$rootProject.gson_version"
 
+    //Preference
+    implementation "androidx.preference:preference-ktx:$rootProject.pref_version"
+
+    //work manager
+    implementation "androidx.work:work-runtime-ktx:$rootProject.worker_version"
+    implementation "androidx.work:work-rxjava2:$rootProject.worker_version"
+
+    //firebase messaging
+    implementation "com.google.firebase:firebase-messaging:$rootProject.firebase_msg_version"
 
     implementation project(path: ':parent-feature')
     implementation project(path: ':login-feature')

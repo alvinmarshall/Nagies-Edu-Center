@@ -19,8 +19,70 @@
     <string name="menu_change_password">Change Password</string>
     <string name="menu_reports_pdf">Report</string>
     <string name="menu_announcement">Announcement</string>
-    <string name="menu_send_complaint">Send Complaint</string>
+    <string name="menu_send_complaint">Compose Complaint</string>
     <string name="menu_bill">Bill</string>
     <string name="menu_time_table">TimeTable</string>
     <string name="menu_class_teacher">Class Teacher</string>
+    <string name="label_menu_logout">logout</string>
+
+    <!--    transition names-->
+    <string name="message_title_transition">message_title</string>
+    <string name="files_image_transition">files_image</string>
+
+
+    <string name="label_btn_download">Download</string>
+    <string name="label_btn_preview">Preview</string>
+    <string name="dialog_positive_response">yes</string>
+    <string name="dialog_negative_response">no</string>
+
+    <!--    BACKGROUND CHANGER DIALOGS-->
+    <string name="background_changer_title">Set Auto Background Image</string>
+    <string name="background_changer_message">Do you want to set auto background images ?</string>
+
+    <!--    NETWORK-->
+    <string name="no_network_connection">No internet connection"</string>
+
+    <!-- PERMISSION-->
+    <string name="permission_denied">Permission Denied</string>
+    <string name="permission_storage_message">Allow application to read &amp; write storage</string>
+    <string name="permission_storage_explained">Without this permission this app is unable to open files. Are you sure
+        you want to deny this permission.
+    </string>
+
+    <!--    PASSWORD-->
+    <string name="label_old_password">old password</string>
+    <string name="label_new_password">new password</string>
+    <string name="label_confirm_password">confirm password</string>
+    <string name="label_change_password">change password</string>
+    <string name="label_password_header">Change Password ?</string>
+    <string name="label_password_sub_title">Remember to use the new password at login page.</string>
+
+    <!--    RECEIPT-->
+    <string name="label_receipt_sub_header">All bank related transactions to the school,\ncan be uploaded to the account office.</string>
+    <string name="label_receipt_header">Transfer files</string>
+    <string name="label_receipt_hint">Capture or browse for image</string>
+    <string name="label_send">send</string>
+    <string name="menu_upload_receipt">Upload Receipt</string>
+
+    <!--    FILE AUTHORITY-->
+    <string name="file_provider_authority" translatable="false">%1$s.FileProvider</string>
+    <string name="label_perform_action">Perform Action</string>
+
+    <string name="label_enter_message">Enter Message</string>
+    <string name="menu_reply">Reply</string>
+    <string name="btn_label_select">select</string>
+
+    <!--    FCM-->
+    <string name="fcm_topic_parent">parent</string>
+    <string name="fcm_topic_dev_parent">dev_parent</string>
+
+    <string name="notification_type_message">message</string>
+    <string name="notification_type_announcement">announcement</string>
+    <string name="notification_type_password_reset">password</string>
+
+    <string name="notification_type_report_image">report_image</string>
+    <string name="notification_type_assignment_image">assignment_image</string>
+
+
+
 </resources>

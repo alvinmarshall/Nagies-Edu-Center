@@ -1,12 +1,15 @@
 package com.cheise_proj.parent_feature.di
 
-import com.cheise_proj.parent_feature.ui.announcement.AnnouncementFragment
+import com.cheise_proj.parent_feature.ui.assignment.AssignmentFragment
 import com.cheise_proj.parent_feature.ui.bill.BillFragment
 import com.cheise_proj.parent_feature.ui.circular.CircularFragment
-import com.cheise_proj.parent_feature.ui.complaint.SendComplaintFragment
+import com.cheise_proj.parent_feature.ui.compose.ComposeComplaintFragment
+import com.cheise_proj.parent_feature.ui.compose.PeopleDialogFragment
+import com.cheise_proj.parent_feature.ui.message.MessageDetailFragment
 import com.cheise_proj.parent_feature.ui.message.MessageFragment
 import com.cheise_proj.parent_feature.ui.password.PasswordFragment
 import com.cheise_proj.parent_feature.ui.profile.ProfileFragment
+import com.cheise_proj.parent_feature.ui.receipt.ReceiptFragment
 import com.cheise_proj.parent_feature.ui.report.ReportFragment
 import com.cheise_proj.parent_feature.ui.teacher.TeacherFragment
 import com.cheise_proj.parent_feature.ui.timetable.TimeTableFragment
@@ -15,8 +18,6 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 interface ParentFragmentModule {
-    @ContributesAndroidInjector
-    fun contributeAnnouncementFragment(): AnnouncementFragment
 
     @ContributesAndroidInjector
     fun contributeBillFragment(): BillFragment
@@ -28,7 +29,7 @@ interface ParentFragmentModule {
     fun contributeMessageFragment(): MessageFragment
 
     @ContributesAndroidInjector
-    fun contributePasswordtFragment(): PasswordFragment
+    fun contributePasswordFragment(): PasswordFragment
 
     @ContributesAndroidInjector
     fun contributeProfileFragment(): ProfileFragment
@@ -43,5 +44,17 @@ interface ParentFragmentModule {
     fun contributeTimeTableFragment(): TimeTableFragment
 
     @ContributesAndroidInjector
-    fun contributeSendComplaintFragment(): SendComplaintFragment
+    fun contributeMessageDetailFragment(): MessageDetailFragment
+
+    @ContributesAndroidInjector
+    fun contributeAssignmentFragment(): AssignmentFragment
+
+    @ContributesAndroidInjector
+    fun contributeReceiptFragment(): ReceiptFragment
+
+    @ContributesAndroidInjector
+    fun contributeComposeComplaintFragment(): ComposeComplaintFragment
+
+    @ContributesAndroidInjector
+    fun contributePeopleDialogFragment(): PeopleDialogFragment
 }

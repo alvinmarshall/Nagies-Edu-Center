@@ -1,176 +1,21 @@
 <resources>
     <string name="app_name">Nagie\'s Angels</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
-    <string name="menu_dashboard">Messages</string>
-    <string name="menu_view_circular">Circular Image</string>
-    <string name="menu_profile">Profile</string>
-    <string name="menu_view_assignment_jpeg">Assignment Image</string>
-    <string name="menu_view_assignment_pdf">Assignment PDF</string>
-    <string name="menu_view_report">Report image</string>
-    <string name="menu_change_password">Change Password</string>
-    <string name="menu_reports_pdf">Report PDF</string>
-    <string name="menu_announcement">Announcement</string>
-    <string name="menu_send_message">Send Message</string>
-    <string name="error_role_select_message">Please select a role</string>
-    <string name="action_search">Search</string>
-    <string name="action_logout">Logout</string>
-    <string name="label_login_msg">Welcome to Nagie\'s Angels Educational Center</string>
-    <string name="hint_input_username">username</string>
-    <string name="hint_input_password">password</string>
-    <string name="label_terms_and_conditions">terms and conditions</string>
-    <string name="label_button_login">login</string>
-    <string name="label_msg_available_files">Available files</string>
-    <string name="hint_input_confirm_password">Confirm Password</string>
-    <string name="hint_input_new_password">New Password</string>
-    <string name="hint_input_old_password">Old Password</string>
-    <string name="label_button_change_password">Change Password</string>
-    <string name="hint_input_start_a_conversation">Start a conversation</string>
-    <string name="action_send">Send</string>
-    <string name="action_close">Close</string>
-    <string name="menu_bill">Student Bill</string>
+    <!-- PREF LOGIN -->
+    <string name="pref_isLogin_key">user_login</string>
+    <string name="pref_login_username_key">login_username</string>
+    <string name="pref_login_name_key">login_name</string>
+    <string name="pref_login_level_key">login_level</string>
+    <string name="pref_login_user_role_key">login_user_role</string>
+    <string name="pref_login_user_token_key">user_token</string>
+    <string name="pref_login_avatar_key">user_avatar</string>
+    <string name="pref_login_uuid_key">login_user_uuid</string>
+    <string name="pref_first_time_login_key">first_time_login</string>
+    <string name="pref_use_background_changer_key">use_background_changer</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="menu_attachment">Attachment</string>
-    <string name="menu_file_management">File Management</string>
-    <string name="menu_parent_complaints">Parent Complaints</string>
-
-    <string name="label_parent_login">Parent</string>
-    <string name="label_teacher_login">Teacher</string>
-    <string name="title_activity_teacher_navigation">TeacherNavigationActivity</string>
-
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
-    <string name="label_login_page">Login Page</string>
-    <string name="label_corp_name">Powered by Infordas Ghana Limited</string>
-    <string name="prompt_empty_field">invalid field</string>
-    <string name="prompt_password_mismatch">password mismatch</string>
-    <string name="label_admin_message">Available Messages</string>
-    <string name="des_profile_image">profile image</string>
-    <string name="errorConnection">Connection failed. Please try again later</string>
-    <string name="permission_denied">Permission Denied</string>
-    <string name="permission_storage_message">Allow application to read &amp; write storage</string>
-    <string name="permission_storage_explained">Without this permission this app is unable to open files. Are you sure
-        you want to deny this permission.
-    </string>
-    <string name="chooser_title">choose an application to open file</string>
-    <string name="file_provider_authority" translatable="false">com.wNagiesEducationalCenterj_9905.fileprovider</string>
-    <string name="des_icon">icon</string>
-    <string name="announcement_channel_id">announcement</string>
-    <string name="announcement_channel">Announcement</string>
-    <string name="announcement_description">Get informed with school activities</string>
-    <string name="download_complete_message">Download complete</string>
-    <string name="label_no_data_available">No Data Available</string>
-    <string name="label_no_messages_available">No Messages Available</string>
+    <!--    FCM-->
     <string name="fcm_topic_global">global</string>
     <string name="fcm_topic_dev_global">dev_global</string>
-    <string name="sent_message_success">Message sent</string>
-    <string name="sent_message_failed">sending message failed</string>
-    <string name="network_state_no_connection">No internet connection</string>
-    <string name="message_field_empty_error">Message can\'t be empty</string>
-    <string name="label_btn_call_teacher">Call</string>
-    <string name="label_btn_send_message">Message</string>
-    <string name="menu_class_teacher">Class Teacher</string>
-    <string name="fcm_topic_parent">parent</string>
-    <string name="fcm_topic_dev_parent">dev_parent</string>
-    <string name="fcm_topic_teacher">teachers</string>
-    <string name="fcm_topic_dev_teacher">dev_teachers</string>
-    <string name="label_btn_call_parent">call parent</string>
-    <string name="lablel_msg_parent_complaint">Available Message</string>
-    <string name="auth_failed_message">username or password incorrect</string>
-    <string name="notification_type_message">message</string>
-    <string name="notification_type_announcement">announcement</string>
-    <string name="notification_type_password_reset">password</string>
-    <string name="notification_type_report_image">report_image</string>
-    <string name="notification_type_report_pdf">report_pdf</string>
-    <string name="notification_type_assignment_image">assignment_image</string>
-    <string name="notification_type_assignment_pdf">assignment_pdf</string>
-    <string name="notification_type_complaint">complaint</string>
-    <string name="label_msg_available_class_teachers">Class Teachers</string>
-    <string name="label_msg_no_class_teachers">No Class Teacher Found</string>
-    <string name="fetch_assignment_pdf">AssignmentPDF</string>
-    <string name="fetch_assignment_image">AssignmentIMAGE</string>
-    <string name="fetch_report_pdf">ReportPDF</string>
-    <string name="fetch_report_image">ReportIMAGE</string>
-    <string name="fetch_complaint">Complaint</string>
-    <string name="fetch_announcement">Announcement</string>
-    <string name="fetch_message">Message</string>
-    <string name="fetch_class_teacher">ClassTeacher</string>
-    <string name="label_msg_offline">Device is offline</string>
-    <string name="fetch_circular">Circular</string>
-    <string name="fetch_billing">Billing</string>
-    <string name="storage_msg_invalid_title">Invalid File Path</string>
-    <string name="storage_msg_invalid_path">Please select a storage media and choose a file from it</string>
-    <string name="upload_msg_title">Upload Alert</string>
-    <string name="upload_msg_body">Do you want to upload selected file ?</string>
-    <string name="upload_msg_success">file upload successful</string>
-    <string name="upload_msg_starting">preparing to upload</string>
-    <string name="btn_label_upload_report">upload report</string>
-    <string name="fetch_class_student">Class Student</string>
-    <string name="fetch_timetable">Class Student</string>
-    <string name="report_form_student_no">studentNo</string>
-    <string name="report_form_student_name">studentName</string>
-    <string name="upload_form_file">file</string>
-    <string name="btn_label_upload_assignment">upload assignment</string>
-    <string name="label_select_class_teacher">Select class teacher</string>
-    <string name="label_btn_assignment_pdf">assignment pdf</string>
-    <string name="label_btn_assignment_image">assignment image</string>
-    <string name="label_btn_report_pdf">report pdf</string>
-    <string name="label_btn_report_image">report image</string>
-    <string name="label_btn_delete">delete</string>
-    <string name="label_btn_download">download</string>
-    <string name="menu_label_refresh">refresh</string>
-    <string name="file_explorer_delete_msg">This file will be permanently deleted, Do you want to proceed ?</string>
 
-    <!--preference strings-->
-    <string name="pref_fetch_option_label">Update interval</string>
-    <string name="pref_fetch_option_key">pref_fetch_option_key</string>
-    <string name="pref_fetch_option_0_min_label">Off</string>
-    <string name="pref_fetch_option_1_min_label">Every 1 Minute</string>
-    <string name="pref_fetch_option_20_min_label">Every 20 Minutes</string>
-    <string name="pref_fetch_option_40_min_label">Every 40 Minutes</string>
-    <string name="pref_fetch_option_60_min_label">Every 1 Hour</string>
-
-    <string name="pref_fetch_option_0_min_value">0</string>
-    <string name="pref_fetch_option_1_min_value">1</string>
-    <string name="pref_fetch_option_20_min_value">20</string>
-    <string name="pref_fetch_option_40_min_value">40</string>
-    <string name="pref_fetch_option_60_min_value">60</string>
-    <string name="title_activity_settings">Settings</string>
-
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="pref_app_version">version 1.0.4</string>
-    <string name="pref_contact_us">Contact Us</string>
-    <string name="pref_about_us">About Us</string>
-    <string name="pref_about_us_url">http://infordasgh.com/AboutUs.html</string>
-    <string name="pref_contact_us_url">http://infordasgh.com/contact.html</string>
-    <string name="pref_app_version_key">app_version_key</string>
-    <string name="menu_view_time_table">TimeTable</string>
-    <string name="password_reset_notification_dialog_title">Password Reset Info</string>
-    <string name="password_reset_notification_diaload_body">Your account password has been reset to the reset password,
-        Remember to use the recent one during account login
-    </string>
-    <string name="tv_label_perform_action">Perform Action</string>
 
 </resources>

@@ -31,4 +31,12 @@ class UserEntityMapper @Inject constructor() : PresentationMapper<User, UserEnti
             name = e.name
         )
     }
+
+    override fun presentationToEntityList(pList: List<User>): List<UserEntity> {
+        throw NotImplementedError("not implemented")
+    }
+
+    override fun entityToPresentationList(eList: List<UserEntity>): List<User> {
+        throw NotImplementedError("not implemented")
+    }
 }

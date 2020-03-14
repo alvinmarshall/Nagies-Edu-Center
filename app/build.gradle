@@ -8,20 +8,33 @@ apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.compileSdkVersion
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
     defaultConfig {
         applicationId "com.wNagiesEducationalCenterj_9905"
-        minSdkVersion 22
-        targetSdkVersion 29
-        versionCode 7
-        versionName "1.0.7"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+    }
+    signingConfigs {
+        release {
+            keyAlias 'nagies_mobile_key'
+            keyPassword 'infordas@2019'
+            storePassword 'infordas@2019'
+            storeFile file("D:\\Projects\\Android Proj\\key_store\\nagies_angels_mobile_key.jks")
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
 
     }
@@ -29,10 +42,53 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "androidx.appcompat:appcompat:$rootProject.appcompatVersion"
+    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayoutVersion"
+    testImplementation "junit:junit:$rootProject.junitVersion"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.expresso_core"
+    implementation "com.google.android.material:material:$rootProject.material_version"
+
+    //dagger
+    implementation "com.google.dagger:dagger:$rootProject.dagger_version"
+    implementation "com.google.dagger:dagger-android:$rootProject.dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger_version"
+
+    //Rx
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android_version"
+    implementation "androidx.room:room-rxjava2:$rootProject.room_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"
+
+    //Gson
+    implementation "com.google.code.gson:gson:$rootProject.gson_version"
+
+    //Preference
+    implementation "androidx.preference:preference-ktx:$rootProject.pref_version"
+
+    //work manager
+    implementation "androidx.work:work-runtime-ktx:$rootProject.worker_version"
+    implementation "androidx.work:work-rxjava2:$rootProject.worker_version"
+
+    //firebase messaging
+    implementation "com.google.firebase:firebase-messaging:$rootProject.firebase_msg_version"
+
+    implementation project(path: ':parent-feature')
+    implementation project(path: ':login-feature')
+    implementation project(path: ':domain')
+    implementation project(path: ':remote-source')
+    implementation project(path: ':data')
+    implementation project(path: ':local-source')
+    implementation project(path: ':presentation')
+    implementation project(path: ':common-module')
+    implementation project(path: ':teacher-feature')
 
 }

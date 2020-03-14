@@ -4,7 +4,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.compileSdkVersion
-
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
@@ -46,7 +49,5 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$rootProject.dagger_version"
     kapt "com.google.dagger:dagger-compiler:$rootProject.dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger_version"
-    implementation project(path: ':common-module')
     implementation project(path: ':presentation')
-    implementation project(path: ':remote-source')
 }
