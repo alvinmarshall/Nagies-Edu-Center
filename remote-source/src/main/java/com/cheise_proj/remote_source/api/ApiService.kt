@@ -74,6 +74,14 @@ interface ApiService {
 
     //region FILES
 
+    //region VIDEO
+    @Multipart
+    @POST("file/upload/video")
+    fun uploadVideo(
+        @Part file: MultipartBody.Part
+    ): Observable<UploadDto>
+    //endregion
+
     //region REPORT
     @Multipart
     @POST("file/uploads")
@@ -101,6 +109,11 @@ interface ApiService {
         @Part file: MultipartBody.Part,
         @Query("type") type: String = "receipt"
     ): Observable<UploadDto>
+    //endregion
+
+    //region VIDEO
+    @GET("file/videos")
+    fun getVideos(): Observable<VideossDto>
     //endregion
 
     //region BILL

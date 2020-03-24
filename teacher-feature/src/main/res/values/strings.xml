@@ -81,4 +81,10 @@
 
     <string name="notification_type_password_reset">password</string>
     <string name="notification_type_complaint">complaint</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_upload_video_message">Upload brief content videos on topics, which \n needs more explanation to your students</string>
+    <string name="menu_video">video</string>
+    <string name="btn_label_send_video">send video</string>
 </resources>

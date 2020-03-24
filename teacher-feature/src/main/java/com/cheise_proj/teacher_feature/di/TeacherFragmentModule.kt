@@ -11,6 +11,7 @@ import com.cheise_proj.teacher_feature.ui.profile.ProfileFragment
 import com.cheise_proj.teacher_feature.ui.send_message.PeopleDialogFragment
 import com.cheise_proj.teacher_feature.ui.send_message.SendMessageFragment
 import com.cheise_proj.teacher_feature.ui.student.StudentFragment
+import com.cheise_proj.teacher_feature.ui.video.UploadVideoFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -45,5 +46,8 @@ interface TeacherFragmentModule {
 
     @ContributesAndroidInjector
     fun contributePeopleDialogFragment(): PeopleDialogFragment
+
+    @ContributesAndroidInjector
+    fun contributeUploadVideoFragment():UploadVideoFragment
 
 }

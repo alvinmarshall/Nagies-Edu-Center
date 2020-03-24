@@ -102,4 +102,9 @@
             android:id="@+id/peopleDialogFragment"
             android:name="com.cheise_proj.teacher_feature.ui.send_message.PeopleDialogFragment"
             android:label="PeopleDialogFragment" />
+    <fragment
+            android:id="@+id/uploadVideoFragment"
+            android:name="com.cheise_proj.teacher_feature.ui.video.UploadVideoFragment"
+            android:label="Upload Video"
+            tools:layout="@layout/fragment_upload_video" />
 </navigation>

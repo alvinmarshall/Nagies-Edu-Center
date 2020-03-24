@@ -9,10 +9,15 @@ interface FilesRepository {
 
     //region DELETE FILES
     fun deleteReport(identifier: String, url: String): Observable<Boolean>
+
     fun deleteAssignment(identifier: String, url: String): Observable<Boolean>
     //region
 
     //region UPLOAD FILES
+    fun uploadVideos(
+        file: MultipartBody.Part
+    ): Observable<Int>
+
     fun uploadReport(
         file: MultipartBody.Part,
         refNo: MultipartBody.Part,
@@ -23,6 +28,11 @@ interface FilesRepository {
 
     fun uploadReceipt(file: MultipartBody.Part): Observable<Int>
     //endregion
+
+
+    fun getVideos(): Observable<List<FilesEntity>>
+    fun getVideo(identifier: String): Observable<List<FilesEntity>>
+
 
     fun getBills(): Observable<List<FilesEntity>>
     fun getBill(identifier: String): Observable<List<FilesEntity>>

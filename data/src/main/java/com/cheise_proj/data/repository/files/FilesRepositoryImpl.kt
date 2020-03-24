@@ -43,10 +43,19 @@ class FilesRepositoryImpl @Inject constructor(
                 return@map isDeleted
             }
     }
+
     //endregion
 
 
     //region UPLOADS
+
+    //region UPLOAD VIDEO
+    override fun uploadVideos(file: MultipartBody.Part): Observable<Int> {
+        return remoteSource.uploadVideo(file)
+    }
+    //endregion
+
+    //region UPLOAD REPORT
     override fun uploadReport(
         file: MultipartBody.Part,
         refNo: MultipartBody.Part,
@@ -54,6 +63,7 @@ class FilesRepositoryImpl @Inject constructor(
     ): Observable<Int> {
         return remoteSource.uploadReport(file, refNo, fullName)
     }
+    //endregion
 
     //region UPLOAD ASSIGNMENT
     override fun uploadAssignment(file: MultipartBody.Part): Observable<Int> {
@@ -66,6 +76,55 @@ class FilesRepositoryImpl @Inject constructor(
         return remoteSource.uploadReceipt(file)
     }
     //endregion
+
+    //endregion
+
+    //region VIDEO
+    override fun getVideos(): Observable<List<FilesEntity>> {
+        val videoObservable: Observable<List<FilesEntity>>
+        val cacheVideo = VideoCache.getVideo()
+
+        val local = localSource.getVideos()
+            .map { t: List<FilesData> ->
+                filesDataEntityMapper.dataToEntityList(t)
+            }
+
+        val remote = remoteSource.getVideo()
+            .map { t: List<FilesData> ->
+                localSource.saveBill(t)
+                filesDataEntityMapper.dataToEntityList(t)
+            }
+            .onErrorResumeNext(Function {
+                println(it.localizedMessage)
+                local
+            })
+
+        videoObservable = if (cacheVideo != null) {
+            println("Remote source NOT invoked")
+            val cache = filesDataEntityMapper.dataToEntityList(cacheVideo)
+            Observable.just(cache)
+        } else {
+            remote
+        }
+
+        return videoObservable
+            .map { t: List<FilesEntity> ->
+                if (cacheVideo == null) {
+                    VideoCache.addVideo(
+                        filesDataEntityMapper.entityToDataList(t)
+                    )
+                }
+                return@map t
+            }.mergeWith(local).take(1).distinct()
+    }
+
+    override fun getVideo(identifier: String): Observable<List<FilesEntity>> {
+        return localSource.getVideo(identifier).toObservable()
+            .map { t: FilesData ->
+                val data = filesDataEntityMapper.dataToEntity(t)
+                return@map arrayListOf(data)
+            }
+    }
 
     //endregion
 

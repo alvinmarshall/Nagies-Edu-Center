@@ -58,6 +58,10 @@ class PresentationModule {
         //region FILES
 
         @Binds
+        fun bindVideoEntity(videoEntityMapper: VideoEntityMapper): PresentationMapper<Video, FilesEntity>
+
+
+        @Binds
         fun bindBillEntity(billEntityMapper: BillEntityMapper): PresentationMapper<Bill, FilesEntity>
 
         @Binds
@@ -76,6 +80,12 @@ class PresentationModule {
         @ViewModelKey(PeopleViewModel::class)
         @IntoMap
         fun bindPeopleViewModel(peopleViewModel: PeopleViewModel): ViewModel
+
+        @Binds
+        @ViewModelKey(VideoViewModel::class)
+        @IntoMap
+        fun bindVideoViewModel(videoViewModel: VideoViewModel): ViewModel
+
 
         @Binds
         @ViewModelKey(BillViewModel::class)
