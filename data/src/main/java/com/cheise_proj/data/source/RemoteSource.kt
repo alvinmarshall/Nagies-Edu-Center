@@ -25,6 +25,10 @@ interface RemoteSource {
     //endregion
 
     //region FILES
+    fun uploadVideo(
+        file: MultipartBody.Part
+    ): Observable<Int>
+
     fun uploadReport(
         file: MultipartBody.Part,
         refNo: MultipartBody.Part,
@@ -34,6 +38,8 @@ interface RemoteSource {
     fun uploadAssignment(file: MultipartBody.Part): Observable<Int>
 
     fun uploadReceipt(file: MultipartBody.Part): Observable<Int>
+
+    fun getVideo(): Observable<List<FilesData>>
 
     fun getBill(): Observable<List<FilesData>>
 

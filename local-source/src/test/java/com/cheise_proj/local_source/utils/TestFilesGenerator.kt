@@ -4,6 +4,42 @@ import com.cheise_proj.local_source.model.files.*
 
 object TestFilesGenerator {
 
+    //region BILL
+    fun getVideos(): List<VideoLocal> {
+        return arrayListOf(
+            VideoLocal(
+                id = 1,
+                teacherName = "test sender local",
+                photo = "test video",
+                date = "test date",
+                path = "test path",
+                studentName = "test recipient",
+                refNo = "test refNo"
+            ), VideoLocal(
+                id = 2,
+                teacherName = "test sender2 local",
+                photo = "test video",
+                date = "test date",
+                path = "test path",
+                refNo = "test refNo",
+                studentName = "test recipient"
+            )
+        )
+    }
+
+    fun getVideo(): VideoLocal {
+        return VideoLocal(
+            id = 1,
+            teacherName = "test sender local",
+            photo = "test video",
+            date = "test date",
+            path = "test path",
+            studentName = "test recipient",
+            refNo = "test refNo"
+        )
+    }
+    //endregion
+
 
     //region BILL
     fun getBills(): List<BillLocal> {

@@ -1,6 +1,5 @@
 package com.cheise_proj.parent_feature.notification
 
-import com.cheise_proj.parent_feature.R
 import com.cheise_proj.parent_feature.utils.GetNotificationNavigationUtil
 import com.cheise_proj.presentation.notification.IParentNotification
 import com.cheise_proj.presentation.utils.IPreference

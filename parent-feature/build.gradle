@@ -79,4 +79,11 @@ dependencies {
 
     //firebase messaging
     implementation "com.google.firebase:firebase-messaging:$rootProject.firebase_msg_version"
+
+    //Exo player
+    implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exoVersion"
+    implementation "com.google.android.exoplayer:exoplayer-hls:$rootProject.exoVersion"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$rootProject.exoVersion"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$rootProject.exoVersion"
+    implementation "com.google.android.exoplayer:extension-okhttp:$rootProject.exoVersion"
 }

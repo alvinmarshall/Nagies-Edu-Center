@@ -45,6 +45,9 @@ class LocalModule {
         //region FILES
 
         @Binds
+        fun bindVideoLocalDataMapper(videoLocalDataMapper: VideoLocalDataMapper): LocalMapper<VideoLocal, FilesData>
+
+        @Binds
         fun bindBillLocalDataMapper(billLocalDataMapper: BillLocalDataMapper): LocalMapper<BillLocal, FilesData>
 
         @Binds

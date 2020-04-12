@@ -50,6 +50,7 @@ class AttachmentFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var isBusy = false
         avatar_image.setOnClickListener {
             if (permission.askForPermissions()) {
                 pickAnImage()
@@ -60,14 +61,21 @@ class AttachmentFragment : BaseFragment() {
                 toast("no file selected")
                 return@setOnClickListener
             }
-            it.visibility = View.GONE
-            UploadAssignmentWorker.start(it.context, captureImagePath,R.id.attachmentFragment).observe(viewLifecycleOwner,
-                androidx.lifecycle.Observer { worker ->
-                    if (worker.state.isFinished) {
-                        it.visibility = View.VISIBLE
-                        toast("upload complete")
-                    }
-                })
+
+            if (!isBusy) {
+                toast("upload started")
+                isBusy = true
+                UploadAssignmentWorker.start(it.context, captureImagePath, R.id.attachmentFragment)
+                    .observe(viewLifecycleOwner,
+                        androidx.lifecycle.Observer { worker ->
+                            if (worker.state.isFinished) {
+                                toast("upload complete")
+                                isBusy = false
+                            }
+                        })
+            } else {
+                toast("System busy uploading...")
+            }
 
 
         }

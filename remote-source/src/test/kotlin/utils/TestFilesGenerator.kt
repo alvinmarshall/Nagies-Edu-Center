@@ -20,6 +20,35 @@ object TestFilesGenerator {
     }
     //endregion
 
+    //region VIDEO
+    fun getVideosDto(): VideossDto {
+        return VideossDto(
+            data = arrayListOf(
+                VideoDtoDto(
+                    id = 1,
+                    date = "test date",
+                    photo = "test video",
+                    teacherName = "test sender",
+                    path = "",
+                    studentName = "test recipient",
+                    refNo = "test refNo"
+                ),
+                VideoDtoDto(
+                    id = 2,
+                    date = "test date",
+                    photo = "test video",
+                    teacherName = "test sender",
+                    path = "",
+                    studentName = "test recipient",
+                    refNo = "test refNo"
+                )
+            )
+
+        )
+    }
+    //endregion
+
+
     //region BILL
     fun getBillsDto(): BillsDto {
         return BillsDto(

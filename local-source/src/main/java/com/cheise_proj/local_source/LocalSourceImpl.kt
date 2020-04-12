@@ -39,7 +39,8 @@ class LocalSourceImpl @Inject constructor(
     private val billLocalDataMapper: BillLocalDataMapper,
     private val peopleDao: PeopleDao,
     private val peopleLocalDataMapper: PeopleLocalDataMapper,
-    private val complaintLocalDataMapper: ComplaintLocalDataMapper
+    private val complaintLocalDataMapper: ComplaintLocalDataMapper,
+    private val videoLocalDataMapper: VideoLocalDataMapper
 
 ) : LocalSource {
     //region PEOPLE
@@ -64,6 +65,29 @@ class LocalSourceImpl @Inject constructor(
     //endregion
 
     //region FILES
+
+    //region VIDEO
+
+    override fun getVideos(): Observable<List<FilesData>> {
+        return filesDao.getVideos().map { t: List<VideoLocal> ->
+            println("getVideos...")
+            videoLocalDataMapper.localToDataList(t)
+        }
+    }
+
+    override fun getVideo(identifier: String): Single<FilesData> {
+        return filesDao.getVideo(identifier).map { t: VideoLocal ->
+            println("getVideo with identifier: $identifier ...")
+            videoLocalDataMapper.localToData(t)
+        }
+    }
+
+    override fun saveVideo(filesDataList: List<FilesData>) {
+        println("saveVideos...")
+        filesDao.clearAndInsertVideo(videoLocalDataMapper.dataToLocalList(filesDataList))
+    }
+
+    //endregion
 
     //region BILL
     override fun getBills(): Observable<List<FilesData>> {

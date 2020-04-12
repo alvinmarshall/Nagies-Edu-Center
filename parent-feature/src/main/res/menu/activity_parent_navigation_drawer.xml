@@ -51,6 +51,12 @@
                 app:actionViewClass="android.widget.TextView" />
 
         <item
+                android:id="@+id/videoFragment"
+                android:icon="@drawable/ic_ondemand_video_black_24dp"
+                android:title="@string/menu_video"
+                app:actionViewClass="android.widget.TextView" />
+
+        <item
                 android:id="@+id/teacherFragment"
                 android:icon="@drawable/ic_supervisor_account_black_24dp"
                 android:title="@string/menu_class_teacher" />

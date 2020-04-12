@@ -8,6 +8,28 @@ import io.reactivex.Single
 @Dao
 interface FilesDao {
 
+
+    //region VIDEO
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveVideo(videoLocalList: List<VideoLocal>)
+
+    @Query("SELECT * FROM video ORDER BY id DESC")
+    fun getVideos(): Observable<List<VideoLocal>>
+
+    @Query("SELECT * FROM video WHERE id = :identifier")
+    fun getVideo(identifier: String): Single<VideoLocal>
+
+    @Query("DELETE FROM video")
+    fun deleteVideo()
+
+    @Transaction
+    fun clearAndInsertVideo(videoLocalList: List<VideoLocal>) {
+        deleteVideo()
+        saveVideo(videoLocalList)
+    }
+    //endregion
+
+
     //region BILL
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveBill(billLocalList: List<BillLocal>)

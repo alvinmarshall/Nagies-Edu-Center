@@ -3,7 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
+
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     compileOptions {
@@ -68,8 +70,18 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$rootProject.worker_version"
     implementation "androidx.work:work-rxjava2:$rootProject.worker_version"
 
+    //Firebase
     //firebase messaging
     implementation "com.google.firebase:firebase-messaging:$rootProject.firebase_msg_version"
+    //firebase crashlytics
+    implementation "com.google.firebase:firebase-crashlytics:$rootProject.firebaseCrash_version"
+    //firebase analytics
+    implementation "com.google.firebase:firebase-analytics:$rootProject.firebase_version"
+
+    //Exo player
+    implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exoVersion"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$rootProject.exoVersion"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$rootProject.exoVersion"
 
     implementation project(path: ':parent-feature')
     implementation project(path: ':login-feature')

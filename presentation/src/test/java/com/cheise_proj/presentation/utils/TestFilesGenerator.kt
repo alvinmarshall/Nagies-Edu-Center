@@ -4,6 +4,43 @@ import com.cheise_proj.presentation.model.files.*
 
 object TestFilesGenerator {
 
+    //region VIDEO
+    fun getVideos(): List<Video> {
+        return arrayListOf(
+            Video(
+                id = 1,
+                path = "test path",
+                date = "test date",
+                photo = "test video",
+                teacherName = "test sender",
+                refNo = "test refNo",
+                studentName = "test recipient"
+            ),
+            Video(
+                id = 2,
+                path = "test path2",
+                date = "test date",
+                photo = "test video",
+                teacherName = "test sender",
+                studentName = "test recipient",
+                refNo = "test refNo"
+            )
+        )
+    }
+
+    fun getVideo(): Video {
+        return Video(
+            id = 1,
+            path = "test path",
+            date = "test date",
+            photo = "test video",
+            teacherName = "test sender",
+            refNo = "test refNo",
+            studentName = "test recipient"
+        )
+    }
+    //endregion
+
     //region BILL
     fun getBills(): List<Bill> {
         return arrayListOf(

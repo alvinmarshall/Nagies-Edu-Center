@@ -34,7 +34,7 @@ object TestFilesGenerator {
         val file = File("test file path")
         return MultipartBody.Part.Companion.createFormData(
             "form field", file.name, RequestBody.create(
-                "image/jpeg".toMediaTypeOrNull(), file
+                "image/jpeg/video/mp4".toMediaTypeOrNull(), file
             )
         )
     }

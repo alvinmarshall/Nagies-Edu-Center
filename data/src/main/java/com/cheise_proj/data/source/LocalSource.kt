@@ -27,7 +27,15 @@ interface LocalSource {
 
     //region FILES
 
-    //region REPORT
+    //region ViDEO
+    fun getVideos(): Observable<List<FilesData>>
+
+    fun getVideo(identifier: String): Single<FilesData>
+
+    fun saveVideo(filesDataList: List<FilesData>)
+    //endregion
+
+    //region BILL
     fun getBills(): Observable<List<FilesData>>
 
     fun getBill(identifier: String): Single<FilesData>

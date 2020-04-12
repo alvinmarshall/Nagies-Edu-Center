@@ -47,6 +47,7 @@ class ReceiptFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var isBusy = false
         avatar_image.setOnClickListener {
             if (permission.askForPermissions()) {
                 pickAnImage()
@@ -57,15 +58,21 @@ class ReceiptFragment : BaseFragment() {
                 toast("no file selected")
                 return@setOnClickListener
             }
-            it.visibility = View.GONE
-            UploadReceiptWorker.start(it.context, captureImagePath, R.id.receiptFragment)
-                .observe(viewLifecycleOwner,
-                    androidx.lifecycle.Observer { worker ->
-                        if (worker.state.isFinished) {
-                            it.visibility = View.VISIBLE
-                            toast("upload complete")
-                        }
-                    })
+            if (!isBusy) {
+                toast("upload started")
+                isBusy = true
+                UploadReceiptWorker.start(it.context, captureImagePath, R.id.receiptFragment)
+                    .observe(viewLifecycleOwner,
+                        androidx.lifecycle.Observer { worker ->
+                            if (worker.state.isFinished) {
+                                toast("upload complete")
+                                isBusy = false
+                            }
+                        })
+            } else {
+                toast("System busy uploading...")
+            }
+
         }
     }
 
