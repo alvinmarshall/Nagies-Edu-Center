@@ -49,7 +49,7 @@ class VideoDetailFragment : Fragment() {
         activity?.window?.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
-        );
+        )
         val bandwidthMeter = DefaultBandwidthMeter()
         val videoTrackSelectionFactory = AdaptiveTrackSelection.Factory(bandwidthMeter)
         val trackSelector = DefaultTrackSelector(videoTrackSelectionFactory)
@@ -84,6 +84,7 @@ class VideoDetailFragment : Fragment() {
 
     override fun onStop() {
         (activity as AppCompatActivity).supportActionBar?.show()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         super.onStop()
     }
 

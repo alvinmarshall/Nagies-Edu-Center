@@ -82,6 +82,7 @@
 
     <string name="notification_type_report_image">report_image</string>
     <string name="notification_type_assignment_image">assignment_image</string>
+    <string name="notification_type_video">video</string>
     <string name="menu_video">video</string>
 
 
