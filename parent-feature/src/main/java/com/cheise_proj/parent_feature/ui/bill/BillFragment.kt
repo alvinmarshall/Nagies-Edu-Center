@@ -33,6 +33,7 @@ import com.cheise_proj.presentation.viewmodel.files.BillViewModel
 import com.ortiz.touchview.TouchImageView
 import kotlinx.android.synthetic.main.bill_fragment.*
 import org.jetbrains.anko.support.v4.toast
+import timber.log.Timber
 import javax.inject.Inject
 
 class BillFragment : BaseFragment() {
@@ -68,6 +69,7 @@ class BillFragment : BaseFragment() {
             when (data?.second) {
                 // download event
                 true -> {
+                    Timber.i("download event")
                     downloadData = data
                     if (permission.askForPermissions()) {
                         prepareToDownload(downloadData)
@@ -75,6 +77,7 @@ class BillFragment : BaseFragment() {
                 }
                 // view event
                 false -> {
+                    Timber.i("view event")
                     setDialogPreview(data.first)
                 }
             }
@@ -84,6 +87,7 @@ class BillFragment : BaseFragment() {
     private fun prepareToDownload(data: Pair<String?, Boolean>?) {
         val downloadId = downloadService.startDownload(data?.first)
         toast("download id $downloadId started")
+        Timber.i("download id $downloadId started")
     }
 
     private fun setDialogPreview(url: String?) {
@@ -114,6 +118,7 @@ class BillFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             hasFixedSize()
         }
+        Timber.i("registerDownloadBroadCast")
         downloadService.registerDownloadBroadCast()
     }
 
@@ -133,6 +138,7 @@ class BillFragment : BaseFragment() {
         sharedViewModel = activity?.run {
             ViewModelProvider(this)[SharedViewModel::class.java]
         }!!
+        Timber.i("postDelayed $DELAY_HANDLER")
         handler.postDelayed({ subscribeObserver() }, DELAY_HANDLER)
 
     }
@@ -140,23 +146,27 @@ class BillFragment : BaseFragment() {
     private fun subscribeObserver() {
         viewModel.getBills().observe(viewLifecycleOwner, Observer {
             when (it.status) {
-                STATUS.LOADING -> println("loading...")
+                STATUS.LOADING -> Timber.i("loading...")
                 STATUS.SUCCESS -> {
                     hideLoadingProgress()
                     it.data?.let { data ->
+                        Timber.i("bill data $data")
                         if (data.isEmpty()) {
                             showNoDataAlert()
+                            Timber.i("showNoDataAlert dialog")
                         } else {
                             showNoDataAlert(false)
+                            Timber.i("hide showNoDataAlert dialog")
                         }
                     }
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
+                    Timber.i("setBadgeValue ${it?.data?.size}")
                     sharedViewModel.setBadgeValue(Pair(R.id.billFragment, it?.data?.size))
                 }
                 STATUS.ERROR -> {
                     hideLoadingProgress()
-                    println("err ${it.message}")
+                    Timber.w("err ${it.message}")
                 }
             }
         })
@@ -185,8 +195,10 @@ class BillFragment : BaseFragment() {
             REQUEST_EXTERNAL_STORAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     prepareToDownload(downloadData)
+                    Timber.i("PERMISSION_GRANTED true")
                 } else {
                     permission.askForPermissions()
+                    Timber.i("PERMISSION_GRANTED false")
                 }
                 return
             }

@@ -8,6 +8,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.wNagiesEducationalCenterj_9905.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import timber.log.Timber
 
 class App : DaggerApplication() {
 
@@ -21,6 +22,13 @@ class App : DaggerApplication() {
         super.onCreate()
         initWorkManager()
         initFCMService()
+        initTimber()
+    }
+
+    private fun initTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     private fun initWorkManager() {
@@ -35,17 +43,17 @@ class App : DaggerApplication() {
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             if (!it.isSuccessful) {
-                println("Task Failed")
+                Timber.w("Task Failed")
                 return@addOnCompleteListener
             }
-            println("result: ${it.result?.token}")
+            Timber.i("firebaseInstanceID ${it.result?.token}")
         }
         FirebaseMessaging.getInstance().subscribeToTopic(getGlobalTopic()).addOnCompleteListener {
             if (!it.isSuccessful) {
-                println("Task Failed")
+                Timber.w("Task Failed")
                 return@addOnCompleteListener
             }
-            println("subscribe global topic")
+            Timber.i("subscribe global topic")
         }
     }
 

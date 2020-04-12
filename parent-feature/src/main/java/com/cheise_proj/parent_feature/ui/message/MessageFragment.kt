@@ -24,6 +24,7 @@ import com.cheise_proj.presentation.utils.IColorGenerator
 import com.cheise_proj.presentation.viewmodel.SharedViewModel
 import com.cheise_proj.presentation.viewmodel.message.MessageViewModel
 import kotlinx.android.synthetic.main.message_fragment.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class MessageFragment : BaseFragment() {
@@ -96,7 +97,7 @@ class MessageFragment : BaseFragment() {
 
         messageViewModel.getMessages().observe(viewLifecycleOwner, Observer {
             when (it.status) {
-                STATUS.LOADING -> println("loading...")
+                STATUS.LOADING -> Timber.i("loading...")
                 STATUS.SUCCESS -> {
                     hideLoadingProgress()
                     it.data?.let { data ->
@@ -112,7 +113,7 @@ class MessageFragment : BaseFragment() {
                 }
                 STATUS.ERROR -> {
                     hideLoadingProgress()
-                    println("error ${it.message}")
+                    Timber.w("error ${it.message}")
                 }
             }
         })

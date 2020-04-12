@@ -65,6 +65,8 @@ buildscript {
         firebase_version = '17.3.0'
         firebase_msg_version = '20.1.5'
         firebaseCrash_version = '17.0.0-beta04'
+        firebase_in_messaging = '19.0.5'
+        guava_fix_version = '27.0.1-android'
 
         //retrofit version
         retrofit_version = '2.8.1'

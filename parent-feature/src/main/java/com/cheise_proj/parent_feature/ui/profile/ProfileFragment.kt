@@ -23,6 +23,7 @@ import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.viewmodel.user.ProfileViewModel
 import kotlinx.android.synthetic.main.profile_fragment.*
 import org.jetbrains.anko.support.v4.toast
+import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileFragment : BaseFragment() {
@@ -77,7 +78,7 @@ class ProfileFragment : BaseFragment() {
             viewModel.getProfile(session.role!!, session.name!!)
                 .observe(viewLifecycleOwner, Observer {
                     when (it.status) {
-                        STATUS.LOADING -> println("loading...")
+                        STATUS.LOADING -> Timber.i("loading...")
                         STATUS.SUCCESS -> {
                             hideLoadingProgress()
                             it.data?.let { data ->
@@ -94,7 +95,7 @@ class ProfileFragment : BaseFragment() {
                         STATUS.ERROR -> {
                             hideLoadingProgress()
                             toast("error ${it.message}")
-                            println("err ${it.message}")
+                            Timber.w("err ${it.message}")
                         }
                     }
                 })

@@ -86,4 +86,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-dash:$rootProject.exoVersion"
     implementation "com.google.android.exoplayer:exoplayer-ui:$rootProject.exoVersion"
     implementation "com.google.android.exoplayer:extension-okhttp:$rootProject.exoVersion"
+
+    //timber
+    implementation "com.jakewharton.timber:timber:$rootProject.timber_version"
 }

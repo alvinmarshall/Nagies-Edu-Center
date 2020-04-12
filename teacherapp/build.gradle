@@ -76,6 +76,12 @@ dependencies {
     implementation "com.google.firebase:firebase-crashlytics:$rootProject.firebaseCrash_version"
     //firebase analytics
     implementation "com.google.firebase:firebase-analytics:$rootProject.firebase_version"
+    //firebase in app messaging
+    implementation "com.google.firebase:firebase-inappmessaging-display-ktx:$rootProject.firebase_in_messaging"
+    implementation "com.google.guava:guava:$rootProject.guava_fix_version"
+
+    //timber
+    implementation "com.jakewharton.timber:timber:$rootProject.timber_version"
 
     implementation project(path: ':teacher-feature')
     implementation project(path: ':login-feature')
