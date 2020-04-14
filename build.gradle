@@ -88,6 +88,7 @@ buildscript {
 
         //okhttp
         okhttpVersion = '4.5.0'
+        okhttp_interceptor_version = '4.5.0'
 
         //exo player
         exoVersion = '2.11.3'
