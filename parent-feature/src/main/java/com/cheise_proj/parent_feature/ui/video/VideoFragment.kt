@@ -74,7 +74,7 @@ class VideoFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         permission.initPermissionValues(
-            context!!,
+            requireContext(),
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
             REQUEST_EXTERNAL_STORAGE, permissionDialogListener
         )

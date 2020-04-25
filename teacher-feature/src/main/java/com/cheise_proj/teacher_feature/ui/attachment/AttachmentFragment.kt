@@ -94,7 +94,7 @@ class AttachmentFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         permission.initPermissionValues(
-            context!!,
+            requireContext(),
             arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
             REQUEST_CAMERA, permissionDialogListener
         )
@@ -112,7 +112,7 @@ class AttachmentFragment : BaseFragment() {
         val photoFile: File? = createImageFile()
         val photoUri = photoFile?.let {
             FileProvider.getUriForFile(
-                context!!, getString(R.string.file_provider_authority, context?.packageName),
+                requireContext(), getString(R.string.file_provider_authority, context?.packageName),
                 it
             )
         }

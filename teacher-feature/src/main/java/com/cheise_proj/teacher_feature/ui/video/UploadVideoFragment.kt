@@ -68,7 +68,7 @@ class UploadVideoFragment : BaseFragment() {
             if (!isBusy) {
                 toast("upload started")
                 isBusy = true
-                UploadVideoWorker.start(context!!, captureVideoPath, R.id.uploadVideoFragment)
+                UploadVideoWorker.start(requireContext(), captureVideoPath, R.id.uploadVideoFragment)
                     .observe(viewLifecycleOwner,
                         Observer { worker ->
                             if (worker.state.isFinished) {
@@ -84,9 +84,9 @@ class UploadVideoFragment : BaseFragment() {
 
     private fun initializePlayer(uri: Uri) {
         val mediaDataSourceFactory: DataSource.Factory
-        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context!!)
+        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(requireContext())
         mediaDataSourceFactory =
-            DefaultDataSourceFactory(context, Util.getUserAgent(context!!, "mediaPlayerSample"))
+            DefaultDataSourceFactory(context, Util.getUserAgent(requireContext(), "mediaPlayerSample"))
         val mediaSource =
             ProgressiveMediaSource.Factory(mediaDataSourceFactory).createMediaSource(uri)
         simpleExoPlayer?.prepare(mediaSource, false, false)
@@ -103,7 +103,7 @@ class UploadVideoFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         permission.initPermissionValues(
-            context!!,
+            requireContext(),
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
             REQUEST_VIDEO, permissionDialogListener
         )

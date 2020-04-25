@@ -55,10 +55,10 @@ class VideoDetailFragment : Fragment() {
         val trackSelector = DefaultTrackSelector(videoTrackSelectionFactory)
 
         val mediaDataSourceFactory: DataSource.Factory
-        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context!!, trackSelector)
+        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(requireContext(), trackSelector)
 
         mediaDataSourceFactory =
-            DefaultDataSourceFactory(context, Util.getUserAgent(context!!, "mediaPlayerSample"))
+            DefaultDataSourceFactory(context, Util.getUserAgent(requireContext(), "mediaPlayerSample"))
         val mediaSource = ProgressiveMediaSource.Factory(mediaDataSourceFactory).createMediaSource(
             Uri.parse(playUrl)
         )

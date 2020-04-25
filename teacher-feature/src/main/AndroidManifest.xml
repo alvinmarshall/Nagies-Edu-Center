@@ -3,19 +3,15 @@
         package="com.cheise_proj.teacher_feature">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <uses-feature
-            android:name="android.hardware.camera2"
-            android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera2" android:required="false"/>
 
     <application>
         <activity
                 android:name=".TeacherNavigationActivity"
-                android:theme="@style/AppTheme.NoActionBar" />
+                android:theme="@style/AppTheme.NoActionBar"/>
         <!--        FCM-->
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"

@@ -101,7 +101,7 @@ class ReportFragment : BaseFragment() {
         val view = lay.inflate(R.layout.prev_avatar, root)
         val img = view.findViewById<TouchImageView>(R.id.avatar_image)
         val dialogBuilder = AlertDialog.Builder(context)
-        GlideApp.with(context!!).load(url).centerCrop().into(object : CustomTarget<Drawable>() {
+        GlideApp.with(requireContext()).load(url).centerCrop().into(object : CustomTarget<Drawable>() {
             override fun onLoadCleared(placeholder: Drawable?) {
             }
 
@@ -131,7 +131,7 @@ class ReportFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         permission.initPermissionValues(
-            context!!,
+            requireContext(),
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
             REQUEST_EXTERNAL_STORAGE, permissionDialogListener
         )
