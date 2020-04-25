@@ -42,6 +42,14 @@ data class GetNotificationNavigationUtil(val fcmName: String?, val fcmLevel: Str
                     }
                 }
 
+                context.getString(R.string.notification_type_video) -> {
+                    if (fcmLevel == level) {
+                        R.id.videoFragment
+                    } else {
+                        NO_LOCATION
+                    }
+                }
+
                 else -> NO_LOCATION
             }
 

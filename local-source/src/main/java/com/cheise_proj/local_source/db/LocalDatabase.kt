@@ -24,9 +24,10 @@ import com.cheise_proj.local_source.model.user.UserLocal
         TimeTableLocal::class,
         BillLocal::class,
         PeopleLocal::class,
-        ComplaintLocal::class
+        ComplaintLocal::class,
+        VideoLocal::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class LocalDatabase : RoomDatabase() {

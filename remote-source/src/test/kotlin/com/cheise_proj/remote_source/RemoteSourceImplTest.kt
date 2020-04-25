@@ -280,6 +280,48 @@ class RemoteSourceImplTest {
 
     //region FILES
 
+    //region VIDEO
+    @Test
+    fun `Upload video success`() {
+        val filePart = TestFilesGenerator.getFilePart()
+        val actual = TestFilesGenerator.getUploadDto()
+        val status = HTTP_OK
+        Mockito.`when`(apiService.uploadVideo(filePart)).thenReturn(Observable.just(actual))
+        remoteSourceImpl.uploadVideo(filePart)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == status
+            }
+            .assertComplete()
+    }
+
+    @Test
+    fun `Upload video to remote with no network success`() {
+        val part = TestFilesGenerator.getFilePart()
+        val actual = NETWORK_STATE
+        Mockito.`when`(apiService.uploadVideo(part)).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.uploadVideo(part)
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(apiService, times(1)).uploadVideo(part)
+    }
+    //endregion
+
+
+
+
     //region REPORT
     @Test
     fun `Upload report success`() {
@@ -377,6 +419,45 @@ class RemoteSourceImplTest {
             .assertComplete()
     }
     //endregion
+
+
+    //region VIDEO
+    @Test
+    fun `Get all videos from remote success`() {
+        val actual = TestFilesGenerator.getVideosDto()
+        Mockito.`when`(apiService.getVideos()).thenReturn(Observable.just(actual))
+        remoteSourceImpl.getVideo()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDtoDataMapper.dtoToDataList(actual.data)
+            }
+            .assertComplete()
+        Mockito.verify(apiService, times(1)).getVideos()
+    }
+
+    @Test
+    fun `Get all videos from remote with no network success`() {
+        val actual = NETWORK_STATE
+        Mockito.`when`(apiService.getVideos()).thenReturn(
+            Observable.error(
+                Throwable(
+                    NO_NETWORK_ERROR
+                )
+            )
+        )
+        remoteSourceImpl.getVideo()
+            .test()
+            .assertSubscribed()
+            .assertError {
+                it.localizedMessage == actual
+            }
+            .assertNotComplete()
+        Mockito.verify(apiService, times(1)).getVideos()
+    }
+    //endregion
+
 
     //region BILL
     @Test

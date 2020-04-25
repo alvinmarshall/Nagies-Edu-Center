@@ -13,6 +13,7 @@ import com.cheise_proj.parent_feature.ui.receipt.ReceiptFragment
 import com.cheise_proj.parent_feature.ui.report.ReportFragment
 import com.cheise_proj.parent_feature.ui.teacher.TeacherFragment
 import com.cheise_proj.parent_feature.ui.timetable.TimeTableFragment
+import com.cheise_proj.parent_feature.ui.video.VideoFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -57,4 +58,7 @@ interface ParentFragmentModule {
 
     @ContributesAndroidInjector
     fun contributePeopleDialogFragment(): PeopleDialogFragment
+
+    @ContributesAndroidInjector
+    fun contributeVideoFragment(): VideoFragment
 }

@@ -129,7 +129,28 @@ class RemoteSourceImpl @Inject constructor(
 
     }
 
+
     //region FILES
+    override fun uploadVideo(file: MultipartBody.Part): Observable<Int> {
+        return apiService.uploadVideo(file)
+            .map { t: UploadDto ->
+                return@map t.status
+            }.onErrorResumeNext(
+                Function {
+                    it.message?.let { msg ->
+                        when {
+                            msg.contains("Unable to resolve host") -> {
+                                Observable.error(Throwable(NO_CONNECTIVITY))
+                            }
+                            else -> {
+                                Observable.error(Throwable(msg))
+                            }
+                        }
+                    }
+                }
+            )
+    }
+
     override fun uploadReport(
         file: MultipartBody.Part,
         refNo: MultipartBody.Part,
@@ -194,6 +215,28 @@ class RemoteSourceImpl @Inject constructor(
                     }
                 }
             )
+    }
+
+    //endregion
+
+    //region VIDEO
+    override fun getVideo(): Observable<List<FilesData>> {
+        return apiService.getVideos().map { t: VideossDto ->
+            filesDtoDataMapper.dtoToDataList(t.data)
+        }.onErrorResumeNext(
+            Function {
+                it.message?.let { msg ->
+                    when {
+                        msg.contains("Unable to resolve host") -> {
+                            Observable.error(Throwable(NO_CONNECTIVITY))
+                        }
+                        else -> {
+                            Observable.error(Throwable(msg))
+                        }
+                    }
+                }
+            }
+        )
     }
     //endregion
 
@@ -262,8 +305,8 @@ class RemoteSourceImpl @Inject constructor(
 
     override fun getAssignment(): Observable<List<FilesData>> {
         return apiService.getAssignment().map { t: AssignmentsDto ->
-            filesDtoDataMapper.dtoToDataList(t.data)
-        }
+                filesDtoDataMapper.dtoToDataList(t.data)
+            }
             .onErrorResumeNext(
                 Function {
                     it.message?.let { msg ->
@@ -365,7 +408,8 @@ class RemoteSourceImpl @Inject constructor(
                     }
                 }
             }
-        )    }
+        )
+    }
     //endregion
     //endregion
 
@@ -445,12 +489,12 @@ class RemoteSourceImpl @Inject constructor(
 
     override fun changePassword(oldPassword: String, newPassword: String): Observable<Boolean> {
         return apiService.changeAccountPassword(
-            ChangePasswordRequest(
-                oldPassword,
-                newPassword,
-                newPassword
+                ChangePasswordRequest(
+                    oldPassword,
+                    newPassword,
+                    newPassword
+                )
             )
-        )
             .map {
                 if (it.status == 200) {
                     return@map true
@@ -483,9 +527,9 @@ class RemoteSourceImpl @Inject constructor(
         password: String
     ): Observable<UserData> {
         return apiService.getAuthenticateUser(
-            role.toLowerCase(Locale.ENGLISH),
-            LoginRequest(username, password)
-        )
+                role.toLowerCase(Locale.ENGLISH),
+                LoginRequest(username, password)
+            )
             .map {
                 return@map userDtoDataMapper.dtoToData(it)
             }

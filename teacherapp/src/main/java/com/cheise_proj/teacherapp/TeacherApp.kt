@@ -8,6 +8,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import timber.log.Timber
 
 class TeacherApp : DaggerApplication() {
     private val appComponent by lazy {
@@ -21,6 +22,13 @@ class TeacherApp : DaggerApplication() {
         appComponent.inject(this)
         initWorkManager()
         initFCMService()
+        initTimber()
+    }
+
+    private fun initTimber() {
+        if(BuildConfig.DEBUG){
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     private fun initWorkManager() {
@@ -35,17 +43,17 @@ class TeacherApp : DaggerApplication() {
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             if (!it.isSuccessful) {
-                println("Task Failed")
+                Timber.w("Task Failed")
                 return@addOnCompleteListener
             }
-            println("result: ${it.result?.token}")
+            Timber.i("FirebaseInstanceID: ${it.result?.token}")
         }
         FirebaseMessaging.getInstance().subscribeToTopic(getGlobalTopic()).addOnCompleteListener {
             if (!it.isSuccessful) {
-                println("Task Failed")
+                Timber.w("Task Failed")
                 return@addOnCompleteListener
             }
-            println("subscribe global topic")
+            Timber.i("subscribe global topic")
         }
     }
 

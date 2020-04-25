@@ -18,6 +18,7 @@ import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.viewmodel.people.PeopleViewModel
 import dagger.android.support.DaggerDialogFragment
 import kotlinx.android.synthetic.main.fragment_people_dialog.*
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -81,13 +82,14 @@ class PeopleDialogFragment : DaggerDialogFragment() {
     private fun subscribeObserver() {
         viewModel.getPeopleList("teacher").observe(viewLifecycleOwner, Observer {
             when (it.status) {
-                STATUS.LOADING -> println("loading...")
+                STATUS.LOADING -> Timber.i("loading...")
                 STATUS.SUCCESS -> {
                     hideProgress()
+                    Timber.i("people data: ${it.data}")
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
                 }
-                STATUS.ERROR -> println("err ${it.message}")
+                STATUS.ERROR -> Timber.w("err ${it.message}")
             }
         })
     }

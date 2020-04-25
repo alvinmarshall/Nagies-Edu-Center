@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -58,6 +58,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"
+    //okhttp logging
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp_interceptor_version"
 
     //Gson
     implementation "com.google.code.gson:gson:$rootProject.gson_version"
@@ -69,8 +71,19 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$rootProject.worker_version"
     implementation "androidx.work:work-rxjava2:$rootProject.worker_version"
 
+    //Firebase
     //firebase messaging
     implementation "com.google.firebase:firebase-messaging:$rootProject.firebase_msg_version"
+    //firebase crashlytics
+    implementation "com.google.firebase:firebase-crashlytics:$rootProject.firebaseCrash_version"
+    //firebase analytics
+    implementation "com.google.firebase:firebase-analytics:$rootProject.firebase_version"
+    //firebase in app messaging
+    implementation "com.google.firebase:firebase-inappmessaging-display-ktx:$rootProject.firebase_in_messaging"
+    implementation "com.google.guava:guava:$rootProject.guava_fix_version"
+
+    //timber
+    implementation "com.jakewharton.timber:timber:$rootProject.timber_version"
 
     implementation project(path: ':teacher-feature')
     implementation project(path: ':login-feature')

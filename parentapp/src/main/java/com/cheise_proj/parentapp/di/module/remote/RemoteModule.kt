@@ -28,9 +28,11 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -74,10 +76,18 @@ class RemoteModule {
     @Suppress("SpellCheckingInspection")
     @Provides
     fun provideOkttpClient(tokenService: TokenService): OkHttpClient {
+       val logger = HttpLoggingInterceptor(object:HttpLoggingInterceptor.Logger{
+           override fun log(message: String) {
+               Timber.tag("OKHTTP").i(message)
+           }
+
+       })
+        logger.setLevel(HttpLoggingInterceptor.Level.BASIC)
         return OkHttpClient.Builder()
             .connectTimeout(5, TimeUnit.MINUTES)
             .writeTimeout(5, TimeUnit.MINUTES)
             .readTimeout(5, TimeUnit.MINUTES)
+            .addInterceptor(logger)
             .addInterceptor(tokenService)
             .retryOnConnectionFailure(true)
             .build()

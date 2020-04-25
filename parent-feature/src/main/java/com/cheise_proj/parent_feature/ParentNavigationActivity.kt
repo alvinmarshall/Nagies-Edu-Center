@@ -35,6 +35,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.content_parent_navigation.*
+import timber.log.Timber
 
 class ParentNavigationActivity : BaseActivity() {
     companion object {
@@ -100,6 +101,7 @@ class ParentNavigationActivity : BaseActivity() {
             R.id.reportFragment2 -> textBadgeViews[3].text = str
             R.id.timeTableFragment -> textBadgeViews[4].text = str
             R.id.billFragment -> textBadgeViews[5].text = str
+            R.id.videoFragment -> textBadgeViews[6].text = str
         }
     }
 
@@ -111,6 +113,7 @@ class ParentNavigationActivity : BaseActivity() {
         textBadgeViews.add(menuNav.findItem(R.id.reportFragment2).actionView as TextView)
         textBadgeViews.add(menuNav.findItem(R.id.timeTableFragment).actionView as TextView)
         textBadgeViews.add(menuNav.findItem(R.id.billFragment).actionView as TextView)
+        textBadgeViews.add(menuNav.findItem(R.id.videoFragment).actionView as TextView)
 
         textBadgeViews.forEach {
             it.apply {
@@ -205,10 +208,10 @@ class ParentNavigationActivity : BaseActivity() {
     private fun firebaseMessageSubscription() {
         FirebaseMessaging.getInstance().subscribeToTopic(getParentTopic()).addOnCompleteListener {
             if (!it.isSuccessful) {
-                println("Task Failed")
+                Timber.w("Task Failed")
                 return@addOnCompleteListener
             }
-            println("subscribe parent topic")
+            Timber.i("subscribe parent topic")
         }
     }
 

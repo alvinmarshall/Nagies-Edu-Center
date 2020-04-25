@@ -25,6 +25,7 @@ import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.viewmodel.people.PeopleViewModel
 import kotlinx.android.synthetic.main.teacher_fragment.*
 import org.jetbrains.anko.support.v4.toast
+import timber.log.Timber
 import javax.inject.Inject
 
 class TeacherFragment : BaseFragment() {
@@ -46,6 +47,7 @@ class TeacherFragment : BaseFragment() {
                 with(data.second) {
                     when (data.first) {
                         PeopleAction.CALL -> {
+                            Timber.i("PeopleAction.CALL")
                             context?.startActivity(
                                 Intent(
                                     Intent.ACTION_DIAL,
@@ -54,6 +56,7 @@ class TeacherFragment : BaseFragment() {
                             )
                         }
                         PeopleAction.SMS -> {
+                            Timber.i("PeopleAction.SMS")
                             context?.startActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
@@ -62,6 +65,7 @@ class TeacherFragment : BaseFragment() {
                             )
                         }
                         PeopleAction.COMPLAINT -> {
+                            Timber.i("PeopleAction.COMPLAINT ")
                             AlertDialog.Builder(context).setMessage("Not Implemented").show()
                         }
                     }
@@ -93,13 +97,14 @@ class TeacherFragment : BaseFragment() {
         adapter.setAdapterClickListener(adapterClickListener)
         viewModel = ViewModelProvider(this, factory)[PeopleViewModel::class.java]
         val handler = Handler(Looper.getMainLooper())
+        Timber.i("postDelayed $DELAY_HANDLER")
         handler.postDelayed({ subscribeObserver() }, DELAY_HANDLER)
     }
 
     private fun subscribeObserver() {
         viewModel.getPeopleList("teacher").observe(viewLifecycleOwner, Observer {
             when (it.status) {
-                STATUS.LOADING -> println("loading...")
+                STATUS.LOADING -> Timber.i("loading...")
                 STATUS.SUCCESS -> {
                     hideLoadingProgress()
                     it.data?.let { data ->
@@ -112,7 +117,10 @@ class TeacherFragment : BaseFragment() {
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
                 }
-                STATUS.ERROR -> toast("${it.message}")
+                STATUS.ERROR -> {
+                    toast("${it.message}")
+                    Timber.w("${it.message}")
+                }
             }
         })
     }

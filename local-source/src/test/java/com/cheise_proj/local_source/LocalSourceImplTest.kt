@@ -38,13 +38,17 @@ class LocalSourceImplTest {
     private lateinit var billLocalDataMapper: BillLocalDataMapper
     private lateinit var peopleLocalDataMapper: PeopleLocalDataMapper
     private lateinit var complaintLocalDataMapper: ComplaintLocalDataMapper
+    private lateinit var videoLocalDataMapper: VideoLocalDataMapper
 
     @Mock
     lateinit var userDao: UserDao
+
     @Mock
     lateinit var messageDao: MessageDao
+
     @Mock
     lateinit var filesDao: FilesDao
+
     @Mock
     lateinit var peopleDao: PeopleDao
 
@@ -61,6 +65,7 @@ class LocalSourceImplTest {
         billLocalDataMapper = BillLocalDataMapper()
         peopleLocalDataMapper = PeopleLocalDataMapper()
         complaintLocalDataMapper = ComplaintLocalDataMapper()
+        videoLocalDataMapper = VideoLocalDataMapper()
 
         localSourceImpl = LocalSourceImpl(
             userDao,
@@ -76,7 +81,8 @@ class LocalSourceImplTest {
             billLocalDataMapper,
             peopleDao,
             peopleLocalDataMapper,
-            complaintLocalDataMapper
+            complaintLocalDataMapper,
+            videoLocalDataMapper
         )
     }
 
@@ -137,6 +143,47 @@ class LocalSourceImplTest {
     }
 
     //endregion
+
+    //region VIDEO
+    @Test
+    fun `Get all videos from local success`() {
+        val actual = TestFilesGenerator.getVideos()
+        Mockito.`when`(filesDao.getVideos()).thenReturn(Observable.just(actual))
+        localSourceImpl.getVideos()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == videoLocalDataMapper.localToDataList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getVideos()
+    }
+
+    @Test
+    fun `Get video from local success`() {
+        val actual = TestFilesGenerator.getVideo()
+        Mockito.`when`(filesDao.getVideo(IDENTIFIER)).thenReturn(Single.just(actual))
+        localSourceImpl.getVideo(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == videoLocalDataMapper.localToData(actual)
+            }
+            .assertComplete()
+        Mockito.verify(filesDao, times(1)).getVideo(IDENTIFIER)
+    }
+
+    @Test
+    fun `Save videos to local success`() {
+        val video = TestFilesGenerator.getVideos()
+        Mockito.doNothing().`when`(filesDao).clearAndInsertVideo(video)
+        localSourceImpl.saveVideo(videoLocalDataMapper.localToDataList(video))
+        Mockito.verify(filesDao, times(1)).clearAndInsertVideo(video)
+    }
+    //endregion
+
 
     //region BILL
     @Test

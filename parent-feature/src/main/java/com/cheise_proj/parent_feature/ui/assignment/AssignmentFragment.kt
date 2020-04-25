@@ -34,6 +34,7 @@ import com.cheise_proj.presentation.viewmodel.files.AssignmentViewModel
 import com.ortiz.touchview.TouchImageView
 import kotlinx.android.synthetic.main.assignment_fragment.*
 import org.jetbrains.anko.support.v4.toast
+import timber.log.Timber
 import javax.inject.Inject
 
 class AssignmentFragment : BaseFragment() {
@@ -85,6 +86,7 @@ class AssignmentFragment : BaseFragment() {
     private fun prepareToDownload(data: Pair<String?, Boolean>?) {
         val downloadId = downloadService.startDownload(data?.first)
         toast("download id $downloadId started")
+        Timber.i("download id $downloadId started")
     }
 
     private fun setDialogPreview(url: String?) {
@@ -93,7 +95,7 @@ class AssignmentFragment : BaseFragment() {
         val view = lay.inflate(R.layout.prev_avatar, root)
         val img = view.findViewById<TouchImageView>(R.id.avatar_image)
         val dialogBuilder = AlertDialog.Builder(context)
-        GlideApp.with(context!!).load(url).centerCrop().into(object : CustomTarget<Drawable>() {
+        GlideApp.with(requireContext()).load(url).centerCrop().into(object : CustomTarget<Drawable>() {
             override fun onLoadCleared(placeholder: Drawable?) {
             }
 
@@ -115,13 +117,14 @@ class AssignmentFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             hasFixedSize()
         }
+        Timber.i("registerDownloadBroadCast")
         downloadService.registerDownloadBroadCast()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         permission.initPermissionValues(
-            context!!,
+            requireContext(),
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
             REQUEST_EXTERNAL_STORAGE, permissionDialogListener
         )
@@ -134,6 +137,7 @@ class AssignmentFragment : BaseFragment() {
         sharedViewModel = activity?.run {
             ViewModelProvider(this)[SharedViewModel::class.java]
         }!!
+        Timber.i("postDelayed $DELAY_HANDLER")
         handler.postDelayed({ subscribeObserver() }, DELAY_HANDLER)
 
     }
@@ -141,23 +145,26 @@ class AssignmentFragment : BaseFragment() {
     private fun subscribeObserver() {
         viewModel.getAssignments().observe(viewLifecycleOwner, Observer {
             when (it.status) {
-                STATUS.LOADING -> println("loading...")
+                STATUS.LOADING -> Timber.i("loading...")
                 STATUS.SUCCESS -> {
                     hideLoadingProgress()
                     it.data?.let { data ->
                         if (data.isEmpty()) {
                             showNoDataAlert()
+                            Timber.i("showNoDataAlert dialog")
                         } else {
                             showNoDataAlert(false)
+                            Timber.i("hide showNoDataAlert dialog")
                         }
                     }
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
+                    Timber.i("setBadgeValue ${it?.data?.size}")
                     sharedViewModel.setBadgeValue(Pair(R.id.assignmentFragment, it?.data?.size))
                 }
                 STATUS.ERROR -> {
                     hideLoadingProgress()
-                    println("err ${it.message}")
+                    Timber.w("err ${it.message}")
                 }
             }
         })
@@ -186,8 +193,10 @@ class AssignmentFragment : BaseFragment() {
             REQUEST_EXTERNAL_STORAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     prepareToDownload(downloadData)
+                    Timber.i("PERMISSION_GRANTED true")
                 } else {
                     permission.askForPermissions()
+                    Timber.i("PERMISSION_GRANTED false")
                 }
                 return
             }

@@ -27,6 +27,7 @@ import com.cheise_proj.presentation.utils.InputValidation
 import com.cheise_proj.presentation.viewmodel.message.ComplaintViewModel
 import kotlinx.android.synthetic.main.fragment_compose_complaint.*
 import org.jetbrains.anko.support.v4.toast
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -56,6 +57,7 @@ class ComposeComplaintFragment : BaseFragment() {
             identifier = data?.name ?: ""
             peopleDialogFragment.dismiss()
             toast("Recipient set")
+            Timber.i("Recipient set")
         }
     }
 
@@ -101,18 +103,22 @@ class ComposeComplaintFragment : BaseFragment() {
 
         if (TextUtils.isEmpty(content)) {
             toast("provide a content")
+            Timber.i("provide a content")
             return
         }
         if (TextUtils.isEmpty(identifier)) {
             toast("Add a recipient")
+            Timber.i("Add a recipient")
+
             return
         }
+        Timber.i("showRecipientAlert dialog")
         showRecipientAlert(content, identifier)
 
     }
 
     private fun showRecipientAlert(content: String, identifier: String) {
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle("Recipient Alert")
             .setMessage("Your message recipient is set to \n${getCurrentRecipient()}. \nDo you want to continue ?")
             .setPositiveButton("ok") { dialog, _ ->
@@ -129,12 +135,13 @@ class ComposeComplaintFragment : BaseFragment() {
             when (it.status) {
                 STATUS.LOADING -> {
                     showLoadingProgress()
-                    println("sending message...")
+                    Timber.i("sending message...")
                 }
                 STATUS.SUCCESS -> {
                     it.data?.let { isSuccess ->
                         if (isSuccess) {
                             showLoadingProgress(false)
+                            Timber.i("subscribeSendComplaint $isSuccess")
                             et_content.text.clear()
                             subscribeComplaintObserver()
                         }
@@ -143,6 +150,7 @@ class ComposeComplaintFragment : BaseFragment() {
                 STATUS.ERROR -> {
                     showLoadingProgress(false)
                     toast("error ${it.message}")
+                    Timber.w("error ${it.message}")
                 }
             }
         })
@@ -165,6 +173,7 @@ class ComposeComplaintFragment : BaseFragment() {
     private fun configViewModel() {
         viewModel = ViewModelProvider(this, factory)[ComplaintViewModel::class.java]
         val handler = Handler(Looper.getMainLooper())
+        Timber.i("postDelayed $DELAY_HANDLER")
         handler.postDelayed({ subscribeComplaintObserver() }, DELAY_HANDLER)
     }
 
@@ -174,12 +183,13 @@ class ComposeComplaintFragment : BaseFragment() {
                 STATUS.LOADING -> showLoadingProgress()
                 STATUS.SUCCESS -> {
                     showLoadingProgress(false)
+                    Timber.i("sent complaint data: ${it.data}")
                     adapter.submitList(it.data)
                     recyclerView.adapter = adapter
                 }
                 STATUS.ERROR -> {
                     showLoadingProgress(false)
-                    println("err ${it.message}")
+                    Timber.w("err ${it.message}")
                 }
             }
         })

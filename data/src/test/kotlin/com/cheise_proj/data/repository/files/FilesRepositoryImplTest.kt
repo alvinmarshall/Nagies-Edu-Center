@@ -161,6 +161,88 @@ class FilesRepositoryImplTest {
     }
     //endregion
 
+    //region VIDEO
+    @Test
+    fun `Upload video to remote success`() {
+        val filePart = TestFilesGenerator.getFilePart()
+        val actual = HTTP_OK
+        Mockito.`when`(remoteSource.uploadVideo(filePart)).thenReturn(Observable.just(actual))
+        filesRepositoryImpl.uploadVideos(filePart)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue { it == actual }
+            .assertComplete()
+    }
+    //endregion
+
+
+    //region VIDEO
+    @Test
+    fun `Get all videos success`() {
+        val actual = TestFilesGenerator.getFiles()
+        Mockito.`when`(remoteSource.getVideo()).thenReturn(Observable.just(actual))
+        Mockito.`when`(localSource.getVideos()).thenReturn(Observable.just(actual))
+        filesRepositoryImpl.getVideos()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDataEntityMapper.dataToEntityList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).getVideo()
+        Mockito.verify(localSource, times(1)).getVideos()
+        Mockito.verify(localSource, times(0)).getVideo(IDENTIFIER)
+
+    }
+
+    @Test
+    fun `Get all videos from local when remote fail success`() {
+        val actual = TestFilesGenerator.getFiles()
+        Mockito.`when`(remoteSource.getVideo()).thenReturn(
+            Observable.error(
+                Throwable(
+                    ERROR_MESSAGE
+                )
+            )
+        )
+        Mockito.`when`(localSource.getVideos()).thenReturn(Observable.just(actual))
+        filesRepositoryImpl.getVideos()
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                it == filesDataEntityMapper.dataToEntityList(actual)
+            }
+            .assertComplete()
+        Mockito.verify(remoteSource, times(1)).getVideo()
+        Mockito.verify(localSource, times(1)).getVideos()
+        Mockito.verify(localSource, times(0)).getVideo(IDENTIFIER)
+
+    }
+
+    @Test
+    fun `Get video with identifier success`() {
+        val actual = TestFilesGenerator.getFiles()[0]
+        Mockito.`when`(localSource.getVideo(IDENTIFIER)).thenReturn(Single.just(actual))
+        filesRepositoryImpl.getVideo(IDENTIFIER)
+            .test()
+            .assertSubscribed()
+            .assertValueCount(1)
+            .assertValue {
+                println(it)
+                it[0] == filesDataEntityMapper.dataToEntity(actual)
+            }
+            .assertComplete()
+        Mockito.verify(localSource, times(0)).getVideos()
+        Mockito.verify(localSource, times(1)).getVideo(IDENTIFIER)
+    }
+    //endregion
+
+
+
+
     //region BILL
     @Test
     fun `Get all bills success`() {

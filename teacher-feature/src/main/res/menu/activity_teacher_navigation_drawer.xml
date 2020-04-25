@@ -16,6 +16,11 @@
     </group>
 
     <group android:checkableBehavior="single">
+
+        <item
+                android:id="@+id/uploadVideoFragment"
+                android:icon="@drawable/ic_video_call_black_24dp"
+                android:title="@string/menu_video" />
         <item
                 android:id="@+id/attachmentFragment"
                 android:icon="@drawable/ic_cloud_upload_black_24dp"

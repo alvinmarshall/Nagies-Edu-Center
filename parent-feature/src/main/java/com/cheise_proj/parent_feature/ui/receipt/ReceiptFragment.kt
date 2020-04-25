@@ -23,6 +23,7 @@ import com.cheise_proj.presentation.utils.IRuntimePermission
 import com.cheise_proj.presentation.utils.PermissionDialogListener
 import kotlinx.android.synthetic.main.fragment_receipt.*
 import org.jetbrains.anko.support.v4.toast
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -47,6 +48,7 @@ class ReceiptFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var isBusy = false
         avatar_image.setOnClickListener {
             if (permission.askForPermissions()) {
                 pickAnImage()
@@ -55,24 +57,34 @@ class ReceiptFragment : BaseFragment() {
         btn_upload_file.setOnClickListener {
             if (TextUtils.isEmpty(captureImagePath)) {
                 toast("no file selected")
+                Timber.i("no file selected")
                 return@setOnClickListener
             }
-            it.visibility = View.GONE
-            UploadReceiptWorker.start(it.context, captureImagePath, R.id.receiptFragment)
-                .observe(viewLifecycleOwner,
-                    androidx.lifecycle.Observer { worker ->
-                        if (worker.state.isFinished) {
-                            it.visibility = View.VISIBLE
-                            toast("upload complete")
-                        }
-                    })
+            if (!isBusy) {
+                toast("upload started")
+                Timber.i("upload started")
+                isBusy = true
+                UploadReceiptWorker.start(it.context, captureImagePath, R.id.receiptFragment)
+                    .observe(viewLifecycleOwner,
+                        androidx.lifecycle.Observer { worker ->
+                            if (worker.state.isFinished) {
+                                toast("upload complete")
+                                Timber.i("upload complete")
+                                isBusy = false
+                            }
+                        })
+            } else {
+                toast("System busy uploading...")
+                Timber.i("System busy uploading...")
+            }
+
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         permission.initPermissionValues(
-            context!!,
+            requireContext(),
             arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
             REQUEST_CAMERA, permissionDialogListener
         )
@@ -90,7 +102,7 @@ class ReceiptFragment : BaseFragment() {
         val photoFile: File? = createImageFile()
         val photoUri = photoFile?.let {
             FileProvider.getUriForFile(
-                context!!, getString(R.string.file_provider_authority, context?.packageName),
+                requireContext(), getString(R.string.file_provider_authority, context?.packageName),
                 it
             )
         }
@@ -98,6 +110,7 @@ class ReceiptFragment : BaseFragment() {
         val chooser = Intent.createChooser(getGalleryIntent(), "Select an option")
         chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
         startActivityForResult(chooser, REQUEST_CAMERA)
+        Timber.i("open camera / gallery intent")
     }
 
     @Throws(IOException::class)
@@ -127,10 +140,10 @@ class ReceiptFragment : BaseFragment() {
                 }
                 GlideApp.with(this).load(selectedFile).into(avatar_image)
 
-                println("image uri $captureImagePath")
+                Timber.i("image uri $captureImagePath")
             } else {
                 GlideApp.with(this).load(captureImagePath).into(avatar_image)
-                println("image uri $captureImagePath")
+                Timber.i("image uri $captureImagePath")
             }
         }
     }
