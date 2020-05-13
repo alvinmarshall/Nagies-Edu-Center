@@ -15,6 +15,11 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Decrypt google-services json file
+        run: ./.github/scripts/decrypt_google_service.sh
+        env:
+          GOOGLE_SERVICE_KEY: ${{secrets.GOOGLE_SERVICE_KEY}}
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
