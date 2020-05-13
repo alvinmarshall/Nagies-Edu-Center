@@ -25,10 +25,10 @@ android {
     }
     signingConfigs {
         release {
-            keyAlias 'nagies_mobile_key'
-            keyPassword 'infordas@2019'
-            storePassword 'infordas@2019'
-            storeFile file("D:\\Projects\\Android Proj\\key_store\\nagies_angels_mobile_key.jks")
+//            keyAlias 'nagies_mobile_key'
+//            keyPassword 'infordas@2019'
+//            storePassword 'infordas@2019'
+//            storeFile file("D:\\Projects\\Android Proj\\key_store\\nagies_angels_mobile_key.jks")
         }
     }
     buildTypes {
