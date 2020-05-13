@@ -3,9 +3,8 @@ package com.cheise_proj.data.mapper.user
 import com.cheise_proj.data.mapper.base.DataMapper
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.domain.entity.user.UserEntity
-import javax.inject.Inject
 
-class UserDataEntityMapper @Inject constructor() : DataMapper<UserData, UserEntity> {
+class UserDataEntityMapper  : DataMapper<UserData, UserEntity> {
     override fun dataToEntity(d: UserData): UserEntity {
         return UserEntity(
             username = d.username,
@@ -30,13 +29,5 @@ class UserDataEntityMapper @Inject constructor() : DataMapper<UserData, UserEnti
             name = e.name,
             token = e.token
         )
-    }
-
-    override fun dataToEntityList(dList: List<UserData>): List<UserEntity> {
-        throw NotImplementedError("not implemented")
-    }
-
-    override fun entityToDataList(eList: List<UserEntity>): List<UserData> {
-        throw NotImplementedError("not implemented")
     }
 }

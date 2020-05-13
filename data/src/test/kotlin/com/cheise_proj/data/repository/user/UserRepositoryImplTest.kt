@@ -1,7 +1,6 @@
 package com.cheise_proj.data.repository.user
 
-import com.cheise_proj.data.mapper.user.ProfileDataEntityMapper
-import com.cheise_proj.data.mapper.user.UserDataEntityMapper
+import com.cheise_proj.data.extensions.asEntity
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
 import io.reactivex.Observable
@@ -19,8 +18,7 @@ import utils.TestUserGenerator
 @RunWith(JUnit4::class)
 class UserRepositoryImplTest {
     private lateinit var userRepositoryImpl: UserRepositoryImpl
-    private lateinit var userDataEntityMapper: UserDataEntityMapper
-    private lateinit var profileDataEntityMapper: ProfileDataEntityMapper
+
     @Mock
     lateinit var localSource: LocalSource
     @Mock
@@ -30,13 +28,9 @@ class UserRepositoryImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        userDataEntityMapper = UserDataEntityMapper()
-        profileDataEntityMapper = ProfileDataEntityMapper()
         userRepositoryImpl = UserRepositoryImpl(
             remoteSource,
-            localSource,
-            userDataEntityMapper,
-            profileDataEntityMapper
+            localSource
         )
     }
 
@@ -55,8 +49,8 @@ class UserRepositoryImplTest {
                 .assertSubscribed()
                 .assertValueCount(2)
                 .assertValues(
-                    userDataEntityMapper.dataToEntity(this),
-                    userDataEntityMapper.dataToEntity(this)
+                    this.asEntity(),
+                   this.asEntity()
                 )
                 .assertComplete()
             Mockito.verify(remoteSource, times(1)).authenticateUser(role, username, password)
@@ -76,8 +70,8 @@ class UserRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(2)
             .assertValues(
-                profileDataEntityMapper.dataToEntity(actual),
-                profileDataEntityMapper.dataToEntity(actual)
+                actual.asEntity(),
+                actual.asEntity()
             )
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getProfile()
@@ -96,8 +90,8 @@ class UserRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(2)
             .assertValues(
-                profileDataEntityMapper.dataToEntity(actual),
-                profileDataEntityMapper.dataToEntity(actual)
+                actual.asEntity(),
+                actual.asEntity()
             )
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getProfile()

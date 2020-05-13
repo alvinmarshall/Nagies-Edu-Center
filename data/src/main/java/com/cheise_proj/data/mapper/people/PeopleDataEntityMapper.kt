@@ -1,11 +1,12 @@
 package com.cheise_proj.data.mapper.people
 
+import com.cheise_proj.data.mapper.base.DataListMapper
 import com.cheise_proj.data.mapper.base.DataMapper
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.domain.entity.people.PeopleEntity
 import javax.inject.Inject
 
-class PeopleDataEntityMapper @Inject constructor() : DataMapper<PeopleData, PeopleEntity> {
+class PeopleDataEntityMapper @Inject constructor() : DataMapper<PeopleData, PeopleEntity>,DataListMapper<PeopleData, PeopleEntity> {
     override fun dataToEntity(d: PeopleData): PeopleEntity {
         return PeopleEntity(
             id = d.id,

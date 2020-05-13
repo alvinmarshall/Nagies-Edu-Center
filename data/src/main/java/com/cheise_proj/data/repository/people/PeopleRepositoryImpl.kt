@@ -1,7 +1,9 @@
 package com.cheise_proj.data.repository.people
 
 import com.cheise_proj.data.cache.PeopleCache
-import com.cheise_proj.data.mapper.people.PeopleDataEntityMapper
+import com.cheise_proj.data.extensions.asDataList
+import com.cheise_proj.data.extensions.asEntity
+import com.cheise_proj.data.extensions.asEntityList
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
@@ -13,8 +15,7 @@ import javax.inject.Inject
 
 class PeopleRepositoryImpl @Inject constructor(
     private val remoteSource: RemoteSource,
-    private val localSource: LocalSource,
-    private val peopleDataEntityMapper: PeopleDataEntityMapper
+    private val localSource: LocalSource
 ) : PeopleRepository {
 
     override fun getPeopleList(type: String): Observable<List<PeopleEntity>> {
@@ -23,13 +24,13 @@ class PeopleRepositoryImpl @Inject constructor(
 
         val local = localSource.getPeopleList()
             .map { t: List<PeopleData> ->
-                peopleDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getPeople(type)
             .map { t: List<PeopleData> ->
                 localSource.savePeople(t)
-                peopleDataEntityMapper.dataToEntityList(t)
+               t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -38,7 +39,7 @@ class PeopleRepositoryImpl @Inject constructor(
 
         peopleObservable = if (cachePeople != null) {
             println("Remote source NOT invoked")
-            val cache = peopleDataEntityMapper.dataToEntityList(cachePeople)
+            val cache = cachePeople.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -47,7 +48,7 @@ class PeopleRepositoryImpl @Inject constructor(
         return peopleObservable
             .map { t: List<PeopleEntity> ->
                 if (cachePeople == null) {
-                    PeopleCache.addPeople(peopleDataEntityMapper.entityToDataList(t))
+                    PeopleCache.addPeople(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -57,7 +58,7 @@ class PeopleRepositoryImpl @Inject constructor(
     override fun getPeople(identifier: String): Observable<List<PeopleEntity>> {
         return localSource.getPeople(identifier).toObservable()
             .map { t: PeopleData ->
-                val data = peopleDataEntityMapper.dataToEntity(t)
+                val data = t.asEntity()
                 return@map arrayListOf(data)
             }
     }
