@@ -11,12 +11,7 @@ import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.PeopleDao
 import com.cheise_proj.local_source.db.dao.UserDao
-import com.cheise_proj.local_source.mapper.files.*
-import com.cheise_proj.local_source.mapper.message.ComplaintLocalDataMapper
-import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
-import com.cheise_proj.local_source.mapper.people.PeopleLocalDataMapper
-import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
-import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
+import com.cheise_proj.local_source.extensions.*
 import com.cheise_proj.local_source.model.files.*
 import com.cheise_proj.local_source.model.message.ComplaintLocal
 import com.cheise_proj.local_source.model.message.MessageLocal
@@ -27,40 +22,30 @@ import javax.inject.Inject
 
 class LocalSourceImpl @Inject constructor(
     private val userDao: UserDao,
-    private val userLocalDataMapper: UserLocalDataMapper,
-    private val profileLocalDataMapper: ProfileLocalDataMapper,
     private val messageDao: MessageDao,
-    private val messageLocalDataMapper: MessageLocalDataMapper,
     private val filesDao: FilesDao,
-    private val circularLocalDataMapper: CircularLocalDataMapper,
-    private val assignmentLocalDataMapper: AssignmentLocalDataMapper,
-    private val reportLocalDataMapper: ReportLocalDataMapper,
-    private val timeTableLocalDataMapper: TimeTableLocalDataMapper,
-    private val billLocalDataMapper: BillLocalDataMapper,
-    private val peopleDao: PeopleDao,
-    private val peopleLocalDataMapper: PeopleLocalDataMapper,
-    private val complaintLocalDataMapper: ComplaintLocalDataMapper,
-    private val videoLocalDataMapper: VideoLocalDataMapper
+    private val peopleDao: PeopleDao
+
 
 ) : LocalSource {
     //region PEOPLE
     override fun getPeopleList(): Observable<List<PeopleData>> {
         println("getPeopleList...")
         return peopleDao.getPeopleList().map { t: List<PeopleLocal> ->
-            peopleLocalDataMapper.localToDataList(t)
+            t.asLocalList()
         }
     }
 
     override fun getPeople(identifier: String): Single<PeopleData> {
         println("getPeople...")
         return peopleDao.getPeople(identifier).map { t: PeopleLocal ->
-            peopleLocalDataMapper.localToData(t)
+            t.asData()
         }
     }
 
     override fun savePeople(peopleDataList: List<PeopleData>) {
         println("savePeople...")
-        peopleDao.clearAndInsertPeople(peopleLocalDataMapper.dataToLocalList(peopleDataList))
+        peopleDao.clearAndInsertPeople(peopleDataList.asDataList())
     }
     //endregion
 
@@ -71,20 +56,20 @@ class LocalSourceImpl @Inject constructor(
     override fun getVideos(): Observable<List<FilesData>> {
         return filesDao.getVideos().map { t: List<VideoLocal> ->
             println("getVideos...")
-            videoLocalDataMapper.localToDataList(t)
+            t.asVideoLocalList()
         }
     }
 
     override fun getVideo(identifier: String): Single<FilesData> {
         return filesDao.getVideo(identifier).map { t: VideoLocal ->
             println("getVideo with identifier: $identifier ...")
-            videoLocalDataMapper.localToData(t)
+            t.asVideoData()
         }
     }
 
     override fun saveVideo(filesDataList: List<FilesData>) {
         println("saveVideos...")
-        filesDao.clearAndInsertVideo(videoLocalDataMapper.dataToLocalList(filesDataList))
+        filesDao.clearAndInsertVideo(filesDataList.asVideoDataList())
     }
 
     //endregion
@@ -93,20 +78,20 @@ class LocalSourceImpl @Inject constructor(
     override fun getBills(): Observable<List<FilesData>> {
         return filesDao.getBills().map { t: List<BillLocal> ->
             println("getBills...")
-            billLocalDataMapper.localToDataList(t)
+            t.asBillLocalList()
         }
     }
 
     override fun getBill(identifier: String): Single<FilesData> {
         return filesDao.getBill(identifier).map { t: BillLocal ->
             println("getBill with identifier: $identifier ...")
-            billLocalDataMapper.localToData(t)
+            t.asBillData()
         }
     }
 
     override fun saveBill(filesDataList: List<FilesData>) {
         println("saveBill...")
-        filesDao.clearAndInsertBill(billLocalDataMapper.dataToLocalList(filesDataList))
+        filesDao.clearAndInsertBill(filesDataList.asBillDataList())
     }
     //endregion
 
@@ -114,20 +99,20 @@ class LocalSourceImpl @Inject constructor(
     override fun getTimeTables(): Observable<List<FilesData>> {
         return filesDao.getTimeTables().map { t: List<TimeTableLocal> ->
             println("getTimeTables...")
-            timeTableLocalDataMapper.localToDataList(t)
+            t.asTimeTableLocalList()
         }
     }
 
     override fun getTimeTable(identifier: String): Single<FilesData> {
         return filesDao.getTimeTable(identifier).map { t: TimeTableLocal ->
             println("getTimeTable with identifier: $identifier ...")
-            timeTableLocalDataMapper.localToData(t)
+            t.asTimeTableData()
         }
     }
 
     override fun saveTimeTable(filesDataList: List<FilesData>) {
         println("saveTimeTable...")
-        filesDao.clearAndInsertTimeTable(timeTableLocalDataMapper.dataToLocalList(filesDataList))
+        filesDao.clearAndInsertTimeTable(filesDataList.asTimeTableDataList())
     }
     //endregion
 
@@ -140,20 +125,20 @@ class LocalSourceImpl @Inject constructor(
     override fun getReports(): Observable<List<FilesData>> {
         return filesDao.getReports().map { t: List<ReportLocal> ->
             println("getReports...")
-            reportLocalDataMapper.localToDataList(t)
+            t.asReportLocalList()
         }
     }
 
     override fun getReport(identifier: String): Single<FilesData> {
         return filesDao.getReport(identifier).map { t: ReportLocal ->
             println("getReport with identifier: $identifier ...")
-            reportLocalDataMapper.localToData(t)
+            t.asReportData()
         }
     }
 
     override fun saveReport(filesDataList: List<FilesData>) {
         println("saveReport...")
-        filesDao.clearAndInsertReport(reportLocalDataMapper.dataToLocalList(filesDataList))
+        filesDao.clearAndInsertReport(filesDataList.asReportDataList())
     }
     //endregion
 
@@ -166,20 +151,20 @@ class LocalSourceImpl @Inject constructor(
     override fun getAssignments(): Observable<List<FilesData>> {
         return filesDao.getAssignments().map { t: List<AssignmentLocal> ->
             println("getAssignments...")
-            assignmentLocalDataMapper.localToDataList(t)
+            t.asAssignmentLocalList()
         }
     }
 
     override fun getAssignment(identifier: String): Single<FilesData> {
         return filesDao.getAssignment(identifier).map { t: AssignmentLocal ->
             println("getAssignment with identifier: $identifier ...")
-            assignmentLocalDataMapper.localToData(t)
+            t.asAssignmentData()
         }
     }
 
     override fun saveAssignment(filesDataList: List<FilesData>) {
         println("saveAssignment...")
-        filesDao.clearAndInsertAssignment(assignmentLocalDataMapper.dataToLocalList(filesDataList))
+        filesDao.clearAndInsertAssignment(filesDataList.asAssignmentDataList())
     }
     //endregion
 
@@ -187,20 +172,20 @@ class LocalSourceImpl @Inject constructor(
     override fun getCirculars(): Observable<List<FilesData>> {
         return filesDao.getCirculars().map { t: List<CircularLocal> ->
             println("getCirculars...")
-            circularLocalDataMapper.localToDataList(t)
+            t.asCircularLocalList()
         }
     }
 
     override fun getCircular(identifier: String): Single<FilesData> {
         return filesDao.getCircular(identifier).map { t: CircularLocal ->
             println("getCircular with identifier: $identifier ...")
-            circularLocalDataMapper.localToData(t)
+            t.asCircleData()
         }
     }
 
     override fun saveCircular(filesDataList: List<FilesData>) {
         println("saveCircular...")
-        filesDao.clearAndInsertCircular(circularLocalDataMapper.dataToLocalList(filesDataList))
+        filesDao.clearAndInsertCircular(filesDataList.asCircleDataList())
     }
     //endregion
     //endregion
@@ -209,7 +194,7 @@ class LocalSourceImpl @Inject constructor(
 
     //complaint
     override fun saveComplaint(complaintDataList: List<ComplaintData>) {
-        with(complaintLocalDataMapper.dataToLocalList(complaintDataList)) {
+        with(complaintDataList.asLocalList()) {
             println("saveComplaint")
             messageDao.clearAndInsertComplaints(this)
         }
@@ -218,18 +203,18 @@ class LocalSourceImpl @Inject constructor(
     override fun getComplaints(): Observable<List<ComplaintData>> {
         println("getComplaints")
         return messageDao.getComplaints()
-            .map { t: List<ComplaintLocal> -> complaintLocalDataMapper.localToDataList(t) }
+            .map { t: List<ComplaintLocal> -> t.asDataList() }
     }
 
     override fun getComplaint(identifier: String): Single<ComplaintData> {
         println("getComplaint")
         return messageDao.getComplaint(identifier)
-            .map { t: ComplaintLocal -> complaintLocalDataMapper.localToData(t) }
+            .map { t: ComplaintLocal -> t.asData() }
     }
 
     //message
     override fun saveMessages(messageDataList: List<MessageData>) {
-        with(messageLocalDataMapper.dataToLocalList(messageDataList)) {
+        with(messageDataList.asLocalList()) {
             println("saving Messages...")
             messageDao.clearAndInsertMessages(this)
         }
@@ -238,18 +223,18 @@ class LocalSourceImpl @Inject constructor(
     override fun getMessages(): Observable<List<MessageData>> {
         println("getMessages...")
         return messageDao.getMessages()
-            .map { t: List<MessageLocal> -> messageLocalDataMapper.localToDataList(t) }
+            .map { t: List<MessageLocal> -> t.asDataList() }
     }
 
     override fun getMessage(identifier: Int): Single<MessageData> {
         println("getMessage...")
         return messageDao.getMessage(identifier)
-            .map { t: MessageLocal -> messageLocalDataMapper.localToData(t) }
+            .map { t: MessageLocal -> t.asData() }
     }
 
     override fun saveUser(userData: UserData) {
         println("saveUser...")
-        with(userLocalDataMapper.dataToLocal(userData)) {
+        with(userData.asLocal()) {
             userDao.clearAndInsertUser(this)
         }
     }
@@ -258,17 +243,17 @@ class LocalSourceImpl @Inject constructor(
     //region USER
     override fun getUser(username: String, password: String): Single<UserData> {
         println("getUser...")
-        return userDao.getUser(username, password).map { userLocalDataMapper.localToData(it) }
+        return userDao.getUser(username, password).map { t -> t.asData() }
     }
 
     override fun saveProfile(profileData: ProfileData) {
         println("saveProfile...")
-        userDao.saveProfile(profileLocalDataMapper.dataToLocal(profileData))
+        userDao.saveProfile(profileData.asLocal())
     }
 
     override fun getProfile(identifier: String): Single<ProfileData> {
         println("getProfile...")
-        return userDao.getProfile(identifier).map { profileLocalDataMapper.localToData(it) }
+        return userDao.getProfile(identifier).map { p -> p.asData() }
     }
 
     override fun updatePassword(identifier: String, newPassword: String) {
