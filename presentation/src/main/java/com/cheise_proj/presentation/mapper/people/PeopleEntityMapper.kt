@@ -1,11 +1,10 @@
 package com.cheise_proj.presentation.mapper.people
 
 import com.cheise_proj.domain.entity.people.PeopleEntity
-import com.cheise_proj.presentation.mapper.PresentationMapper
+import com.cheise_proj.presentation.mapper.PresentationListMapper
 import com.cheise_proj.presentation.model.people.People
-import javax.inject.Inject
 
-class PeopleEntityMapper @Inject constructor() : PresentationMapper<People, PeopleEntity> {
+internal class PeopleEntityMapper: PresentationListMapper<People, PeopleEntity> {
     override fun presentationToEntity(p: People): PeopleEntity {
         return PeopleEntity(
             id = p.id,

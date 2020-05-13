@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.toLiveData
 import com.cheise_proj.common_module.PARENT_ROLE
 import com.cheise_proj.domain.usecase.users.GetProfileTask
-import com.cheise_proj.presentation.mapper.user.ProfileEntityMapper
+import com.cheise_proj.presentation.extensions.asPresentation
 import com.cheise_proj.presentation.model.user.Profile
 import com.cheise_proj.presentation.model.vo.Labels
 import com.cheise_proj.presentation.model.vo.ProfileLabel
@@ -16,8 +16,7 @@ import io.reactivex.functions.Function
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    private val getProfileTask: GetProfileTask,
-    private val profileEntityMapper: ProfileEntityMapper
+    private val getProfileTask: GetProfileTask
 ) : BaseViewModel() {
 
     fun getProfile(
@@ -25,7 +24,7 @@ class ProfileViewModel @Inject constructor(
         identifier: String
     ): LiveData<Resource<List<Pair<ProfileLabel, String?>>>> {
         return getProfileTask.buildUseCase(getProfileTask.ProfileParams(role, identifier))
-            .map { profileEntityMapper.entityToPresentation(it) }
+            .map { t-> t.asPresentation() }
             .map {
                 return@map setProfileData(it, role)
             }

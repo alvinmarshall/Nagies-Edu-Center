@@ -2,11 +2,9 @@ package com.cheise_proj.remote_source.mapper.message
 
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.remote_source.mapper.RemoteListMapper
-import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.model.dto.message.MessageDto
 
-internal class MessageDtoDataMapper :
-    RemoteMapper<MessageDto, MessageData>, RemoteListMapper<MessageDto, MessageData> {
+internal class MessageDtoDataMapper : RemoteListMapper<MessageDto, MessageData> {
 
     override fun dtoToData(t: MessageDto): MessageData {
         return MessageData(

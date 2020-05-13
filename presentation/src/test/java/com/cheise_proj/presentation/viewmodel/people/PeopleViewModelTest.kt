@@ -3,15 +3,14 @@ package com.cheise_proj.presentation.viewmodel.people
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.PeopleRepository
 import com.cheise_proj.domain.usecase.people.GetPeopleTask
-import com.cheise_proj.presentation.mapper.people.PeopleEntityMapper
+import com.cheise_proj.presentation.extensions.asEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.TestPeopleGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +23,6 @@ import org.mockito.MockitoAnnotations
 class PeopleViewModelTest {
 
     private lateinit var peopleViewModel: PeopleViewModel
-    private lateinit var peopleEntityMapper: PeopleEntityMapper
     private lateinit var getPeopleTask: GetPeopleTask
 
     companion object {
@@ -47,8 +45,7 @@ class PeopleViewModelTest {
         MockitoAnnotations.initMocks(this)
         getPeopleTask =
             GetPeopleTask(peopleRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        peopleEntityMapper = PeopleEntityMapper()
-        peopleViewModel = PeopleViewModel(getPeopleTask, peopleEntityMapper, path)
+        peopleViewModel = PeopleViewModel(getPeopleTask, path)
 
     }
 
@@ -56,7 +53,7 @@ class PeopleViewModelTest {
     fun `Get people list success`() {
         val actual = TestPeopleGenerator.getPeople()
         Mockito.`when`(peopleRepository.getPeopleList(TYPE_TEACHER))
-            .thenReturn(Observable.just(peopleEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asEntityList()))
         val peopleLive = peopleViewModel.getPeopleList(TYPE_TEACHER)
         peopleLive.observeForever { }
 
@@ -69,7 +66,7 @@ class PeopleViewModelTest {
     fun `Get people success`() {
         val actual = TestPeopleGenerator.getPeople()
         Mockito.`when`(peopleRepository.getPeople(IDENTIFIER))
-            .thenReturn(Observable.just(peopleEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asEntityList()))
         val peopleLive = peopleViewModel.getPeople(TYPE_PARENT, IDENTIFIER)
         peopleLive.observeForever { }
 

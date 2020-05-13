@@ -330,7 +330,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == actual.asCircleData()
+                it == actual.asCircularData()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getCircular(IDENTIFIER)

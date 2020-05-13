@@ -2,11 +2,9 @@ package com.cheise_proj.local_source.mapper.people
 
 import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.local_source.mapper.base.LocalListMapper
-import com.cheise_proj.local_source.mapper.base.LocalMapper
 import com.cheise_proj.local_source.model.people.PeopleLocal
 
-internal class PeopleLocalDataMapper : LocalMapper<PeopleLocal, PeopleData>,
-    LocalListMapper<PeopleLocal, PeopleData> {
+internal class PeopleLocalDataMapper : LocalListMapper<PeopleLocal, PeopleData> {
     override fun localToData(l: PeopleLocal): PeopleData {
         return PeopleData(
             id = l.id,

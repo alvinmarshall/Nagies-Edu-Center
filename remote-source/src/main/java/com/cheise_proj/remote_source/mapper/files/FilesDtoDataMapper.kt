@@ -2,11 +2,9 @@ package com.cheise_proj.remote_source.mapper.files
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.remote_source.mapper.RemoteListMapper
-import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.model.dto.files.IFilesDto
 
-internal class FilesDtoDataMapper : RemoteMapper<IFilesDto, FilesData>,
-    RemoteListMapper<IFilesDto, FilesData> {
+internal class FilesDtoDataMapper : RemoteListMapper<IFilesDto, FilesData> {
     override fun dtoToData(t: IFilesDto): FilesData {
         return FilesData(
             id = t.id,

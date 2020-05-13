@@ -4,15 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.FilesRepository
 import com.cheise_proj.domain.usecase.files.DeleteReportTask
 import com.cheise_proj.domain.usecase.files.GetReportTask
-import com.cheise_proj.presentation.mapper.files.ReportEntityMapper
+import com.cheise_proj.presentation.extensions.asReportEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.TestFilesGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +33,6 @@ class ReportViewModelTest {
 
     private lateinit var getReportTask: GetReportTask
     private lateinit var reportViewModel: ReportViewModel
-    private lateinit var reportEntityMapper: ReportEntityMapper
     private lateinit var deleteReportTask: DeleteReportTask
 
     @Mock
@@ -53,8 +51,7 @@ class ReportViewModelTest {
             GetReportTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
         deleteReportTask =
             DeleteReportTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        reportEntityMapper = ReportEntityMapper()
-        reportViewModel = ReportViewModel(getReportTask, reportEntityMapper, path, deleteReportTask)
+        reportViewModel = ReportViewModel(getReportTask, path, deleteReportTask)
     }
 
     @Test
@@ -105,7 +102,7 @@ class ReportViewModelTest {
         val actual = TestFilesGenerator.getReports()
 
         Mockito.`when`(filesRepository.getReports())
-            .thenReturn(Observable.just(reportEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asReportEntityList()))
         val reportLive = reportViewModel.getReports()
         reportLive.observeForever { }
         assertTrue(
@@ -132,11 +129,7 @@ class ReportViewModelTest {
         Mockito.`when`(filesRepository.getReport(IDENTIFIER))
             .thenReturn(
                 Observable.just(
-                    reportEntityMapper.presentationToEntityList(
-                        arrayListOf(
-                            actual
-                        )
-                    )
+                    arrayListOf(actual).asReportEntityList()
                 )
             )
         val reportLive = reportViewModel.getReport(IDENTIFIER)

@@ -1,12 +1,10 @@
 package com.cheise_proj.data.mapper.message
 
 import com.cheise_proj.data.mapper.base.DataListMapper
-import com.cheise_proj.data.mapper.base.DataMapper
 import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.domain.entity.message.ComplaintEntity
 
-internal class ComplaintDataEntityMapper : DataMapper<ComplaintData, ComplaintEntity>,
-    DataListMapper<ComplaintData, ComplaintEntity> {
+internal class ComplaintDataEntityMapper : DataListMapper<ComplaintData, ComplaintEntity> {
     override fun dataToEntity(d: ComplaintData): ComplaintEntity {
         return ComplaintEntity(
             uid = d.id,

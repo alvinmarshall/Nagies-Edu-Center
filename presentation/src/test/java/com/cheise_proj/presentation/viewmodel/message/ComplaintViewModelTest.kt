@@ -5,7 +5,7 @@ import com.cheise_proj.domain.repository.MessageRepository
 import com.cheise_proj.domain.usecase.message.GetComplaintTask
 import com.cheise_proj.domain.usecase.message.GetSentComplaintTask
 import com.cheise_proj.domain.usecase.message.SendComplaintTask
-import com.cheise_proj.presentation.mapper.message.ComplaintEntityMapper
+import com.cheise_proj.presentation.extensions.asEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.TestMessageGenerator
 import io.reactivex.Observable
@@ -33,7 +33,6 @@ class ComplaintViewModelTest {
 
     private lateinit var getComplaintTask: GetComplaintTask
     private lateinit var complaintViewModel: ComplaintViewModel
-    private lateinit var complaintEntityMapper: ComplaintEntityMapper
     private lateinit var getSentComplaintTask: GetSentComplaintTask
     private lateinit var sendComplaintTask: SendComplaintTask
 
@@ -48,7 +47,6 @@ class ComplaintViewModelTest {
         MockitoAnnotations.initMocks(this)
         getComplaintTask =
             GetComplaintTask(messageRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        complaintEntityMapper = ComplaintEntityMapper()
         getSentComplaintTask = GetSentComplaintTask(
             messageRepository,
             Schedulers.trampoline(),
@@ -59,7 +57,6 @@ class ComplaintViewModelTest {
         complaintViewModel =
             ComplaintViewModel(
                 getComplaintTask,
-                complaintEntityMapper,
                 getSentComplaintTask,
                 sendComplaintTask
             )
@@ -103,7 +100,7 @@ class ComplaintViewModelTest {
     fun `Get sent all complaint success`() {
         val actual = TestMessageGenerator.getComplaint()
         Mockito.`when`(messageRepository.getSentComplaints())
-            .thenReturn(Observable.just(complaintEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asEntityList()))
         val sentMessageLiveData = complaintViewModel.getSentComplaint()
         sentMessageLiveData.observeForever { }
         assertTrue(
@@ -134,7 +131,7 @@ class ComplaintViewModelTest {
     fun `Get complaints success`() {
         val actual = TestMessageGenerator.getComplaint()
         Mockito.`when`(messageRepository.getComplaints())
-            .thenReturn(Observable.just(complaintEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asEntityList()))
         val complaintLive = complaintViewModel.getComplaintList()
         complaintLive.observeForever { }
         assertTrue(
@@ -146,7 +143,7 @@ class ComplaintViewModelTest {
     fun `Get complaint success`() {
         val actual = TestMessageGenerator.getComplaint()
         Mockito.`when`(messageRepository.getComplaint(IDENTIFIER))
-            .thenReturn(Observable.just(complaintEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asEntityList()))
         val complaintLive = complaintViewModel.getComplaint(IDENTIFIER)
         complaintLive.observeForever { }
         assertTrue(

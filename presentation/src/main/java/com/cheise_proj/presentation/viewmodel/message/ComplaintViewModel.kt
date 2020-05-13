@@ -6,7 +6,7 @@ import com.cheise_proj.domain.entity.message.ComplaintEntity
 import com.cheise_proj.domain.usecase.message.GetComplaintTask
 import com.cheise_proj.domain.usecase.message.GetSentComplaintTask
 import com.cheise_proj.domain.usecase.message.SendComplaintTask
-import com.cheise_proj.presentation.mapper.message.ComplaintEntityMapper
+import com.cheise_proj.presentation.extensions.asPresentationList
 import com.cheise_proj.presentation.model.message.Complaint
 import com.cheise_proj.presentation.model.vo.Resource
 import com.cheise_proj.presentation.viewmodel.BaseViewModel
@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 class ComplaintViewModel @Inject constructor(
     private val getComplaintTask: GetComplaintTask,
-    private val complaintEntityMapper: ComplaintEntityMapper,
     private val getSentComplaintTask: GetSentComplaintTask,
     private val sendComplaintTask: SendComplaintTask
 
@@ -38,7 +37,7 @@ class ComplaintViewModel @Inject constructor(
 
     fun getSentComplaint(): LiveData<Resource<List<Complaint>>> {
         return getSentComplaintTask.buildUseCase()
-            .map { t: List<ComplaintEntity> -> complaintEntityMapper.entityToPresentationList(t) }
+            .map { t: List<ComplaintEntity> -> t.asPresentationList() }
             .map { t: List<Complaint> -> Resource.onSuccess(t) }
             .startWith(Resource.onLoading())
             .onErrorResumeNext(
@@ -53,7 +52,7 @@ class ComplaintViewModel @Inject constructor(
     fun getComplaintList(): LiveData<Resource<List<Complaint>>> {
         return getComplaintTask.buildUseCase()
             .map { t: List<ComplaintEntity> ->
-                complaintEntityMapper.entityToPresentationList(t)
+                t.asPresentationList()
             }
             .map { t: List<Complaint> ->
                 Resource.onSuccess(t)
@@ -71,7 +70,7 @@ class ComplaintViewModel @Inject constructor(
     fun getComplaint(identifier: String): LiveData<Resource<Complaint>> {
         return getComplaintTask.buildUseCase(identifier)
             .map { t: List<ComplaintEntity> ->
-                complaintEntityMapper.entityToPresentationList(t).firstOrNull()
+                t.asPresentationList().firstOrNull()
             }
             .map { t: Complaint ->
                 Resource.onSuccess(t)

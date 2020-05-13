@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.UserRepository
 import com.cheise_proj.domain.usecase.users.GetUserTask
 import com.cheise_proj.domain.usecase.users.UpdatePasswordTask
-import com.cheise_proj.presentation.mapper.user.UserEntityMapper
+import com.cheise_proj.presentation.extensions.asEntity
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.TestUserGenerator
 import io.reactivex.Observable
@@ -23,7 +23,6 @@ import org.mockito.MockitoAnnotations
 @RunWith(JUnit4::class)
 class UserViewModelTest {
     private lateinit var userViewModel: UserViewModel
-    private lateinit var userEntityMapper: UserEntityMapper
     private lateinit var getUserTask: GetUserTask
     private lateinit var updatePasswordTask: UpdatePasswordTask
 
@@ -39,8 +38,7 @@ class UserViewModelTest {
         getUserTask = GetUserTask(userRepository, Schedulers.trampoline(), Schedulers.trampoline())
         updatePasswordTask =
             UpdatePasswordTask(userRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        userEntityMapper = UserEntityMapper()
-        userViewModel = UserViewModel(getUserTask, userEntityMapper, updatePasswordTask)
+        userViewModel = UserViewModel(getUserTask, updatePasswordTask)
     }
 
     @Test
@@ -48,7 +46,7 @@ class UserViewModelTest {
         val user = TestUserGenerator.user()
         with(user) {
             Mockito.`when`(userRepository.authenticateUser(username, password, role)).thenReturn(
-                Observable.just(userEntityMapper.presentationToEntity(user))
+                Observable.just(user.asEntity())
             )
 
             val liveUser = userViewModel.authenticateUser(username, password, role)

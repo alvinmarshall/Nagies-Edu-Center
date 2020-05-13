@@ -179,13 +179,13 @@ class LocalSourceImpl @Inject constructor(
     override fun getCircular(identifier: String): Single<FilesData> {
         return filesDao.getCircular(identifier).map { t: CircularLocal ->
             println("getCircular with identifier: $identifier ...")
-            t.asCircleData()
+            t.asCircularData()
         }
     }
 
     override fun saveCircular(filesDataList: List<FilesData>) {
         println("saveCircular...")
-        filesDao.clearAndInsertCircular(filesDataList.asCircleDataList())
+        filesDao.clearAndInsertCircular(filesDataList.asCircularDataList())
     }
     //endregion
     //endregion

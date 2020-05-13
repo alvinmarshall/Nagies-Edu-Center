@@ -2,11 +2,9 @@ package com.cheise_proj.local_source.mapper.files
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.local_source.mapper.base.LocalListMapper
-import com.cheise_proj.local_source.mapper.base.LocalMapper
 import com.cheise_proj.local_source.model.files.CircularLocal
 
-internal class CircularLocalDataMapper : LocalMapper<CircularLocal, FilesData>,
-    LocalListMapper<CircularLocal, FilesData> {
+internal class CircularLocalDataMapper : LocalListMapper<CircularLocal, FilesData> {
     override fun localToData(l: CircularLocal): FilesData {
         return FilesData(
             id = l.id,

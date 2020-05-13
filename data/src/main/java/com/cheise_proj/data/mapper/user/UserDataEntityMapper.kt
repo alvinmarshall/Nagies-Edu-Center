@@ -4,7 +4,7 @@ import com.cheise_proj.data.mapper.base.DataMapper
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.domain.entity.user.UserEntity
 
-internal class UserDataEntityMapper  : DataMapper<UserData, UserEntity> {
+internal class UserDataEntityMapper : DataMapper<UserData, UserEntity> {
     override fun dataToEntity(d: UserData): UserEntity {
         return UserEntity(
             username = d.username,

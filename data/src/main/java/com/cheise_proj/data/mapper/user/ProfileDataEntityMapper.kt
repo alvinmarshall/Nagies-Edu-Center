@@ -3,9 +3,8 @@ package com.cheise_proj.data.mapper.user
 import com.cheise_proj.data.mapper.base.DataMapper
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.domain.entity.user.ProfileEntity
-import javax.inject.Inject
 
-internal class ProfileDataEntityMapper @Inject constructor() : DataMapper<ProfileData, ProfileEntity> {
+internal class ProfileDataEntityMapper : DataMapper<ProfileData, ProfileEntity> {
     override fun dataToEntity(d: ProfileData): ProfileEntity {
         return ProfileEntity(
             username = d.username,

@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.toLiveData
 import com.cheise_proj.domain.entity.files.FilesEntity
 import com.cheise_proj.domain.usecase.files.GetBillTask
-import com.cheise_proj.presentation.mapper.files.BillEntityMapper
+import com.cheise_proj.presentation.extensions.asBillPresentation
+import com.cheise_proj.presentation.extensions.asBillPresentationList
 import com.cheise_proj.presentation.model.files.Bill
 import com.cheise_proj.presentation.model.vo.Resource
 import com.cheise_proj.presentation.utils.IServerPath
@@ -16,7 +17,6 @@ import javax.inject.Inject
 
 class BillViewModel @Inject constructor(
     private val getBillTask: GetBillTask,
-    private val billEntityMapper: BillEntityMapper,
     private val serverPath: IServerPath
 ) : BaseViewModel() {
 
@@ -27,7 +27,7 @@ class BillViewModel @Inject constructor(
                     it.path = it.photo
                     it.photo = serverPath.setCorrectPath(it.photo)
                 }
-                billEntityMapper.entityToPresentationList(t)
+                t.asBillPresentationList()
             }
             .map { t: List<Bill> ->
                 Resource.onSuccess(t)
@@ -45,7 +45,7 @@ class BillViewModel @Inject constructor(
     fun getBill(identifier: String): LiveData<Resource<Bill>> {
         return getBillTask.buildUseCase(identifier)
             .map { t: List<FilesEntity> ->
-                billEntityMapper.entityToPresentation(t[0])
+               t[0].asBillPresentation()
             }
             .map { t: Bill ->
                 Resource.onSuccess(t)

@@ -3,15 +3,14 @@ package com.cheise_proj.presentation.viewmodel.files
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.FilesRepository
 import com.cheise_proj.domain.usecase.files.GetCircularTask
-import com.cheise_proj.presentation.mapper.files.CircularEntityMapper
+import com.cheise_proj.presentation.extensions.asCircularEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.TestFilesGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +24,6 @@ import org.mockito.MockitoAnnotations
 class CircularViewModelTest {
     private lateinit var getCircularTask: GetCircularTask
     private lateinit var circularViewModel: CircularViewModel
-    private lateinit var circularEntityMapper: CircularEntityMapper
 
 
     @Mock
@@ -40,11 +38,10 @@ class CircularViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        circularEntityMapper = CircularEntityMapper()
         getCircularTask =
             GetCircularTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
 
-        circularViewModel = CircularViewModel(getCircularTask, circularEntityMapper, path)
+        circularViewModel = CircularViewModel(getCircularTask, path)
     }
 
     @Test
@@ -52,7 +49,7 @@ class CircularViewModelTest {
         val actual = TestFilesGenerator.getCirculars()
 
         Mockito.`when`(filesRepository.getCirculars())
-            .thenReturn(Observable.just(circularEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asCircularEntityList()))
         val circularLive = circularViewModel.getCirculars()
         circularLive.observeForever { }
         assertTrue(
@@ -79,11 +76,7 @@ class CircularViewModelTest {
         Mockito.`when`(filesRepository.getCircular(IDENTIFIER))
             .thenReturn(
                 Observable.just(
-                    circularEntityMapper.presentationToEntityList(
-                        arrayListOf(
-                            actual
-                        )
-                    )
+                    arrayListOf(actual).asCircularEntityList()
                 )
             )
         val circularLive = circularViewModel.getCircular(IDENTIFIER)

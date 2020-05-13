@@ -2,11 +2,9 @@ package com.cheise_proj.remote_source.mapper.files
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.remote_source.mapper.RemoteListMapper
-import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.model.dto.files.CircularDto
 
-internal class CircularDtoDataMapper : RemoteMapper<CircularDto, FilesData>,
-    RemoteListMapper<CircularDto, FilesData> {
+internal class CircularDtoDataMapper : RemoteListMapper<CircularDto, FilesData> {
     override fun dtoToData(t: CircularDto): FilesData {
         return FilesData(
             id = t.id,

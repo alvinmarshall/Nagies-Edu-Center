@@ -3,15 +3,14 @@ package com.cheise_proj.presentation.viewmodel.files
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.FilesRepository
 import com.cheise_proj.domain.usecase.files.GetBillTask
-import com.cheise_proj.presentation.mapper.files.BillEntityMapper
+import com.cheise_proj.presentation.extensions.asBillEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.TestFilesGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +24,6 @@ class BillViewModelTest {
 
     private lateinit var getBillTask: GetBillTask
     private lateinit var billViewModel: BillViewModel
-    private lateinit var billEntityMapper: BillEntityMapper
 
     @Mock
     lateinit var filesRepository: FilesRepository
@@ -40,8 +38,7 @@ class BillViewModelTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         getBillTask = GetBillTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        billEntityMapper = BillEntityMapper()
-        billViewModel = BillViewModel(getBillTask, billEntityMapper, path)
+        billViewModel = BillViewModel(getBillTask, path)
     }
 
     @Test
@@ -49,7 +46,7 @@ class BillViewModelTest {
         val actual = TestFilesGenerator.getBills()
 
         Mockito.`when`(filesRepository.getBills())
-            .thenReturn(Observable.just(billEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asBillEntityList()))
         val billLive = billViewModel.getBills()
         billLive.observeForever { }
         assertTrue(
@@ -76,11 +73,7 @@ class BillViewModelTest {
         Mockito.`when`(filesRepository.getBill(IDENTIFIER))
             .thenReturn(
                 Observable.just(
-                    billEntityMapper.presentationToEntityList(
-                        arrayListOf(
-                            actual
-                        )
-                    )
+                    arrayListOf(actual).asBillEntityList()
                 )
             )
         val billLive = billViewModel.getBill(IDENTIFIER)

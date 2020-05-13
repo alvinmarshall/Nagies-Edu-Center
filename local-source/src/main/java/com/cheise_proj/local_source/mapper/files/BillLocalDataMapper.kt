@@ -2,11 +2,9 @@ package com.cheise_proj.local_source.mapper.files
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.local_source.mapper.base.LocalListMapper
-import com.cheise_proj.local_source.mapper.base.LocalMapper
 import com.cheise_proj.local_source.model.files.BillLocal
 
-internal class BillLocalDataMapper : LocalMapper<BillLocal, FilesData>,
-    LocalListMapper<BillLocal, FilesData> {
+internal class BillLocalDataMapper : LocalListMapper<BillLocal, FilesData> {
     override fun localToData(l: BillLocal): FilesData {
         return FilesData(
             id = l.id,

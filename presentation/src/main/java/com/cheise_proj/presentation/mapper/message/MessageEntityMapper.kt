@@ -1,11 +1,10 @@
 package com.cheise_proj.presentation.mapper.message
 
 import com.cheise_proj.domain.entity.message.MessageEntity
-import com.cheise_proj.presentation.mapper.PresentationMapper
+import com.cheise_proj.presentation.mapper.PresentationListMapper
 import com.cheise_proj.presentation.model.message.Message
-import javax.inject.Inject
 
-class MessageEntityMapper @Inject constructor() : PresentationMapper<Message, MessageEntity> {
+internal class MessageEntityMapper  : PresentationListMapper<Message, MessageEntity> {
     override fun presentationToEntity(p: Message): MessageEntity {
         return MessageEntity(
             uid = p.uid,

@@ -5,7 +5,8 @@ import androidx.lifecycle.toLiveData
 import com.cheise_proj.domain.entity.files.FilesEntity
 import com.cheise_proj.domain.usecase.files.DeleteAssignmentTask
 import com.cheise_proj.domain.usecase.files.GetAssignmentTask
-import com.cheise_proj.presentation.mapper.files.AssignmentEntityMapper
+import com.cheise_proj.presentation.extensions.asAssignmentPresentation
+import com.cheise_proj.presentation.extensions.asAssignmentPresentationList
 import com.cheise_proj.presentation.model.files.Assignment
 import com.cheise_proj.presentation.model.vo.Resource
 import com.cheise_proj.presentation.utils.IServerPath
@@ -17,7 +18,6 @@ import javax.inject.Inject
 
 class AssignmentViewModel @Inject constructor(
     private val getAssignmentTask: GetAssignmentTask,
-    private val assignmentEntityMapper: AssignmentEntityMapper,
     private val serverPath: IServerPath,
     private val deleteAssignmentTask: DeleteAssignmentTask
 ) : BaseViewModel() {
@@ -43,7 +43,7 @@ class AssignmentViewModel @Inject constructor(
                     it.path = it.photo
                     it.photo = serverPath.setCorrectPath(it.photo)
                 }
-                assignmentEntityMapper.entityToPresentationList(t)
+                t.asAssignmentPresentationList()
             }
             .map { t: List<Assignment> ->
                 Resource.onSuccess(t)
@@ -61,7 +61,7 @@ class AssignmentViewModel @Inject constructor(
     fun getAssignment(identifier: String): LiveData<Resource<Assignment>> {
         return getAssignmentTask.buildUseCase(identifier)
             .map { t: List<FilesEntity> ->
-                assignmentEntityMapper.entityToPresentation(t[0])
+               t[0].asAssignmentPresentation()
             }
             .map { t: Assignment ->
                 Resource.onSuccess(t)

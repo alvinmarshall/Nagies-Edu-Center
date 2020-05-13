@@ -2,11 +2,9 @@ package com.cheise_proj.local_source.mapper.files
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.local_source.mapper.base.LocalListMapper
-import com.cheise_proj.local_source.mapper.base.LocalMapper
 import com.cheise_proj.local_source.model.files.TimeTableLocal
 
-class TimeTableLocalDataMapper : LocalMapper<TimeTableLocal, FilesData>,
-    LocalListMapper<TimeTableLocal, FilesData> {
+class TimeTableLocalDataMapper : LocalListMapper<TimeTableLocal, FilesData> {
     override fun localToData(l: TimeTableLocal): FilesData {
         return FilesData(
             id = l.id,

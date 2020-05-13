@@ -3,15 +3,14 @@ package com.cheise_proj.presentation.viewmodel.files
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.FilesRepository
 import com.cheise_proj.domain.usecase.files.GetVideoTask
-import com.cheise_proj.presentation.mapper.files.VideoEntityMapper
+import com.cheise_proj.presentation.extensions.asVideoEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.TestFilesGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +33,6 @@ class VideoViewModelTest {
 
     private lateinit var videoViewModel: VideoViewModel
     private lateinit var getVideoTask: GetVideoTask
-    private lateinit var videoEntityMapper: VideoEntityMapper
 
     @Mock
     lateinit var filesRepository: FilesRepository
@@ -47,8 +45,7 @@ class VideoViewModelTest {
         MockitoAnnotations.initMocks(this)
         getVideoTask =
             GetVideoTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        videoEntityMapper = VideoEntityMapper()
-        videoViewModel = VideoViewModel(getVideoTask, videoEntityMapper, serverPath)
+        videoViewModel = VideoViewModel(getVideoTask, serverPath)
     }
 
 
@@ -57,7 +54,7 @@ class VideoViewModelTest {
         val actual = TestFilesGenerator.getVideos()
 
         Mockito.`when`(filesRepository.getVideos())
-            .thenReturn(Observable.just(videoEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asVideoEntityList()))
         val videoLive = videoViewModel.getVideos()
         videoLive.observeForever { }
         assertTrue(
@@ -84,11 +81,7 @@ class VideoViewModelTest {
         Mockito.`when`(filesRepository.getVideo(IDENTIFIER))
             .thenReturn(
                 Observable.just(
-                    videoEntityMapper.presentationToEntityList(
-                        arrayListOf(
-                            actual
-                        )
-                    )
+                    arrayListOf(actual).asVideoEntityList()
                 )
             )
         val videoLive = videoViewModel.getVideo(IDENTIFIER)

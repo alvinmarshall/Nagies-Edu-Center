@@ -35,13 +35,13 @@ internal fun List<FilesData>.asBillDataList(): List<BillLocal> =
 //endregion
 
 //region Circular
-internal fun CircularLocal.asCircleData() = CircularLocalDataMapper().localToData(this)
-internal fun FilesData.asCircleLocal() = CircularLocalDataMapper().dataToLocal(this)
+internal fun CircularLocal.asCircularData() = CircularLocalDataMapper().localToData(this)
+internal fun FilesData.asCircularLocal() = CircularLocalDataMapper().dataToLocal(this)
 
 internal fun List<CircularLocal>.asCircularLocalList(): List<FilesData> =
     CircularLocalDataMapper().localToDataList(this)
 
-internal fun List<FilesData>.asCircleDataList(): List<CircularLocal> =
+internal fun List<FilesData>.asCircularDataList(): List<CircularLocal> =
     CircularLocalDataMapper().dataToLocalList(this)
 
 //endregion
