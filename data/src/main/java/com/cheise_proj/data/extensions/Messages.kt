@@ -4,13 +4,13 @@ import com.cheise_proj.data.mapper.message.MessageDataEntityMapper
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.domain.entity.message.MessageEntity
 
-fun MessageData.asEntity() = MessageDataEntityMapper().dataToEntity(this)
+internal fun MessageData.asEntity() = MessageDataEntityMapper().dataToEntity(this)
 
-fun MessageEntity.asData() = MessageDataEntityMapper().entityToData(this)
+internal fun MessageEntity.asData() = MessageDataEntityMapper().entityToData(this)
 
 
-fun List<MessageEntity>.asDataList(): List<MessageData> =
+internal fun List<MessageEntity>.asDataList(): List<MessageData> =
     MessageDataEntityMapper().entityToDataList(this)
 
-fun List<MessageData>.asEntityList(): List<MessageEntity> =
+internal fun List<MessageData>.asEntityList(): List<MessageEntity> =
     MessageDataEntityMapper().dataToEntityList(this)

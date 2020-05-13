@@ -4,9 +4,8 @@ import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.model.dto.user.IProfileDto
 import com.cheise_proj.remote_source.model.dto.user.Profile1
-import javax.inject.Inject
 
-class ProfileDtoDataMapper @Inject constructor() :
+internal class ProfileDtoDataMapper :
     RemoteMapper<IProfileDto, ProfileData> {
     override fun dtoToData(t: IProfileDto): ProfileData {
         return ProfileData(
@@ -42,14 +41,6 @@ class ProfileDtoDataMapper @Inject constructor() :
             level = d.level,
             name = d.name
         )
-    }
-
-    override fun dtoToDataList(tList: List<IProfileDto>): List<ProfileData> {
-        throw NotImplementedError("not implemented")
-    }
-
-    override fun dataToDtoList(dList: List<ProfileData>): List<IProfileDto> {
-        throw NotImplementedError("not implemented")
     }
 
 }

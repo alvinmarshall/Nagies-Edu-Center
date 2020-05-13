@@ -5,7 +5,7 @@ import com.cheise_proj.data.mapper.base.DataMapper
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.domain.entity.files.FilesEntity
 
-class FilesDataEntityMapper: DataMapper<FilesData, FilesEntity>,DataListMapper<FilesData, FilesEntity> {
+internal class FilesDataEntityMapper: DataMapper<FilesData, FilesEntity>,DataListMapper<FilesData, FilesEntity> {
     override fun dataToEntity(d: FilesData): FilesEntity {
         return FilesEntity(
             id = d.id,

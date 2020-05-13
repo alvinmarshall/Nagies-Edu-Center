@@ -1,12 +1,12 @@
 package com.cheise_proj.remote_source.mapper.message
 
 import com.cheise_proj.data.model.message.MessageData
+import com.cheise_proj.remote_source.mapper.RemoteListMapper
 import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.model.dto.message.MessageDto
-import javax.inject.Inject
 
-class MessageDtoDataMapper @Inject constructor() :
-    RemoteMapper<MessageDto, MessageData> {
+internal class MessageDtoDataMapper :
+    RemoteMapper<MessageDto, MessageData>, RemoteListMapper<MessageDto, MessageData> {
 
     override fun dtoToData(t: MessageDto): MessageData {
         return MessageData(
@@ -41,7 +41,6 @@ class MessageDtoDataMapper @Inject constructor() :
         }
         return list
     }
-
 
 
 }

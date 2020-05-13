@@ -3,9 +3,8 @@ package com.cheise_proj.remote_source.mapper.user
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.model.dto.user.UserDto
-import javax.inject.Inject
 
-class UserDtoDataMapper @Inject constructor() :
+internal class UserDtoDataMapper :
     RemoteMapper<UserDto, UserData> {
     override fun dtoToData(t: UserDto): UserData {
         return UserData(
@@ -34,11 +33,4 @@ class UserDtoDataMapper @Inject constructor() :
         )
     }
 
-    override fun dtoToDataList(tList: List<UserDto>): List<UserData> {
-        throw NotImplementedError("not implemented")
-    }
-
-    override fun dataToDtoList(dList: List<UserData>): List<UserDto> {
-        throw NotImplementedError("not implemented")
-    }
 }

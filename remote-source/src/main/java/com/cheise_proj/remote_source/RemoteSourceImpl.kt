@@ -8,13 +8,9 @@ import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.RemoteSource
 import com.cheise_proj.remote_source.api.ApiService
-import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
-import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
-import com.cheise_proj.remote_source.mapper.message.ComplaintDtoDataMapper
-import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
-import com.cheise_proj.remote_source.mapper.people.PeopleDtoDataMapper
-import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
-import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
+import com.cheise_proj.remote_source.extensions.asData
+import com.cheise_proj.remote_source.extensions.asDataList
+import com.cheise_proj.remote_source.extensions.asDTOList
 import com.cheise_proj.remote_source.model.dto.files.*
 import com.cheise_proj.remote_source.model.dto.message.ComplaintsDto
 import com.cheise_proj.remote_source.model.dto.message.MessagesDto
@@ -31,14 +27,7 @@ import java.util.*
 import javax.inject.Inject
 
 class RemoteSourceImpl @Inject constructor(
-    private val apiService: ApiService,
-    private val userDtoDataMapper: UserDtoDataMapper,
-    private val profileDtoDataMapper: ProfileDtoDataMapper,
-    private val messageDtoDataMapper: MessageDtoDataMapper,
-    private val circularDtoDataMapper: CircularDtoDataMapper,
-    private val filesDtoDataMapper: FilesDtoDataMapper,
-    private val peopleDtoDataMapper: PeopleDtoDataMapper,
-    private val complaintDtoDataMapper: ComplaintDtoDataMapper
+    private val apiService: ApiService
 
 ) : RemoteSource {
 
@@ -102,13 +91,13 @@ class RemoteSourceImpl @Inject constructor(
             TYPE_TEACHER -> {
                 apiService.getClassTeacher()
                     .map { t: PeopleDto ->
-                        peopleDtoDataMapper.dtoToDataList(t.teacher!!)
+                        t.teacher!!.asDataList()
                     }
             }
             else -> {
                 apiService.getClassStudent()
                     .map { t: PeopleDto ->
-                        peopleDtoDataMapper.dtoToDataList(t.student)
+                        t.student.asDataList()
                     }
             }
 
@@ -222,7 +211,7 @@ class RemoteSourceImpl @Inject constructor(
     //region VIDEO
     override fun getVideo(): Observable<List<FilesData>> {
         return apiService.getVideos().map { t: VideossDto ->
-            filesDtoDataMapper.dtoToDataList(t.data)
+            t.data.asDTOList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -243,7 +232,7 @@ class RemoteSourceImpl @Inject constructor(
     //region BILL
     override fun getBill(): Observable<List<FilesData>> {
         return apiService.getBilling().map { t: BillsDto ->
-            filesDtoDataMapper.dtoToDataList(t.data)
+            t.data.asDTOList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -264,7 +253,7 @@ class RemoteSourceImpl @Inject constructor(
     //region TIMETABLE
     override fun getTimeTable(): Observable<List<FilesData>> {
         return apiService.getTimeTable().map { t: TimeTablesDto ->
-            filesDtoDataMapper.dtoToDataList(t.data)
+           t.data.asDTOList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -285,7 +274,7 @@ class RemoteSourceImpl @Inject constructor(
     //region REPORT
     override fun getReport(): Observable<List<FilesData>> {
         return apiService.getReport().map { t: ReportsDto ->
-            filesDtoDataMapper.dtoToDataList(t.data)
+            t.data.asDTOList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -305,7 +294,7 @@ class RemoteSourceImpl @Inject constructor(
 
     override fun getAssignment(): Observable<List<FilesData>> {
         return apiService.getAssignment().map { t: AssignmentsDto ->
-                filesDtoDataMapper.dtoToDataList(t.data)
+                t.data.asDTOList()
             }
             .onErrorResumeNext(
                 Function {
@@ -326,7 +315,7 @@ class RemoteSourceImpl @Inject constructor(
     //region CIRCULAR
     override fun getCircular(): Observable<List<FilesData>> {
         return apiService.getCircular().map { t: CircularsDto ->
-            circularDtoDataMapper.dtoToDataList(t.data)
+            t.data.asDataList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -394,7 +383,7 @@ class RemoteSourceImpl @Inject constructor(
     override fun getSentComplaint(): Observable<List<ComplaintData>> {
         return apiService.getSentComplaint().map { t: ComplaintsDto ->
             println("dto ${t.complaint}")
-            complaintDtoDataMapper.dtoToDataList(t.complaint)
+            t.complaint.asDataList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -419,7 +408,7 @@ class RemoteSourceImpl @Inject constructor(
     override fun getComplaint(): Observable<List<ComplaintData>> {
         return apiService.getComplaint().map { t: ComplaintsDto ->
             println("dto ${t.complaint}")
-            complaintDtoDataMapper.dtoToDataList(t.complaint)
+            t.complaint.asDataList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -438,7 +427,7 @@ class RemoteSourceImpl @Inject constructor(
 
     override fun getSentMessages(): Observable<List<MessageData>> {
         return apiService.getSentMessages().map { t: MessagesDto ->
-            messageDtoDataMapper.dtoToDataList(t.message)
+            t.message.asDTOList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -459,7 +448,7 @@ class RemoteSourceImpl @Inject constructor(
     //message
     override fun getMessages(): Observable<List<MessageData>> {
         return apiService.getMessages().map { t: MessagesDto ->
-            messageDtoDataMapper.dtoToDataList(t.message)
+            t.message.asDTOList()
         }.onErrorResumeNext(
             Function {
                 it.message?.let { msg ->
@@ -481,8 +470,8 @@ class RemoteSourceImpl @Inject constructor(
     override fun getProfile(): Observable<ProfileData> {
         return apiService.getProfile()
             .map {
-                if (it.student != null) return@map profileDtoDataMapper.dtoToData(it.student)
-                return@map profileDtoDataMapper.dtoToData(it.teacher)
+                if (it.student != null) return@map it.student.asData()
+                return@map it.teacher.asData()
             }
             .toObservable()
     }
@@ -531,7 +520,7 @@ class RemoteSourceImpl @Inject constructor(
                 LoginRequest(username, password)
             )
             .map {
-                return@map userDtoDataMapper.dtoToData(it)
+                return@map it.asData()
             }
             .toObservable()
             .onErrorResumeNext(

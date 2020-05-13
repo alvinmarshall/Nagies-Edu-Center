@@ -1,12 +1,13 @@
 package com.cheise_proj.remote_source.mapper.people
 
 import com.cheise_proj.data.model.people.PeopleData
+import com.cheise_proj.remote_source.mapper.RemoteListMapper
 import com.cheise_proj.remote_source.mapper.RemoteMapper
 import com.cheise_proj.remote_source.model.dto.people.IPeopleDto
 import com.cheise_proj.remote_source.model.dto.people.TeacherList
-import javax.inject.Inject
 
-class PeopleDtoDataMapper @Inject constructor() : RemoteMapper<IPeopleDto, PeopleData> {
+internal class PeopleDtoDataMapper : RemoteMapper<IPeopleDto, PeopleData>,
+    RemoteListMapper<IPeopleDto, PeopleData> {
     override fun dtoToData(t: IPeopleDto): PeopleData {
         return PeopleData(
             id = t.id,

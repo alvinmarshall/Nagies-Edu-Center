@@ -1,13 +1,10 @@
 package com.cheise_proj.remote_source
 
 import com.cheise_proj.remote_source.api.ApiService
-import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
-import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
-import com.cheise_proj.remote_source.mapper.message.ComplaintDtoDataMapper
-import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
-import com.cheise_proj.remote_source.mapper.people.PeopleDtoDataMapper
-import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
-import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
+import com.cheise_proj.remote_source.extensions.asDTO
+import com.cheise_proj.remote_source.extensions.asDTOList
+import com.cheise_proj.remote_source.extensions.asData
+import com.cheise_proj.remote_source.extensions.asDataList
 import com.cheise_proj.remote_source.model.request.LoginRequest
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -36,13 +33,6 @@ class RemoteSourceImplTest {
     }
 
     private lateinit var remoteSourceImpl: RemoteSourceImpl
-    private lateinit var userDtoDataMapper: UserDtoDataMapper
-    private lateinit var profileDtoDataMapper: ProfileDtoDataMapper
-    private lateinit var messageDtoDataMapper: MessageDtoDataMapper
-    private lateinit var circularDtoDataMapper: CircularDtoDataMapper
-    private lateinit var filesDtoDataMapper: FilesDtoDataMapper
-    private lateinit var peopleDtoDataMapper: PeopleDtoDataMapper
-    private lateinit var complaintDtoDataMapper: ComplaintDtoDataMapper
 
     private val username = "test username"
     private val password = "test password"
@@ -55,24 +45,7 @@ class RemoteSourceImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        userDtoDataMapper = UserDtoDataMapper()
-        profileDtoDataMapper = ProfileDtoDataMapper()
-        messageDtoDataMapper = MessageDtoDataMapper()
-        circularDtoDataMapper = CircularDtoDataMapper()
-        filesDtoDataMapper = FilesDtoDataMapper()
-        peopleDtoDataMapper = PeopleDtoDataMapper()
-        complaintDtoDataMapper = ComplaintDtoDataMapper()
-
-        remoteSourceImpl = RemoteSourceImpl(
-            apiService,
-            userDtoDataMapper,
-            profileDtoDataMapper,
-            messageDtoDataMapper,
-            circularDtoDataMapper,
-            filesDtoDataMapper,
-            peopleDtoDataMapper,
-            complaintDtoDataMapper
-        )
+        remoteSourceImpl = RemoteSourceImpl(apiService)
     }
 
 
@@ -238,7 +211,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == peopleDtoDataMapper.dtoToDataList(teacher.teacher!!)
+                it == teacher.teacher!!.asDataList()
             }
             .assertComplete()
     }
@@ -252,7 +225,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == peopleDtoDataMapper.dtoToDataList(student.student)
+                it == student.student.asDataList()
             }
             .assertComplete()
     }
@@ -318,8 +291,6 @@ class RemoteSourceImplTest {
         Mockito.verify(apiService, times(1)).uploadVideo(part)
     }
     //endregion
-
-
 
 
     //region REPORT
@@ -431,7 +402,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDtoDataMapper.dtoToDataList(actual.data)
+                it == actual.data.asDTOList()
             }
             .assertComplete()
         Mockito.verify(apiService, times(1)).getVideos()
@@ -469,7 +440,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDtoDataMapper.dtoToDataList(actual.data)
+                it == actual.data.asDTOList()
             }
             .assertComplete()
         Mockito.verify(apiService, times(1)).getBilling()
@@ -506,7 +477,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDtoDataMapper.dtoToDataList(actual.data)
+                it == actual.data.asDTOList()
             }
             .assertComplete()
         Mockito.verify(apiService, times(1)).getTimeTable()
@@ -544,7 +515,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDtoDataMapper.dtoToDataList(actual.data)
+                it == actual.data.asDTOList()
             }
             .assertComplete()
         Mockito.verify(apiService, times(1)).getReport()
@@ -581,7 +552,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDtoDataMapper.dtoToDataList(actual.data)
+                it == actual.data.asDTOList()
             }
             .assertComplete()
     }
@@ -610,7 +581,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == circularDtoDataMapper.dtoToDataList(actual.data)
+                it == actual.data.asDataList()
             }
             .assertComplete()
         Mockito.verify(apiService, times(1)).getCircular()
@@ -650,7 +621,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == complaintDtoDataMapper.dtoToDataList(actual.complaint)
+                it == actual.complaint.asDataList()
             }
             .assertComplete()
     }
@@ -683,7 +654,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == complaintDtoDataMapper.dtoToDataList(actual.complaint)
+                it == actual.complaint.asDataList()
             }
             .assertComplete()
     }
@@ -716,7 +687,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == messageDtoDataMapper.dtoToDataList(actual.message)
+                it == actual.message.asDTOList()
             }
             .assertComplete()
     }
@@ -750,7 +721,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == messageDtoDataMapper.dtoToDataList(actual.message)
+                it == actual.message.asDTOList()
             }
             .assertComplete()
     }
@@ -786,7 +757,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it.token == userDtoDataMapper.dataToDto(it).token
+                it.token == it.asDTO().token
             }
             .assertComplete()
         Mockito.verify(apiService, times(1))
@@ -816,7 +787,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == profileDtoDataMapper.dtoToData(actual.student!!)
+                it == actual.student!!.asData()
             }
             .assertComplete()
         Mockito.verify(apiService, times(1)).getProfile()
@@ -830,7 +801,7 @@ class RemoteSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == profileDtoDataMapper.dtoToData(actual.teacher)
+                it == actual.teacher.asData()
             }
             .assertComplete()
         Mockito.verify(apiService, times(1)).getProfile()
