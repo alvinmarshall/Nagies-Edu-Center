@@ -9,6 +9,9 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
+    def keystorePropertiesFile = rootProject.file('keystore.properties')
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
     compileSdkVersion rootProject.compileSdkVersion
     compileOptions {
         sourceCompatibility = 1.8
@@ -25,10 +28,10 @@ android {
     }
     signingConfigs {
         release {
-//            keyAlias 'nagies_mobile_key'
-//            keyPassword 'infordas@2019'
-//            storePassword 'infordas@2019'
-//            storeFile file("D:\\Projects\\Android Proj\\key_store\\nagies_angels_mobile_key.jks")
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyAlias']
+            storePassword keystoreProperties['storePassword']
+            storeFile file(keystoreProperties['storeFile'])
         }
     }
     buildTypes {
