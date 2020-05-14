@@ -9,12 +9,10 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    def keystorePropertiesFile = null
+    def keystorePropertiesFile = rootProject.file("keystore.properties");
     def keystoreProperties = new Properties()
-    if (rootProject.file("keystore.properties")) {
-        keystorePropertiesFile = rootProject.file("keystore.properties")
-        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-    }
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 
     compileSdkVersion rootProject.compileSdkVersion
     compileOptions {
