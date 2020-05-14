@@ -1,4 +1,4 @@
-name: Android Dev Build
+name: Android Feature Branch CI
 
 on: pull_request
 
@@ -26,8 +26,8 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Run Tests
-        run: ./gradlew test
+      - name: Run Unit Tests
+        run: ./gradlew test --stacktrace
 
-      - name: Build Project
-        run: ./gradlew assemble
+      - name: Build apk debug
+        run: ./gradlew assembleDebug
