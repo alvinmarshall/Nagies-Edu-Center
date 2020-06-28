@@ -34,14 +34,6 @@ android {
             keyPassword keystoreProperties['keyPassword']
         }
     }
-    signingConfigs {
-        release {
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-        }
-    }
     buildTypes {
         release {
             minifyEnabled false
