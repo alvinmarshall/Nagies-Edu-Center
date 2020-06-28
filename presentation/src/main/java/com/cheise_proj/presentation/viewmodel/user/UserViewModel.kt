@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.toLiveData
 import com.cheise_proj.domain.usecase.users.GetUserTask
 import com.cheise_proj.domain.usecase.users.UpdatePasswordTask
-import com.cheise_proj.presentation.mapper.user.UserEntityMapper
+import com.cheise_proj.presentation.extensions.asPresentation
 import com.cheise_proj.presentation.model.user.User
 import com.cheise_proj.presentation.model.vo.Resource
 import com.cheise_proj.presentation.viewmodel.BaseViewModel
@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 class UserViewModel @Inject constructor(
     private val getUserTask: GetUserTask,
-    private val userEntityMapper: UserEntityMapper,
     private val updatePasswordTask: UpdatePasswordTask
 ) : BaseViewModel() {
     fun authenticateUser(
@@ -24,7 +23,7 @@ class UserViewModel @Inject constructor(
         role: String
     ): LiveData<Resource<User>> {
         return getUserTask.buildUseCase(getUserTask.UserParams(username, password, role))
-            .map { userEntityMapper.entityToPresentation(it) }
+            .map { t-> t.asPresentation() }
             .map { Resource.onSuccess(it) }
             .startWith(Resource.onLoading())
             .onErrorResumeNext(

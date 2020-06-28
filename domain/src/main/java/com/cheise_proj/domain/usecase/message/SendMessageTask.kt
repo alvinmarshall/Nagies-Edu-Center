@@ -6,7 +6,6 @@ import com.cheise_proj.domain.rx.qualifier.Background
 import com.cheise_proj.domain.rx.qualifier.Foreground
 import io.reactivex.Observable
 import io.reactivex.Scheduler
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class SendMessageTask @Inject constructor(

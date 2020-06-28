@@ -7,7 +7,6 @@ import com.cheise_proj.data.model.people.PeopleData
 import com.cheise_proj.data.model.user.ProfileData
 import com.cheise_proj.data.model.user.UserData
 import io.reactivex.Observable
-import io.reactivex.Single
 import okhttp3.MultipartBody
 
 interface RemoteSource {

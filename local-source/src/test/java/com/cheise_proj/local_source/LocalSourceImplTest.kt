@@ -4,12 +4,7 @@ import com.cheise_proj.local_source.db.dao.FilesDao
 import com.cheise_proj.local_source.db.dao.MessageDao
 import com.cheise_proj.local_source.db.dao.PeopleDao
 import com.cheise_proj.local_source.db.dao.UserDao
-import com.cheise_proj.local_source.mapper.files.*
-import com.cheise_proj.local_source.mapper.message.ComplaintLocalDataMapper
-import com.cheise_proj.local_source.mapper.message.MessageLocalDataMapper
-import com.cheise_proj.local_source.mapper.people.PeopleLocalDataMapper
-import com.cheise_proj.local_source.mapper.user.ProfileLocalDataMapper
-import com.cheise_proj.local_source.mapper.user.UserLocalDataMapper
+import com.cheise_proj.local_source.extensions.*
 import com.cheise_proj.local_source.utils.TestFilesGenerator
 import com.cheise_proj.local_source.utils.TestMessageGenerator
 import com.cheise_proj.local_source.utils.TestPeopleGenerator
@@ -28,17 +23,6 @@ import org.mockito.MockitoAnnotations
 @RunWith(JUnit4::class)
 class LocalSourceImplTest {
     private lateinit var localSourceImpl: LocalSourceImpl
-    private lateinit var userLocalDataMapper: UserLocalDataMapper
-    private lateinit var profileLocalDataMapper: ProfileLocalDataMapper
-    private lateinit var messageLocalDataMapper: MessageLocalDataMapper
-    private lateinit var circularLocalDataMapper: CircularLocalDataMapper
-    private lateinit var assignmentLocalDataMapper: AssignmentLocalDataMapper
-    private lateinit var reportLocalDataMapper: ReportLocalDataMapper
-    private lateinit var timeTableLocalDataMapper: TimeTableLocalDataMapper
-    private lateinit var billLocalDataMapper: BillLocalDataMapper
-    private lateinit var peopleLocalDataMapper: PeopleLocalDataMapper
-    private lateinit var complaintLocalDataMapper: ComplaintLocalDataMapper
-    private lateinit var videoLocalDataMapper: VideoLocalDataMapper
 
     @Mock
     lateinit var userDao: UserDao
@@ -55,35 +39,8 @@ class LocalSourceImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        userLocalDataMapper = UserLocalDataMapper()
-        profileLocalDataMapper = ProfileLocalDataMapper()
-        messageLocalDataMapper = MessageLocalDataMapper()
-        circularLocalDataMapper = CircularLocalDataMapper()
-        assignmentLocalDataMapper = AssignmentLocalDataMapper()
-        reportLocalDataMapper = ReportLocalDataMapper()
-        timeTableLocalDataMapper = TimeTableLocalDataMapper()
-        billLocalDataMapper = BillLocalDataMapper()
-        peopleLocalDataMapper = PeopleLocalDataMapper()
-        complaintLocalDataMapper = ComplaintLocalDataMapper()
-        videoLocalDataMapper = VideoLocalDataMapper()
 
-        localSourceImpl = LocalSourceImpl(
-            userDao,
-            userLocalDataMapper,
-            profileLocalDataMapper,
-            messageDao,
-            messageLocalDataMapper,
-            filesDao,
-            circularLocalDataMapper,
-            assignmentLocalDataMapper,
-            reportLocalDataMapper,
-            timeTableLocalDataMapper,
-            billLocalDataMapper,
-            peopleDao,
-            peopleLocalDataMapper,
-            complaintLocalDataMapper,
-            videoLocalDataMapper
-        )
+        localSourceImpl = LocalSourceImpl(userDao, messageDao, filesDao, peopleDao)
     }
 
     //region DELETE FILES
@@ -116,7 +73,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == peopleLocalDataMapper.localToDataList(actual)
+                it == actual.asLocalList()
             }
             .assertComplete()
     }
@@ -130,7 +87,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == peopleLocalDataMapper.localToData(actual)
+                it == actual.asData()
             }
             .assertComplete()
     }
@@ -138,7 +95,7 @@ class LocalSourceImplTest {
     @Test
     fun `Save people local success`() {
         val actual = TestPeopleGenerator.getPeople()
-        localSourceImpl.savePeople(peopleLocalDataMapper.localToDataList(actual))
+        localSourceImpl.savePeople(actual.asLocalList())
         Mockito.verify(peopleDao, times(1)).clearAndInsertPeople(actual)
     }
 
@@ -154,7 +111,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == videoLocalDataMapper.localToDataList(actual)
+                it == actual.asVideoLocalList()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getVideos()
@@ -169,7 +126,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == videoLocalDataMapper.localToData(actual)
+                it == actual.asVideoData()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getVideo(IDENTIFIER)
@@ -179,7 +136,7 @@ class LocalSourceImplTest {
     fun `Save videos to local success`() {
         val video = TestFilesGenerator.getVideos()
         Mockito.doNothing().`when`(filesDao).clearAndInsertVideo(video)
-        localSourceImpl.saveVideo(videoLocalDataMapper.localToDataList(video))
+        localSourceImpl.saveVideo(video.asVideoLocalList())
         Mockito.verify(filesDao, times(1)).clearAndInsertVideo(video)
     }
     //endregion
@@ -195,7 +152,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == billLocalDataMapper.localToDataList(actual)
+                it == actual.asBillLocalList()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getBills()
@@ -210,7 +167,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == billLocalDataMapper.localToData(actual)
+                it == actual.asBillData()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getBill(IDENTIFIER)
@@ -220,7 +177,7 @@ class LocalSourceImplTest {
     fun `Save bills to local success`() {
         val bill = TestFilesGenerator.getBills()
         Mockito.doNothing().`when`(filesDao).clearAndInsertBill(bill)
-        localSourceImpl.saveBill(billLocalDataMapper.localToDataList(bill))
+        localSourceImpl.saveBill(bill.asBillLocalList())
         Mockito.verify(filesDao, times(1)).clearAndInsertBill(bill)
     }
     //endregion
@@ -235,7 +192,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == timeTableLocalDataMapper.localToDataList(actual)
+                it == actual.asTimeTableLocalList()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getTimeTables()
@@ -250,7 +207,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == timeTableLocalDataMapper.localToData(actual)
+                it == actual.asTimeTableData()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getTimeTable(IDENTIFIER)
@@ -260,7 +217,7 @@ class LocalSourceImplTest {
     fun `Save timetable to local success`() {
         val timetable = TestFilesGenerator.getTimeTables()
         Mockito.doNothing().`when`(filesDao).clearAndInsertTimeTable(timetable)
-        localSourceImpl.saveTimeTable(timeTableLocalDataMapper.localToDataList(timetable))
+        localSourceImpl.saveTimeTable(timetable.asTimeTableLocalList())
         Mockito.verify(filesDao, times(1)).clearAndInsertTimeTable(timetable)
     }
     //endregion
@@ -276,7 +233,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == reportLocalDataMapper.localToDataList(actual)
+                it == actual.asReportLocalList()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getReports()
@@ -291,7 +248,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == reportLocalDataMapper.localToData(actual)
+                it == actual.asReportData()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getReport(IDENTIFIER)
@@ -301,7 +258,7 @@ class LocalSourceImplTest {
     fun `Save report to local success`() {
         val report = TestFilesGenerator.getReports()
         Mockito.doNothing().`when`(filesDao).clearAndInsertReport(report)
-        localSourceImpl.saveReport(reportLocalDataMapper.localToDataList(report))
+        localSourceImpl.saveReport(report.asReportLocalList())
         Mockito.verify(filesDao, times(1)).clearAndInsertReport(report)
     }
     //endregion
@@ -317,7 +274,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == assignmentLocalDataMapper.localToDataList(actual)
+                it == actual.asAssignmentLocalList()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getAssignments()
@@ -332,7 +289,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == assignmentLocalDataMapper.localToData(actual)
+                it == actual.asAssignmentData()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getAssignment(IDENTIFIER)
@@ -342,7 +299,7 @@ class LocalSourceImplTest {
     fun `Save assignment to local success`() {
         val assignment = TestFilesGenerator.getAssignments()
         Mockito.doNothing().`when`(filesDao).clearAndInsertAssignment(assignment)
-        localSourceImpl.saveAssignment(assignmentLocalDataMapper.localToDataList(assignment))
+        localSourceImpl.saveAssignment(assignment.asAssignmentLocalList())
         Mockito.verify(filesDao, times(1)).clearAndInsertAssignment(assignment)
     }
     //endregion
@@ -358,7 +315,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == circularLocalDataMapper.localToDataList(actual)
+                it == actual.asCircularLocalList()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getCirculars()
@@ -373,7 +330,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == circularLocalDataMapper.localToData(actual)
+                it == actual.asCircularData()
             }
             .assertComplete()
         Mockito.verify(filesDao, times(1)).getCircular(IDENTIFIER)
@@ -383,7 +340,7 @@ class LocalSourceImplTest {
     fun `Save circular to local success`() {
         val circular = TestFilesGenerator.getCirculars()
         Mockito.doNothing().`when`(filesDao).clearAndInsertCircular(circular)
-        localSourceImpl.saveCircular(circularLocalDataMapper.localToDataList(circular))
+        localSourceImpl.saveCircular(circular.asCircularLocalList())
         Mockito.verify(filesDao, times(1)).clearAndInsertCircular(circular)
     }
     //endregion
@@ -399,7 +356,7 @@ class LocalSourceImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it == complaintLocalDataMapper.localToDataList(actual)
+                it == actual.asDataList()
             }
             .assertComplete()
         Mockito.verify(messageDao, times(1)).getComplaints()
@@ -416,7 +373,7 @@ class LocalSourceImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it == complaintLocalDataMapper.localToData(actual)
+                it == actual.asData()
             }
             .assertComplete()
         Mockito.verify(messageDao, times(1)).getComplaint(MESSAGE_IDENTIFIER.toString())
@@ -427,7 +384,7 @@ class LocalSourceImplTest {
     fun `Save complaint to local success`() {
         val actual = TestMessageGenerator.getComplaint()
         Mockito.doNothing().`when`(messageDao).clearAndInsertComplaints(actual)
-        localSourceImpl.saveComplaint(complaintLocalDataMapper.localToDataList(actual))
+        localSourceImpl.saveComplaint(actual.asDataList())
         Mockito.verify(messageDao, times(1)).clearAndInsertComplaints(actual)
     }
 
@@ -441,7 +398,7 @@ class LocalSourceImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it == messageLocalDataMapper.localToDataList(actual)
+                it == actual.asDataList()
             }
             .assertComplete()
         Mockito.verify(messageDao, times(1)).getMessages()
@@ -457,7 +414,7 @@ class LocalSourceImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it == messageLocalDataMapper.localToData(actual)
+                it == actual.asData()
             }
             .assertComplete()
         Mockito.verify(messageDao, times(1)).getMessage(MESSAGE_IDENTIFIER)
@@ -468,7 +425,7 @@ class LocalSourceImplTest {
     fun `Save messages to local success`() {
         val actual = TestMessageGenerator.getMessages()
         Mockito.doNothing().`when`(messageDao).clearAndInsertMessages(actual)
-        localSourceImpl.saveMessages(messageLocalDataMapper.localToDataList(actual))
+        localSourceImpl.saveMessages(actual.asDataList())
         Mockito.verify(messageDao, times(1)).clearAndInsertMessages(actual)
     }
     //endregion
@@ -484,7 +441,7 @@ class LocalSourceImplTest {
                 .test()
                 .assertValueCount(1)
                 .assertValue {
-                    it == userLocalDataMapper.localToData(actual)
+                    it == actual.asData()
                 }
                 .assertSubscribed()
                 .assertComplete()
@@ -496,7 +453,7 @@ class LocalSourceImplTest {
     fun `Save user to local success`() {
         val actual = TestUserGenerator.user()
         Mockito.doNothing().`when`(userDao).saveUser(actual)
-        localSourceImpl.saveUser(userLocalDataMapper.localToData(actual))
+        localSourceImpl.saveUser(actual.asData())
         Mockito.verify(userDao, times(1)).clearAndInsertUser(actual)
     }
 
@@ -509,7 +466,7 @@ class LocalSourceImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == profileLocalDataMapper.localToData(actual)
+                it == actual.asData()
             }
             .assertComplete()
         Mockito.verify(userDao, times(1)).getProfile(USER_IDENTIFIER)
@@ -519,7 +476,7 @@ class LocalSourceImplTest {
     fun `Save user profile to local success`() {
         val actual = TestUserGenerator.getProfile()
         Mockito.doNothing().`when`(userDao).saveProfile(actual)
-        localSourceImpl.saveProfile(profileLocalDataMapper.localToData(actual))
+        localSourceImpl.saveProfile(actual.asData())
         Mockito.verify(userDao, times(1)).saveProfile(actual)
     }
 

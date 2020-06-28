@@ -1,11 +1,10 @@
 package com.cheise_proj.local_source.mapper.message
 
 import com.cheise_proj.data.model.message.MessageData
-import com.cheise_proj.local_source.mapper.base.LocalMapper
+import com.cheise_proj.local_source.mapper.base.LocalListMapper
 import com.cheise_proj.local_source.model.message.MessageLocal
-import javax.inject.Inject
 
-class MessageLocalDataMapper @Inject constructor() : LocalMapper<MessageLocal, MessageData> {
+internal class MessageLocalDataMapper : LocalListMapper<MessageLocal, MessageData> {
     override fun localToData(l: MessageLocal): MessageData {
         return MessageData(
             uid = l.uid,

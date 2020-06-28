@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import com.cheise_proj.login_feature.AuthNavigation
 import com.cheise_proj.login_feature.di.LoginScope
 import com.cheise_proj.parent_feature.ParentNavigationActivity
-import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject
 
 @LoginScope

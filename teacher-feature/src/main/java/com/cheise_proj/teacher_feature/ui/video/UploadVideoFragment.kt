@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.text.TextUtils
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -20,18 +19,12 @@ import com.cheise_proj.teacher_feature.base.BaseFragment
 import com.cheise_proj.teacher_feature.utils.RealPathUtil
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import kotlinx.android.synthetic.main.fragment_upload_video.*
 import org.jetbrains.anko.support.v4.toast
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 /**

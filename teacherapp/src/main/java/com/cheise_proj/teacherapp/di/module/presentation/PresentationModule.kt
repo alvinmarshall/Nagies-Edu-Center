@@ -2,28 +2,7 @@ package com.cheise_proj.teacherapp.di.module.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.cheise_proj.domain.entity.files.FilesEntity
-import com.cheise_proj.domain.entity.message.ComplaintEntity
-import com.cheise_proj.domain.entity.message.MessageEntity
-import com.cheise_proj.domain.entity.people.PeopleEntity
-import com.cheise_proj.domain.entity.user.ProfileEntity
-import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.presentation.factory.ViewModelFactory
-import com.cheise_proj.presentation.mapper.PresentationMapper
-import com.cheise_proj.presentation.mapper.files.AssignmentEntityMapper
-import com.cheise_proj.presentation.mapper.files.ReportEntityMapper
-import com.cheise_proj.presentation.mapper.message.ComplaintEntityMapper
-import com.cheise_proj.presentation.mapper.message.MessageEntityMapper
-import com.cheise_proj.presentation.mapper.people.PeopleEntityMapper
-import com.cheise_proj.presentation.mapper.user.ProfileEntityMapper
-import com.cheise_proj.presentation.mapper.user.UserEntityMapper
-import com.cheise_proj.presentation.model.files.Assignment
-import com.cheise_proj.presentation.model.files.Report
-import com.cheise_proj.presentation.model.message.Complaint
-import com.cheise_proj.presentation.model.message.Message
-import com.cheise_proj.presentation.model.people.People
-import com.cheise_proj.presentation.model.user.Profile
-import com.cheise_proj.presentation.model.user.User
 import com.cheise_proj.presentation.notification.ITeacherNotification
 import com.cheise_proj.presentation.utils.IPreference
 import com.cheise_proj.presentation.utils.IServerPath
@@ -51,16 +30,12 @@ class PresentationModule {
 
         //region FILES
 
-        @Binds
-        fun bindReportEntity(reportEntityMapper: ReportEntityMapper): PresentationMapper<Report, FilesEntity>
 
         @Binds
         @ViewModelKey(ReportViewModel::class)
         @IntoMap
         fun bindReportViewModel(reportViewModel: ReportViewModel): ViewModel
 
-        @Binds
-        fun bindAssignmentEntity(assignmentEntityMapper: AssignmentEntityMapper): PresentationMapper<Assignment, FilesEntity>
 
         @Binds
         @ViewModelKey(AssignmentViewModel::class)
@@ -68,21 +43,12 @@ class PresentationModule {
         fun bindAssignmentViewModel(assignmentViewModel: AssignmentViewModel): ViewModel
         //endregion
 
-        //region PEOPLE
-        @Binds
-        fun bindPeopleEntityMapper(peopleEntityMapper: PeopleEntityMapper): PresentationMapper<People, PeopleEntity>
-        //endregion
 
         @Binds
         fun bindViewModelFactory(viewModelFactory: ViewModelFactory): ViewModelProvider.Factory
 
 
         //region MESSAGE
-        @Binds
-        fun bindComplaintEntity(complaintEntityMapper: ComplaintEntityMapper): PresentationMapper<Complaint, ComplaintEntity>
-
-        @Binds
-        fun bindMessageEntity(messageEntityMapper: MessageEntityMapper): PresentationMapper<Message, MessageEntity>
 
         @Binds
         @ViewModelKey(PeopleViewModel::class)
@@ -111,11 +77,6 @@ class PresentationModule {
         @IntoMap
         fun bindProfileViewModel(profileViewModel: ProfileViewModel): ViewModel
 
-        @Binds
-        fun bindUserEntityMapper(userEntityMapper: UserEntityMapper): PresentationMapper<User, UserEntity>
-
-        @Binds
-        fun bindProfileEntityMapper(profileEntityMapper: ProfileEntityMapper): PresentationMapper<Profile, ProfileEntity>
         //endregion
 
 

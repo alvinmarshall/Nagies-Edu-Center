@@ -1,11 +1,10 @@
 package com.cheise_proj.data.mapper.files
 
-import com.cheise_proj.data.mapper.base.DataMapper
+import com.cheise_proj.data.mapper.base.DataListMapper
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.domain.entity.files.FilesEntity
-import javax.inject.Inject
 
-class FilesDataEntityMapper @Inject constructor() : DataMapper<FilesData, FilesEntity> {
+internal class FilesDataEntityMapper: DataListMapper<FilesData, FilesEntity> {
     override fun dataToEntity(d: FilesData): FilesEntity {
         return FilesEntity(
             id = d.id,

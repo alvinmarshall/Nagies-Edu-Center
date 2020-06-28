@@ -3,15 +3,14 @@ package com.cheise_proj.presentation.viewmodel.files
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.FilesRepository
 import com.cheise_proj.domain.usecase.files.GetTimeTableTask
-import com.cheise_proj.presentation.mapper.files.TimeTableEntityMapper
+import com.cheise_proj.presentation.extensions.asTimeTableEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.TestFilesGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,10 +24,10 @@ class TimeTableViewModelTest {
 
     private lateinit var timeTableViewModel: TimeTableViewModel
     private lateinit var getTimeTableTask: GetTimeTableTask
-    private lateinit var timeTableEntityMapper: TimeTableEntityMapper
 
     @Mock
     lateinit var filesRepository: FilesRepository
+
     @Mock
     lateinit var path: IServerPath
 
@@ -40,8 +39,7 @@ class TimeTableViewModelTest {
         MockitoAnnotations.initMocks(this)
         getTimeTableTask =
             GetTimeTableTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        timeTableEntityMapper = TimeTableEntityMapper()
-        timeTableViewModel = TimeTableViewModel(getTimeTableTask, timeTableEntityMapper, path)
+        timeTableViewModel = TimeTableViewModel(getTimeTableTask, path)
     }
 
     @Test
@@ -49,7 +47,7 @@ class TimeTableViewModelTest {
         val actual = TestFilesGenerator.getTimeTables()
 
         Mockito.`when`(filesRepository.getTimeTables())
-            .thenReturn(Observable.just(timeTableEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asTimeTableEntityList()))
         val reportLive = timeTableViewModel.getTimeTables()
         reportLive.observeForever { }
         assertTrue(
@@ -76,11 +74,7 @@ class TimeTableViewModelTest {
         Mockito.`when`(filesRepository.getTimeTable(IDENTIFIER))
             .thenReturn(
                 Observable.just(
-                    timeTableEntityMapper.presentationToEntityList(
-                        arrayListOf(
-                            actual
-                        )
-                    )
+                    arrayListOf(actual).asTimeTableEntityList()
                 )
             )
         val timeTableLive = timeTableViewModel.getTimeTable(IDENTIFIER)

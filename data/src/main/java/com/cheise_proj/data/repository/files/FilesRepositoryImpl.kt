@@ -1,7 +1,9 @@
 package com.cheise_proj.data.repository.files
 
 import com.cheise_proj.data.cache.*
-import com.cheise_proj.data.mapper.files.FilesDataEntityMapper
+import com.cheise_proj.data.extensions.asDataList
+import com.cheise_proj.data.extensions.asEntity
+import com.cheise_proj.data.extensions.asEntityList
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
@@ -14,8 +16,7 @@ import javax.inject.Inject
 
 class FilesRepositoryImpl @Inject constructor(
     private val remoteSource: RemoteSource,
-    private val localSource: LocalSource,
-    private val filesDataEntityMapper: FilesDataEntityMapper
+    private val localSource: LocalSource
 ) : FilesRepository {
 
 
@@ -86,13 +87,13 @@ class FilesRepositoryImpl @Inject constructor(
 
         val local = localSource.getVideos()
             .map { t: List<FilesData> ->
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getVideo()
             .map { t: List<FilesData> ->
                 localSource.saveBill(t)
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -101,7 +102,7 @@ class FilesRepositoryImpl @Inject constructor(
 
         videoObservable = if (cacheVideo != null) {
             println("Remote source NOT invoked")
-            val cache = filesDataEntityMapper.dataToEntityList(cacheVideo)
+            val cache = cacheVideo.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -110,9 +111,7 @@ class FilesRepositoryImpl @Inject constructor(
         return videoObservable
             .map { t: List<FilesEntity> ->
                 if (cacheVideo == null) {
-                    VideoCache.addVideo(
-                        filesDataEntityMapper.entityToDataList(t)
-                    )
+                    VideoCache.addVideo(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -121,7 +120,7 @@ class FilesRepositoryImpl @Inject constructor(
     override fun getVideo(identifier: String): Observable<List<FilesEntity>> {
         return localSource.getVideo(identifier).toObservable()
             .map { t: FilesData ->
-                val data = filesDataEntityMapper.dataToEntity(t)
+                val data = t.asEntity()
                 return@map arrayListOf(data)
             }
     }
@@ -135,13 +134,13 @@ class FilesRepositoryImpl @Inject constructor(
 
         val local = localSource.getBills()
             .map { t: List<FilesData> ->
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getBill()
             .map { t: List<FilesData> ->
                 localSource.saveBill(t)
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -150,7 +149,7 @@ class FilesRepositoryImpl @Inject constructor(
 
         billObservable = if (cacheBill != null) {
             println("Remote source NOT invoked")
-            val cache = filesDataEntityMapper.dataToEntityList(cacheBill)
+            val cache = cacheBill.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -159,9 +158,7 @@ class FilesRepositoryImpl @Inject constructor(
         return billObservable
             .map { t: List<FilesEntity> ->
                 if (cacheBill == null) {
-                    BillCache.addBill(
-                        filesDataEntityMapper.entityToDataList(t)
-                    )
+                    BillCache.addBill(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -170,7 +167,7 @@ class FilesRepositoryImpl @Inject constructor(
     override fun getBill(identifier: String): Observable<List<FilesEntity>> {
         return localSource.getBill(identifier).toObservable()
             .map { t: FilesData ->
-                val data = filesDataEntityMapper.dataToEntity(t)
+                val data = t.asEntity()
                 return@map arrayListOf(data)
             }
     }
@@ -183,13 +180,13 @@ class FilesRepositoryImpl @Inject constructor(
 
         val local = localSource.getTimeTables()
             .map { t: List<FilesData> ->
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getTimeTable()
             .map { t: List<FilesData> ->
                 localSource.saveTimeTable(t)
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -198,7 +195,7 @@ class FilesRepositoryImpl @Inject constructor(
 
         timeTableObservable = if (cacheTimeTable != null) {
             println("Remote source NOT invoked")
-            val cache = filesDataEntityMapper.dataToEntityList(cacheTimeTable)
+            val cache = cacheTimeTable.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -208,7 +205,7 @@ class FilesRepositoryImpl @Inject constructor(
             .map { t: List<FilesEntity> ->
                 if (cacheTimeTable == null) {
                     TimeTableCache.addTimeTable(
-                        filesDataEntityMapper.entityToDataList(t)
+                        t.asDataList()
                     )
                 }
                 return@map t
@@ -218,7 +215,7 @@ class FilesRepositoryImpl @Inject constructor(
     override fun getTimeTable(identifier: String): Observable<List<FilesEntity>> {
         return localSource.getTimeTable(identifier).toObservable()
             .map { t: FilesData ->
-                val data = filesDataEntityMapper.dataToEntity(t)
+                val data = t.asEntity()
                 return@map arrayListOf(data)
             }
     }
@@ -231,13 +228,13 @@ class FilesRepositoryImpl @Inject constructor(
 
         val local = localSource.getReports()
             .map { t: List<FilesData> ->
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getReport()
             .map { t: List<FilesData> ->
                 localSource.saveReport(t)
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -246,7 +243,7 @@ class FilesRepositoryImpl @Inject constructor(
 
         reportObservable = if (cacheReport != null) {
             println("Remote source NOT invoked")
-            val cache = filesDataEntityMapper.dataToEntityList(cacheReport)
+            val cache = cacheReport.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -255,9 +252,7 @@ class FilesRepositoryImpl @Inject constructor(
         return reportObservable
             .map { t: List<FilesEntity> ->
                 if (cacheReport == null) {
-                    ReportCache.addReport(
-                        filesDataEntityMapper.entityToDataList(t)
-                    )
+                    ReportCache.addReport(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -267,7 +262,7 @@ class FilesRepositoryImpl @Inject constructor(
     override fun getReport(identifier: String): Observable<List<FilesEntity>> {
         return localSource.getReport(identifier).toObservable()
             .map { t: FilesData ->
-                val data = filesDataEntityMapper.dataToEntity(t)
+                val data = t.asEntity()
                 return@map arrayListOf(data)
             }
     }
@@ -282,13 +277,13 @@ class FilesRepositoryImpl @Inject constructor(
 
         val local = localSource.getAssignments()
             .map { t: List<FilesData> ->
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getAssignment()
             .map { t: List<FilesData> ->
                 localSource.saveAssignment(t)
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -297,7 +292,7 @@ class FilesRepositoryImpl @Inject constructor(
 
         assignmentObservable = if (cacheAssignment != null) {
             println("Remote source NOT invoked")
-            val cache = filesDataEntityMapper.dataToEntityList(cacheAssignment)
+            val cache = cacheAssignment.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -306,9 +301,7 @@ class FilesRepositoryImpl @Inject constructor(
         return assignmentObservable
             .map { t: List<FilesEntity> ->
                 if (cacheAssignment == null) {
-                    AssignmentCache.addAssignment(
-                        filesDataEntityMapper.entityToDataList(t)
-                    )
+                    AssignmentCache.addAssignment(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -317,7 +310,7 @@ class FilesRepositoryImpl @Inject constructor(
     override fun getAssignment(identifier: String): Observable<List<FilesEntity>> {
         return localSource.getAssignment(identifier).toObservable()
             .map { t: FilesData ->
-                val data = filesDataEntityMapper.dataToEntity(t)
+                val data = t.asEntity()
                 return@map arrayListOf(data)
             }
     }
@@ -329,13 +322,13 @@ class FilesRepositoryImpl @Inject constructor(
         val cacheCircular = CircularCache.getCirculars()
         val local = localSource.getCirculars()
             .map { t: List<FilesData> ->
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getCircular()
             .map { t: List<FilesData> ->
                 localSource.saveCircular(t)
-                filesDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -344,7 +337,7 @@ class FilesRepositoryImpl @Inject constructor(
 
         circularObservable = if (cacheCircular != null) {
             println("Remote source NOT invoked")
-            val cache = filesDataEntityMapper.dataToEntityList(cacheCircular)
+            val cache = cacheCircular.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -353,9 +346,7 @@ class FilesRepositoryImpl @Inject constructor(
         return circularObservable
             .map { t: List<FilesEntity> ->
                 if (cacheCircular == null) {
-                    CircularCache.addCirculars(
-                        filesDataEntityMapper.entityToDataList(t)
-                    )
+                    CircularCache.addCirculars(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -364,7 +355,7 @@ class FilesRepositoryImpl @Inject constructor(
     override fun getCircular(identifier: String): Observable<List<FilesEntity>> {
         return localSource.getCircular(identifier).toObservable()
             .map { t: FilesData ->
-                val data = filesDataEntityMapper.dataToEntity(t)
+                val data = t.asEntity()
                 return@map arrayListOf(data)
             }
     }

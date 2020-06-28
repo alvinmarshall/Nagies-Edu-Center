@@ -1,6 +1,6 @@
 package com.cheise_proj.data.repository.people
 
-import com.cheise_proj.data.mapper.people.PeopleDataEntityMapper
+import com.cheise_proj.data.extensions.asEntityList
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
 import io.reactivex.Observable
@@ -19,7 +19,6 @@ import utils.TestPeopleGenerator
 class PeopleRepositoryImplTest {
 
     private lateinit var peopleRepositoryImpl: PeopleRepositoryImpl
-    private lateinit var peopleDataEntityMapper: PeopleDataEntityMapper
 
     companion object {
         private const val IDENTIFIER = "1"
@@ -34,9 +33,8 @@ class PeopleRepositoryImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        peopleDataEntityMapper = PeopleDataEntityMapper()
         peopleRepositoryImpl =
-            PeopleRepositoryImpl(remoteSource, localSource, peopleDataEntityMapper)
+            PeopleRepositoryImpl(remoteSource, localSource)
     }
 
     @Test
@@ -50,7 +48,7 @@ class PeopleRepositoryImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it == peopleDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getPeople(TYPE_TEACHER)
@@ -68,7 +66,7 @@ class PeopleRepositoryImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it == peopleDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(localSource, times(1)).getPeople(IDENTIFIER)

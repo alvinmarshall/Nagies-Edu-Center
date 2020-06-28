@@ -1,12 +1,12 @@
 package com.cheise_proj.data.repository.files
 
-import com.cheise_proj.data.mapper.files.FilesDataEntityMapper
+import com.cheise_proj.data.extensions.asEntity
+import com.cheise_proj.data.extensions.asEntityList
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
 import io.reactivex.Observable
 import io.reactivex.Single
 import org.junit.Before
-
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -28,7 +28,7 @@ class FilesRepositoryImplTest {
     }
 
     private lateinit var filesRepositoryImpl: FilesRepositoryImpl
-    private lateinit var filesDataEntityMapper: FilesDataEntityMapper
+
     @Mock
     lateinit var localSource: LocalSource
     @Mock
@@ -37,8 +37,7 @@ class FilesRepositoryImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        filesDataEntityMapper = FilesDataEntityMapper()
-        filesRepositoryImpl = FilesRepositoryImpl(remoteSource, localSource, filesDataEntityMapper)
+        filesRepositoryImpl = FilesRepositoryImpl(remoteSource, localSource)
     }
 
     //region DELETE FILES
@@ -188,7 +187,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getVideo()
@@ -213,7 +212,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getVideo()
@@ -232,7 +231,7 @@ class FilesRepositoryImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it[0] == filesDataEntityMapper.dataToEntity(actual)
+                it[0] == actual.asEntity()
             }
             .assertComplete()
         Mockito.verify(localSource, times(0)).getVideos()
@@ -254,7 +253,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getBill()
@@ -279,7 +278,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getBill()
@@ -298,7 +297,7 @@ class FilesRepositoryImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it[0] == filesDataEntityMapper.dataToEntity(actual)
+                it[0] == actual.asEntity()
             }
             .assertComplete()
         Mockito.verify(localSource, times(0)).getBills()
@@ -317,7 +316,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getTimeTable()
@@ -342,7 +341,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getTimeTable()
@@ -361,7 +360,7 @@ class FilesRepositoryImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it[0] == filesDataEntityMapper.dataToEntity(actual)
+                it[0] == actual.asEntity()
             }
             .assertComplete()
         Mockito.verify(localSource, times(0)).getTimeTables()
@@ -381,7 +380,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getReport()
@@ -406,7 +405,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getReport()
@@ -425,7 +424,7 @@ class FilesRepositoryImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it[0] == filesDataEntityMapper.dataToEntity(actual)
+                it[0] == actual.asEntity()
             }
             .assertComplete()
         Mockito.verify(localSource, times(0)).getReports()
@@ -466,7 +465,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it[0] == filesDataEntityMapper.dataToEntity(actual)
+                it[0] == actual.asEntity()
             }
             .assertComplete()
         Mockito.verify(localSource, times(0)).getAssignments()
@@ -483,7 +482,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getAssignment()
@@ -505,7 +504,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getCircular()
@@ -530,7 +529,7 @@ class FilesRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == filesDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
         Mockito.verify(remoteSource, times(1)).getCircular()
@@ -549,7 +548,7 @@ class FilesRepositoryImplTest {
             .assertValueCount(1)
             .assertValue {
                 println(it)
-                it[0] == filesDataEntityMapper.dataToEntity(actual)
+                it[0] == actual.asEntity()
             }
             .assertComplete()
         Mockito.verify(localSource, times(0)).getCirculars()

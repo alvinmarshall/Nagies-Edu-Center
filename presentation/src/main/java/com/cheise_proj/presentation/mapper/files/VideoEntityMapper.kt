@@ -1,12 +1,10 @@
 package com.cheise_proj.presentation.mapper.files
 
 import com.cheise_proj.domain.entity.files.FilesEntity
-import com.cheise_proj.presentation.mapper.PresentationMapper
-import com.cheise_proj.presentation.model.files.Bill
+import com.cheise_proj.presentation.mapper.PresentationListMapper
 import com.cheise_proj.presentation.model.files.Video
-import javax.inject.Inject
 
-class VideoEntityMapper @Inject constructor() : PresentationMapper<Video, FilesEntity> {
+internal class VideoEntityMapper  : PresentationListMapper<Video, FilesEntity> {
     override fun presentationToEntity(p: Video): FilesEntity {
         return FilesEntity(
             id = p.id,

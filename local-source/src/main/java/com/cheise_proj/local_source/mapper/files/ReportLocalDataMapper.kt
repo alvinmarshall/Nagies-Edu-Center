@@ -1,11 +1,10 @@
 package com.cheise_proj.local_source.mapper.files
 
 import com.cheise_proj.data.model.files.FilesData
-import com.cheise_proj.local_source.mapper.base.LocalMapper
+import com.cheise_proj.local_source.mapper.base.LocalListMapper
 import com.cheise_proj.local_source.model.files.ReportLocal
-import javax.inject.Inject
 
-class ReportLocalDataMapper @Inject constructor() : LocalMapper<ReportLocal, FilesData> {
+internal class ReportLocalDataMapper : LocalListMapper<ReportLocal, FilesData> {
     override fun localToData(l: ReportLocal): FilesData {
         return FilesData(
             id = l.id,

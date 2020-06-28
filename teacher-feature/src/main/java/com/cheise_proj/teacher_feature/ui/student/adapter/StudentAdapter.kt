@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.model.people.People
 import com.cheise_proj.teacher_feature.AdapterClickListener

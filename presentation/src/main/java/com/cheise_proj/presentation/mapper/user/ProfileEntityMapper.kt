@@ -3,9 +3,8 @@ package com.cheise_proj.presentation.mapper.user
 import com.cheise_proj.domain.entity.user.ProfileEntity
 import com.cheise_proj.presentation.mapper.PresentationMapper
 import com.cheise_proj.presentation.model.user.Profile
-import javax.inject.Inject
 
-class ProfileEntityMapper @Inject constructor() :
+class ProfileEntityMapper :
     PresentationMapper<Profile, ProfileEntity> {
     override fun presentationToEntity(p: Profile): ProfileEntity {
         return ProfileEntity(
@@ -43,10 +42,4 @@ class ProfileEntityMapper @Inject constructor() :
         )
     }
 
-    override fun presentationToEntityList(pList: List<Profile>): List<ProfileEntity> {
-        throw NotImplementedError("not implemented")
-    }
-
-    override fun entityToPresentationList(eList: List<ProfileEntity>): List<Profile> {
-        throw NotImplementedError("not implemented")    }
 }

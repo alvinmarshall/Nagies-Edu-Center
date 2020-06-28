@@ -2,8 +2,9 @@ package com.cheise_proj.data.repository.message
 
 import com.cheise_proj.data.cache.ComplaintCache
 import com.cheise_proj.data.cache.MessageCache
-import com.cheise_proj.data.mapper.message.ComplaintDataEntityMapper
-import com.cheise_proj.data.mapper.message.MessageDataEntityMapper
+import com.cheise_proj.data.extensions.asDataList
+import com.cheise_proj.data.extensions.asEntity
+import com.cheise_proj.data.extensions.asEntityList
 import com.cheise_proj.data.model.message.ComplaintData
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.data.source.LocalSource
@@ -19,9 +20,7 @@ import javax.inject.Inject
 
 class MessageRepositoryImpl @Inject constructor(
     private val remoteSource: RemoteSource,
-    private val localSource: LocalSource,
-    private val messageDataEntityMapper: MessageDataEntityMapper,
-    private val complaintDataEntityMapper: ComplaintDataEntityMapper
+    private val localSource: LocalSource
 ) : MessageRepository {
 
 
@@ -31,13 +30,13 @@ class MessageRepositoryImpl @Inject constructor(
 
         val local = localSource.getComplaints()
             .map { t: List<ComplaintData> ->
-                complaintDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getSentComplaint()
             .map { t: List<ComplaintData> ->
                 localSource.saveComplaint(t)
-                complaintDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -46,7 +45,7 @@ class MessageRepositoryImpl @Inject constructor(
 
         complaintObservable = if (cacheComplaint != null) {
             println("Remote source NOT invoked")
-            val cache = complaintDataEntityMapper.dataToEntityList(cacheComplaint)
+            val cache = cacheComplaint.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -55,9 +54,7 @@ class MessageRepositoryImpl @Inject constructor(
         return complaintObservable
             .map { t: List<ComplaintEntity> ->
                 if (cacheComplaint == null) {
-                    ComplaintCache.addComplaint(
-                        complaintDataEntityMapper.entityToDataList(t)
-                    )
+                    ComplaintCache.addComplaint(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -70,13 +67,13 @@ class MessageRepositoryImpl @Inject constructor(
 
         val local = localSource.getComplaints()
             .map { t: List<ComplaintData> ->
-                complaintDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getComplaint()
             .map { t: List<ComplaintData> ->
                 localSource.saveComplaint(t)
-                complaintDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -85,7 +82,7 @@ class MessageRepositoryImpl @Inject constructor(
 
         complaintObservable = if (cacheComplaint != null) {
             println("Remote source NOT invoked")
-            val cache = complaintDataEntityMapper.dataToEntityList(cacheComplaint)
+            val cache = cacheComplaint.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -94,9 +91,7 @@ class MessageRepositoryImpl @Inject constructor(
         return complaintObservable
             .map { t: List<ComplaintEntity> ->
                 if (cacheComplaint == null) {
-                    ComplaintCache.addComplaint(
-                        complaintDataEntityMapper.entityToDataList(t)
-                    )
+                    ComplaintCache.addComplaint(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -105,7 +100,7 @@ class MessageRepositoryImpl @Inject constructor(
     override fun getComplaint(identifier: String): Observable<List<ComplaintEntity>> {
         return localSource.getComplaint(identifier).toObservable()
             .map {
-                val data = complaintDataEntityMapper.dataToEntity(it)
+                val data = it.asEntity()
                 return@map arrayListOf(data)
             }
     }
@@ -166,13 +161,13 @@ class MessageRepositoryImpl @Inject constructor(
 
         val local = localSource.getMessages()
             .map { t: List<MessageData> ->
-                messageDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getSentMessages()
             .map { t: List<MessageData> ->
                 localSource.saveMessages(t)
-                messageDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -181,7 +176,7 @@ class MessageRepositoryImpl @Inject constructor(
 
         messagesObservable = if (cacheMessages != null) {
             println("Remote source NOT invoked")
-            val cache = messageDataEntityMapper.dataToEntityList(cacheMessages)
+            val cache = cacheMessages.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -190,9 +185,7 @@ class MessageRepositoryImpl @Inject constructor(
         return messagesObservable
             .map { t: List<MessageEntity> ->
                 if (cacheMessages == null) {
-                    MessageCache.addMessage(
-                        messageDataEntityMapper.entityToDataList(t)
-                    )
+                    MessageCache.addMessage(t.asDataList())
                 }
                 return@map t
             }.mergeWith(local).take(1).distinct()
@@ -204,13 +197,13 @@ class MessageRepositoryImpl @Inject constructor(
 
         val local = localSource.getMessages()
             .map { t: List<MessageData> ->
-                messageDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
 
         val remote = remoteSource.getMessages()
             .map { t: List<MessageData> ->
                 localSource.saveMessages(t)
-                messageDataEntityMapper.dataToEntityList(t)
+                t.asEntityList()
             }
             .onErrorResumeNext(Function {
                 println(it.localizedMessage)
@@ -219,7 +212,7 @@ class MessageRepositoryImpl @Inject constructor(
 
         messagesObservable = if (cacheMessages != null) {
             println("Remote source NOT invoked")
-            val cache = messageDataEntityMapper.dataToEntityList(cacheMessages)
+            val cache = cacheMessages.asEntityList()
             Observable.just(cache)
         } else {
             remote
@@ -229,7 +222,7 @@ class MessageRepositoryImpl @Inject constructor(
             .map { t: List<MessageEntity> ->
                 if (cacheMessages == null) {
                     MessageCache.addMessage(
-                        messageDataEntityMapper.entityToDataList(t)
+                        t.asDataList()
                     )
                 }
                 return@map t
@@ -240,7 +233,7 @@ class MessageRepositoryImpl @Inject constructor(
     override fun getMessage(identifier: Int): Observable<List<MessageEntity>> {
         return localSource.getMessage(identifier).toObservable()
             .map {
-                val data = messageDataEntityMapper.dataToEntity(it)
+                val data = it.asEntity()
                 return@map arrayListOf(data)
             }
     }

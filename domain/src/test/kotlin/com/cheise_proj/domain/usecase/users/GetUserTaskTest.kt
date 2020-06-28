@@ -2,7 +2,6 @@ package com.cheise_proj.domain.usecase.users
 
 import com.cheise_proj.domain.repository.UserRepository
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test

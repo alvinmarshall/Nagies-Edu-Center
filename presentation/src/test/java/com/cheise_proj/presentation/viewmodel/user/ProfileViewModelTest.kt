@@ -3,14 +3,14 @@ package com.cheise_proj.presentation.viewmodel.user
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.UserRepository
 import com.cheise_proj.domain.usecase.users.GetProfileTask
-import com.cheise_proj.presentation.mapper.user.ProfileEntityMapper
+import com.cheise_proj.presentation.extensions.asEntity
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.TestUserGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,7 +27,6 @@ class ProfileViewModelTest {
     }
 
     private lateinit var getProfileTask: GetProfileTask
-    private lateinit var profileEntityMapper: ProfileEntityMapper
     private lateinit var profileViewModel: ProfileViewModel
     @Mock
     lateinit var userRepository: UserRepository
@@ -40,8 +39,7 @@ class ProfileViewModelTest {
         MockitoAnnotations.initMocks(this)
         getProfileTask =
             GetProfileTask(userRepository, Schedulers.trampoline(), Schedulers.trampoline())
-        profileEntityMapper = ProfileEntityMapper()
-        profileViewModel = ProfileViewModel(getProfileTask, profileEntityMapper)
+        profileViewModel = ProfileViewModel(getProfileTask)
     }
 
     @Test
@@ -49,7 +47,7 @@ class ProfileViewModelTest {
         val identifier = "test identifier"
         val profile = TestUserGenerator.getProfile()
         Mockito.`when`(userRepository.getStudentProfile(identifier))
-            .thenReturn(Observable.just(profileEntityMapper.presentationToEntity(profile)))
+            .thenReturn(Observable.just(profile.asEntity()))
         val liveProfile = profileViewModel.getProfile(PARENT, identifier)
         liveProfile.observeForever { }
         assertTrue(
@@ -63,7 +61,7 @@ class ProfileViewModelTest {
         val identifier = "test identifier"
         val actual = TestUserGenerator.getProfile()
         Mockito.`when`(userRepository.getTeacherProfile(identifier))
-            .thenReturn(Observable.just(profileEntityMapper.presentationToEntity(actual)))
+            .thenReturn(Observable.just(actual.asEntity()))
         val liveProfile = profileViewModel.getProfile(TEACHER, identifier)
         liveProfile.observeForever { }
         assertTrue(

@@ -2,7 +2,6 @@ package com.cheise_proj.presentation.utils
 
 import com.cheise_proj.presentation.model.user.Profile
 import com.cheise_proj.presentation.model.user.User
-import com.cheise_proj.presentation.model.vo.ProfileLabel
 
 object TestUserGenerator {
     fun user(): User {

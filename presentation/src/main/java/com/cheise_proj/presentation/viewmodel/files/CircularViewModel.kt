@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.toLiveData
 import com.cheise_proj.domain.entity.files.FilesEntity
 import com.cheise_proj.domain.usecase.files.GetCircularTask
-import com.cheise_proj.presentation.mapper.files.CircularEntityMapper
+import com.cheise_proj.presentation.extensions.asCircularPresentation
+import com.cheise_proj.presentation.extensions.asCircularPresentationList
 import com.cheise_proj.presentation.model.files.Circular
 import com.cheise_proj.presentation.model.vo.Resource
 import com.cheise_proj.presentation.utils.IServerPath
@@ -16,7 +17,6 @@ import javax.inject.Inject
 
 class CircularViewModel @Inject constructor(
     private val getCircularTask: GetCircularTask,
-    private val circularEntityMapper: CircularEntityMapper,
     private val serverPath: IServerPath
 ) : BaseViewModel() {
 
@@ -27,7 +27,7 @@ class CircularViewModel @Inject constructor(
                     it.path = it.photo
                     it.photo = serverPath.setCorrectPath(it.photo)
                 }
-                circularEntityMapper.entityToPresentationList(t)
+                t.asCircularPresentationList()
             }
             .map { t: List<Circular> ->
                 Resource.onSuccess(t)
@@ -45,7 +45,7 @@ class CircularViewModel @Inject constructor(
     fun getCircular(identifier: String): LiveData<Resource<Circular>> {
         return getCircularTask.buildUseCase(identifier)
             .map { t: List<FilesEntity> ->
-                circularEntityMapper.entityToPresentation(t[0])
+                t[0].asCircularPresentation()
             }
             .map { t: Circular ->
                 Resource.onSuccess(t)

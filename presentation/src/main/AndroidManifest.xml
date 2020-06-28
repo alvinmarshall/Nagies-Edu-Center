@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.cheise_proj.presentation" />
+<manifest package="com.cheise_proj.presentation" />

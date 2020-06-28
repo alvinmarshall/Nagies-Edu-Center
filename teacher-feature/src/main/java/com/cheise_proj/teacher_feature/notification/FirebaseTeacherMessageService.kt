@@ -1,7 +1,6 @@
 package com.cheise_proj.teacher_feature.notification
 
 import com.cheise_proj.presentation.utils.IPreference
-import com.cheise_proj.teacher_feature.R
 import com.cheise_proj.teacher_feature.utils.GetNotificationNavigationUtil
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage

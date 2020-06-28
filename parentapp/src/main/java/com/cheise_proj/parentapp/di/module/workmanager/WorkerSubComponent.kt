@@ -2,9 +2,8 @@ package com.cheise_proj.parentapp.di.module.workmanager
 
 import androidx.work.RxWorker
 import androidx.work.WorkerParameters
-import com.cheise_proj.presentation.job.UploadReceiptWorker
 import com.cheise_proj.parentapp.di.key.WorkerKey
-import com.cheise_proj.parentapp.di.module.domain.DomainModule
+import com.cheise_proj.presentation.job.UploadReceiptWorker
 import dagger.Binds
 import dagger.BindsInstance
 import dagger.Module

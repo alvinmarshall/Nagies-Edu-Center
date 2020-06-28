@@ -6,7 +6,7 @@ import com.cheise_proj.domain.entity.message.MessageEntity
 import com.cheise_proj.domain.usecase.message.GetMessageTask
 import com.cheise_proj.domain.usecase.message.GetSentMessageTask
 import com.cheise_proj.domain.usecase.message.SendMessageTask
-import com.cheise_proj.presentation.mapper.message.MessageEntityMapper
+import com.cheise_proj.presentation.extensions.asPresentationList
 import com.cheise_proj.presentation.model.message.Message
 import com.cheise_proj.presentation.model.vo.Resource
 import com.cheise_proj.presentation.viewmodel.BaseViewModel
@@ -17,14 +17,13 @@ import javax.inject.Inject
 
 class MessageViewModel @Inject constructor(
     private val getMessageTask: GetMessageTask,
-    private val messageEntityMapper: MessageEntityMapper,
     private val sendMessageTask: SendMessageTask,
     private val getSentMessageTask: GetSentMessageTask
 ) : BaseViewModel() {
 
     fun getSentMessages(): LiveData<Resource<List<Message>>> {
         return getSentMessageTask.buildUseCase()
-            .map { t: List<MessageEntity> -> messageEntityMapper.entityToPresentationList(t) }
+            .map { t: List<MessageEntity> -> t.asPresentationList() }
             .map { t: List<Message> -> Resource.onSuccess(t) }
             .startWith(Resource.onLoading())
             .onErrorResumeNext(
@@ -61,7 +60,7 @@ class MessageViewModel @Inject constructor(
 
     fun getMessages(): LiveData<Resource<List<Message>>> {
         return getMessageTask.buildUseCase()
-            .map { t: List<MessageEntity> -> messageEntityMapper.entityToPresentationList(t) }
+            .map { t: List<MessageEntity> -> t.asPresentationList() }
             .map { t: List<Message> -> Resource.onSuccess(t) }
             .startWith(Resource.onLoading())
             .onErrorResumeNext(
@@ -75,7 +74,7 @@ class MessageViewModel @Inject constructor(
 
     fun getMessage(identifier: Int): LiveData<Resource<Message>> {
         return getMessageTask.buildUseCase(identifier).map { t: List<MessageEntity> ->
-            messageEntityMapper.entityToPresentationList(t)[0]
+            t.asPresentationList()[0]
         }.map { t: Message ->
             Resource.onSuccess(t)
         }

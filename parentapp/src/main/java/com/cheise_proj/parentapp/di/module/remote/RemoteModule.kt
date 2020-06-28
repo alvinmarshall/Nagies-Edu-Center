@@ -2,28 +2,10 @@ package com.cheise_proj.parentapp.di.module.remote
 
 import com.cheise_proj.common_module.DEV_INFORDAS_BASE_URL
 import com.cheise_proj.common_module.INFORDAS_BASE_URL
-import com.cheise_proj.data.model.files.FilesData
-import com.cheise_proj.data.model.message.MessageData
-import com.cheise_proj.data.model.people.PeopleData
-import com.cheise_proj.data.model.user.ProfileData
-import com.cheise_proj.data.model.user.UserData
 import com.cheise_proj.data.source.RemoteSource
 import com.cheise_proj.parentapp.BuildConfig
 import com.cheise_proj.remote_source.RemoteSourceImpl
 import com.cheise_proj.remote_source.api.ApiService
-import com.cheise_proj.remote_source.mapper.RemoteMapper
-import com.cheise_proj.remote_source.mapper.files.CircularDtoDataMapper
-import com.cheise_proj.remote_source.mapper.files.FilesDtoDataMapper
-import com.cheise_proj.remote_source.mapper.message.MessageDtoDataMapper
-import com.cheise_proj.remote_source.mapper.people.PeopleDtoDataMapper
-import com.cheise_proj.remote_source.mapper.user.ProfileDtoDataMapper
-import com.cheise_proj.remote_source.mapper.user.UserDtoDataMapper
-import com.cheise_proj.remote_source.model.dto.files.CircularDto
-import com.cheise_proj.remote_source.model.dto.files.IFilesDto
-import com.cheise_proj.remote_source.model.dto.message.MessageDto
-import com.cheise_proj.remote_source.model.dto.people.IPeopleDto
-import com.cheise_proj.remote_source.model.dto.user.IProfileDto
-import com.cheise_proj.remote_source.model.dto.user.UserDto
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -41,36 +23,9 @@ class RemoteModule {
     @Module
     interface Binders {
 
-        //region PEOPLE
-        @Binds
-        fun bindPeopleDtoMapper(peopleDtoDataMapper: PeopleDtoDataMapper): RemoteMapper<IPeopleDto, PeopleData>
-        //endregion
-
-        //region FILES
-        @Binds
-        fun bindFilesDtoDataMapper(filesDtoDataMapper: FilesDtoDataMapper): RemoteMapper<IFilesDto, FilesData>
-
-        @Binds
-        fun bindCircularDtoDataMapper(circularDtoDataMapper: CircularDtoDataMapper): RemoteMapper<CircularDto, FilesData>
-        //endregion
-
-        //region MESSAGES
-        @Binds
-        fun bindMessageDtoDataMapper(messageDtoDataMapper: MessageDtoDataMapper): RemoteMapper<MessageDto, MessageData>
-        //endregion
-
-        //region USERS
-        @Binds
-        fun bindUserDtoDataMapper(userDtoDataMapper: UserDtoDataMapper): RemoteMapper<UserDto, UserData>
-
         @Binds
         fun bindRemoteSource(remoteSourceImpl: RemoteSourceImpl): RemoteSource
 
-        @Binds
-        fun bindProfileDtoDataMapper(profileDtoDataMapper: ProfileDtoDataMapper):
-                RemoteMapper<IProfileDto, ProfileData>
-
-        //endregion
     }
 
     @Suppress("SpellCheckingInspection")

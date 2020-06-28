@@ -1,11 +1,10 @@
 package com.cheise_proj.local_source.mapper.files
 
 import com.cheise_proj.data.model.files.FilesData
-import com.cheise_proj.local_source.mapper.base.LocalMapper
+import com.cheise_proj.local_source.mapper.base.LocalListMapper
 import com.cheise_proj.local_source.model.files.VideoLocal
-import javax.inject.Inject
 
-class VideoLocalDataMapper @Inject constructor() : LocalMapper<VideoLocal, FilesData> {
+internal class VideoLocalDataMapper : LocalListMapper<VideoLocal, FilesData> {
     override fun localToData(l: VideoLocal): FilesData {
         return FilesData(
             id = l.id,

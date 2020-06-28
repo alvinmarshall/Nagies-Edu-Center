@@ -4,15 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cheise_proj.domain.repository.FilesRepository
 import com.cheise_proj.domain.usecase.files.DeleteAssignmentTask
 import com.cheise_proj.domain.usecase.files.GetAssignmentTask
-import com.cheise_proj.presentation.mapper.files.AssignmentEntityMapper
+import com.cheise_proj.presentation.extensions.asAssignmentEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.IServerPath
 import com.cheise_proj.presentation.utils.TestFilesGenerator
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,12 +33,12 @@ class AssignmentViewModelTest {
     }
 
     private lateinit var assignmentViewModel: AssignmentViewModel
-    private lateinit var assignmentEntityMapper: AssignmentEntityMapper
     private lateinit var getAssignmentTask: GetAssignmentTask
     private lateinit var deleteAssignmentTask: DeleteAssignmentTask
 
     @Mock
     lateinit var filesRepository: FilesRepository
+
     @Mock
     lateinit var path: IServerPath
 
@@ -49,7 +48,6 @@ class AssignmentViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        assignmentEntityMapper = AssignmentEntityMapper()
         getAssignmentTask =
             GetAssignmentTask(filesRepository, Schedulers.trampoline(), Schedulers.trampoline())
         deleteAssignmentTask =
@@ -57,7 +55,6 @@ class AssignmentViewModelTest {
 
         assignmentViewModel = AssignmentViewModel(
             getAssignmentTask,
-            assignmentEntityMapper,
             path,
             deleteAssignmentTask
         )
@@ -110,7 +107,7 @@ class AssignmentViewModelTest {
         val actual = TestFilesGenerator.getAssignments()
 
         Mockito.`when`(filesRepository.getAssignments())
-            .thenReturn(Observable.just(assignmentEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asAssignmentEntityList()))
         val assignmentLive = assignmentViewModel.getAssignments()
         assignmentLive.observeForever { }
         assertTrue(
@@ -137,11 +134,7 @@ class AssignmentViewModelTest {
         Mockito.`when`(filesRepository.getAssignment(IDENTIFIER))
             .thenReturn(
                 Observable.just(
-                    assignmentEntityMapper.presentationToEntityList(
-                        arrayListOf(
-                            actual
-                        )
-                    )
+                    arrayListOf(actual).asAssignmentEntityList()
                 )
             )
         val assignmentLive = assignmentViewModel.getAssignment(IDENTIFIER)

@@ -4,15 +4,14 @@ package com.cheise_proj.teacher_feature.ui.profile
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.cheise_proj.common_module.DELAY_HANDLER
 import com.cheise_proj.presentation.GlideApp
 import com.cheise_proj.presentation.factory.ViewModelFactory
@@ -115,7 +114,7 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun setProfileAvatar() {
-        GlideApp.with(context!!).load(serverPath.setCorrectPath(session.photo)).into(item_img)
+        GlideApp.with(requireContext()).load(serverPath.setCorrectPath(session.photo)).into(item_img)
     }
 
 

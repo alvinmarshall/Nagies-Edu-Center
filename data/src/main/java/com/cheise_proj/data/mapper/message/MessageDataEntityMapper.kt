@@ -1,11 +1,10 @@
 package com.cheise_proj.data.mapper.message
 
-import com.cheise_proj.data.mapper.base.DataMapper
+import com.cheise_proj.data.mapper.base.DataListMapper
 import com.cheise_proj.data.model.message.MessageData
 import com.cheise_proj.domain.entity.message.MessageEntity
-import javax.inject.Inject
 
-class MessageDataEntityMapper @Inject constructor() : DataMapper<MessageData, MessageEntity> {
+internal class MessageDataEntityMapper : DataListMapper<MessageData, MessageEntity> {
     override fun dataToEntity(d: MessageData): MessageEntity {
         return MessageEntity(
             uid = d.uid,

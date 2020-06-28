@@ -3,9 +3,8 @@ package com.cheise_proj.presentation.mapper.user
 import com.cheise_proj.domain.entity.user.UserEntity
 import com.cheise_proj.presentation.mapper.PresentationMapper
 import com.cheise_proj.presentation.model.user.User
-import javax.inject.Inject
 
-class UserEntityMapper @Inject constructor() : PresentationMapper<User, UserEntity> {
+class UserEntityMapper : PresentationMapper<User, UserEntity> {
     override fun presentationToEntity(p: User): UserEntity {
         return UserEntity(
             uuid = p.uuid,
@@ -32,11 +31,4 @@ class UserEntityMapper @Inject constructor() : PresentationMapper<User, UserEnti
         )
     }
 
-    override fun presentationToEntityList(pList: List<User>): List<UserEntity> {
-        throw NotImplementedError("not implemented")
-    }
-
-    override fun entityToPresentationList(eList: List<UserEntity>): List<User> {
-        throw NotImplementedError("not implemented")
-    }
 }

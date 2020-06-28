@@ -1,11 +1,10 @@
 package com.cheise_proj.local_source.mapper.message
 
 import com.cheise_proj.data.model.message.ComplaintData
-import com.cheise_proj.local_source.mapper.base.LocalMapper
+import com.cheise_proj.local_source.mapper.base.LocalListMapper
 import com.cheise_proj.local_source.model.message.ComplaintLocal
-import javax.inject.Inject
 
-class ComplaintLocalDataMapper @Inject constructor() : LocalMapper<ComplaintLocal, ComplaintData> {
+internal class ComplaintLocalDataMapper : LocalListMapper<ComplaintLocal, ComplaintData> {
     override fun localToData(l: ComplaintLocal): ComplaintData {
         return ComplaintData(
             id = l.id,

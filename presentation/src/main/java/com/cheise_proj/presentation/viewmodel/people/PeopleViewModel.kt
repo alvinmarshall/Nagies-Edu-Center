@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.toLiveData
 import com.cheise_proj.domain.entity.people.PeopleEntity
 import com.cheise_proj.domain.usecase.people.GetPeopleTask
-import com.cheise_proj.presentation.mapper.people.PeopleEntityMapper
+import com.cheise_proj.presentation.extensions.asPresentationList
 import com.cheise_proj.presentation.model.people.People
 import com.cheise_proj.presentation.model.vo.Resource
 import com.cheise_proj.presentation.utils.IServerPath
@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class PeopleViewModel @Inject constructor(
     private val getPeopleTask: GetPeopleTask,
-    private val peopleEntityMapper: PeopleEntityMapper,
     private val serverPath: IServerPath
 ) : BaseViewModel() {
 
@@ -28,7 +27,7 @@ class PeopleViewModel @Inject constructor(
                 }
                 return@map t
             }
-            .map { peopleEntityMapper.entityToPresentationList(it) }
+            .map { t -> t.asPresentationList() }
             .map { Resource.onSuccess(it) }
             .startWith(Resource.onLoading())
             .onErrorResumeNext(Function {
@@ -40,9 +39,7 @@ class PeopleViewModel @Inject constructor(
 
     fun getPeople(type: String, identifier: String): LiveData<Resource<People>> {
         return getPeopleTask.buildUseCase(getPeopleTask.Params(type, identifier))
-            .map {
-                peopleEntityMapper.entityToPresentationList(it)[0]
-            }
+            .map { t -> t.asPresentationList()[0] }
             .map { Resource.onSuccess(it) }
             .startWith(Resource.onLoading())
             .onErrorResumeNext(Function {

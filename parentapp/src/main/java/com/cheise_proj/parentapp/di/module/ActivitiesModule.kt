@@ -10,7 +10,6 @@ import com.cheise_proj.parentapp.di.module.parent.ParentFeatureModule
 import com.cheise_proj.parentapp.di.scope.ActivityScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import javax.inject.Singleton
 
 @Module
 interface ActivitiesModule {

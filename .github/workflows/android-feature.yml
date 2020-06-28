@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Setup JDK
         uses: actions/setup-java@v1
@@ -25,9 +25,13 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+        env:
+          GOOGLE_SERVICE_KEY: ${{secrets.GOOGLE_SERVICE_KEY}}
 
       - name: Run Unit Tests
         run: ./gradlew test --stacktrace
+        env:
+          GOOGLE_SERVICE_KEY: ${{secrets.GOOGLE_SERVICE_KEY}}
 
       - name: Build apk debug
         run: ./gradlew assembleDebug

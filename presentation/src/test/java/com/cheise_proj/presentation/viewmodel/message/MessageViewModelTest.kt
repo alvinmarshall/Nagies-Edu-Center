@@ -5,7 +5,7 @@ import com.cheise_proj.domain.repository.MessageRepository
 import com.cheise_proj.domain.usecase.message.GetMessageTask
 import com.cheise_proj.domain.usecase.message.GetSentMessageTask
 import com.cheise_proj.domain.usecase.message.SendMessageTask
-import com.cheise_proj.presentation.mapper.message.MessageEntityMapper
+import com.cheise_proj.presentation.extensions.asEntityList
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.utils.TestMessageGenerator
 import io.reactivex.Observable
@@ -33,7 +33,6 @@ class MessageViewModelTest {
     }
 
     private lateinit var getMessageTask: GetMessageTask
-    private lateinit var messageEntityMapper: MessageEntityMapper
     private lateinit var messageViewModel: MessageViewModel
     private lateinit var sendMessageTask: SendMessageTask
     private lateinit var getSentMessageTask: GetSentMessageTask
@@ -47,7 +46,6 @@ class MessageViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        messageEntityMapper = MessageEntityMapper()
         getMessageTask =
             GetMessageTask(messageRepository, Schedulers.trampoline(), Schedulers.trampoline())
         sendMessageTask =
@@ -56,7 +54,6 @@ class MessageViewModelTest {
             GetSentMessageTask(messageRepository, Schedulers.trampoline(), Schedulers.trampoline())
         messageViewModel = MessageViewModel(
             getMessageTask,
-            messageEntityMapper,
             sendMessageTask,
             getSentMessageTask
         )
@@ -68,7 +65,7 @@ class MessageViewModelTest {
     fun `Get sent all messages success`() {
         val actual = TestMessageGenerator.getMessage()
         Mockito.`when`(messageRepository.getSentMessages())
-            .thenReturn(Observable.just(messageEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asEntityList()))
         val sentMessageLiveData = messageViewModel.getSentMessages()
         sentMessageLiveData.observeForever { }
         assertTrue(
@@ -127,7 +124,7 @@ class MessageViewModelTest {
     fun `Get all messages success`() {
         val actual = TestMessageGenerator.getMessage()
         Mockito.`when`(messageRepository.getMessages())
-            .thenReturn(Observable.just(messageEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asEntityList()))
         val messageLiveData = messageViewModel.getMessages()
         messageLiveData.observeForever { }
         assertTrue(
@@ -141,7 +138,7 @@ class MessageViewModelTest {
     fun `Get message success`() {
         val actual = TestMessageGenerator.getMessage()
         Mockito.`when`(messageRepository.getMessage(IDENTIFIER))
-            .thenReturn(Observable.just(messageEntityMapper.presentationToEntityList(actual)))
+            .thenReturn(Observable.just(actual.asEntityList()))
         val messageLiveData = messageViewModel.getMessage(IDENTIFIER)
         messageLiveData.observeForever { }
         assertTrue(

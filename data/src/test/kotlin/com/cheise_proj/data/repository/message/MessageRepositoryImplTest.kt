@@ -1,7 +1,7 @@
 package com.cheise_proj.data.repository.message
 
-import com.cheise_proj.data.mapper.message.ComplaintDataEntityMapper
-import com.cheise_proj.data.mapper.message.MessageDataEntityMapper
+import com.cheise_proj.data.extensions.asEntity
+import com.cheise_proj.data.extensions.asEntityList
 import com.cheise_proj.data.source.LocalSource
 import com.cheise_proj.data.source.RemoteSource
 import io.reactivex.Observable
@@ -26,26 +26,18 @@ class MessageRepositoryImplTest {
     }
 
     private lateinit var messageRepositoryImpl: MessageRepositoryImpl
-    private lateinit var messageDataEntityMapper: MessageDataEntityMapper
-    private lateinit var complaintDataEntityMapper: ComplaintDataEntityMapper
 
     @Mock
     lateinit var localSource: LocalSource
+
     @Mock
     lateinit var remoteSource: RemoteSource
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        messageDataEntityMapper = MessageDataEntityMapper()
-        complaintDataEntityMapper = ComplaintDataEntityMapper()
         messageRepositoryImpl =
-            MessageRepositoryImpl(
-                remoteSource,
-                localSource,
-                messageDataEntityMapper,
-                complaintDataEntityMapper
-            )
+            MessageRepositoryImpl(remoteSource, localSource)
     }
 
     //region SENT COMPLAINT
@@ -192,7 +184,7 @@ class MessageRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it == complaintDataEntityMapper.dataToEntityList(actual)
+                it == actual.asEntityList()
             }
             .assertComplete()
     }
@@ -239,7 +231,7 @@ class MessageRepositoryImplTest {
             .assertSubscribed()
             .assertValueCount(1)
             .assertValue {
-                it[0] == messageDataEntityMapper.dataToEntity(local)
+                it[0] == local.asEntity()
             }
             .assertComplete()
         Mockito.verify(localSource, times(1)).getMessage(IDENTIFIER)

@@ -5,7 +5,8 @@ import androidx.lifecycle.toLiveData
 import com.cheise_proj.domain.entity.files.FilesEntity
 import com.cheise_proj.domain.usecase.files.DeleteReportTask
 import com.cheise_proj.domain.usecase.files.GetReportTask
-import com.cheise_proj.presentation.mapper.files.ReportEntityMapper
+import com.cheise_proj.presentation.extensions.asReportPresentation
+import com.cheise_proj.presentation.extensions.asReportPresentationList
 import com.cheise_proj.presentation.model.files.Report
 import com.cheise_proj.presentation.model.vo.Resource
 import com.cheise_proj.presentation.utils.IServerPath
@@ -17,7 +18,6 @@ import javax.inject.Inject
 
 class ReportViewModel @Inject constructor(
     private val getReportTask: GetReportTask,
-    private val reportEntityMapper: ReportEntityMapper,
     private val serverPath: IServerPath,
     private val deleteReportTask: DeleteReportTask
 ) : BaseViewModel() {
@@ -42,7 +42,7 @@ class ReportViewModel @Inject constructor(
                     it.path = it.photo
                     it.photo = serverPath.setCorrectPath(it.photo)
                 }
-                reportEntityMapper.entityToPresentationList(t)
+                t.asReportPresentationList()
             }
             .map { t: List<Report> ->
                 Resource.onSuccess(t)
@@ -60,7 +60,7 @@ class ReportViewModel @Inject constructor(
     fun getReport(identifier: String): LiveData<Resource<Report>> {
         return getReportTask.buildUseCase(identifier)
             .map { t: List<FilesEntity> ->
-                reportEntityMapper.entityToPresentation(t[0])
+                t[0].asReportPresentation()
             }
             .map { t: Report ->
                 Resource.onSuccess(t)
