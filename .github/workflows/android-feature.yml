@@ -1,0 +1,37 @@
+name: Android Feature Branch CI
+
+on: pull_request
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Make Decrypt executable
+        run: chmod +x ./.github/scripts/decrypt_google_service.sh
+
+      - name: Decrypt google-services json file
+        run: ./.github/scripts/decrypt_google_service.sh
+        env:
+          GOOGLE_SERVICE_KEY: ${{secrets.GOOGLE_SERVICE_KEY}}
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+        env:
+          GOOGLE_SERVICE_KEY: ${{secrets.GOOGLE_SERVICE_KEY}}
+
+      - name: Run Unit Tests
+        run: ./gradlew test --stacktrace
+        env:
+          GOOGLE_SERVICE_KEY: ${{secrets.GOOGLE_SERVICE_KEY}}
+
+      - name: Build apk debug
+        run: ./gradlew assembleDebug
