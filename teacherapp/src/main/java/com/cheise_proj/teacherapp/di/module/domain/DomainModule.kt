@@ -5,9 +5,8 @@ import com.cheise_proj.domain.rx.qualifier.Foreground
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers
-import javax.inject.Singleton
+import io.reactivex.schedulers.Schedulers
 
 @Module
 class DomainModule {

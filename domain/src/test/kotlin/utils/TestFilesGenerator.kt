@@ -3,7 +3,7 @@ package utils
 import com.cheise_proj.domain.entity.files.FilesEntity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 object TestFilesGenerator {
@@ -33,9 +33,8 @@ object TestFilesGenerator {
     fun getFilePart(): MultipartBody.Part {
         val file = File("test file path")
         return MultipartBody.Part.Companion.createFormData(
-            "form field", file.name, RequestBody.create(
-                "image/jpeg/video/mp4".toMediaTypeOrNull(), file
-            )
+            "form field", file.name, file
+                .asRequestBody("image/jpeg/video/mp4".toMediaTypeOrNull())
         )
     }
 }

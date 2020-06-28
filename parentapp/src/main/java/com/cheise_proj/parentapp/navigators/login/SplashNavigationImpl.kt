@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.cheise_proj.login_feature.SplashNavigation
-import com.cheise_proj.login_feature.di.LoginScope
 import com.cheise_proj.login_feature.ui.role.RoleActivity
 import com.cheise_proj.parent_feature.ParentNavigationActivity
 import com.cheise_proj.parentapp.R

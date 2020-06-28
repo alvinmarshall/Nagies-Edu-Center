@@ -94,7 +94,7 @@ object RealPathUtil {
                 val id = DocumentsContract.getDocumentId(uri)
                 if (!TextUtils.isEmpty(id)) {
                     if (id.startsWith("raw:")) {
-                        return id.replaceFirst("raw:", "");
+                        return id.replaceFirst("raw:", "")
                     }
                     return try {
                         val contentUri = ContentUris.withAppendedId(
@@ -157,13 +157,13 @@ object RealPathUtil {
 
         try {
             cursor = context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
-            if (cursor != null && cursor!!.moveToFirst()) {
-                val index = cursor!!.getColumnIndexOrThrow(column)
-                return cursor!!.getString(index)
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(index)
             }
         } finally {
             if (cursor != null)
-                cursor!!.close()
+                cursor.close()
         }
         return null
     }

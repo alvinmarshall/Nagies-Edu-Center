@@ -4,8 +4,6 @@ import com.cheise_proj.domain.repository.UserRepository
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -13,7 +11,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.MockitoAnnotations
-import java.lang.IllegalArgumentException
 
 
 @RunWith(JUnit4::class)

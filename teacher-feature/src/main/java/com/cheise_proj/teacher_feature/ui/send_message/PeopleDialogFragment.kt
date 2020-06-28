@@ -2,29 +2,23 @@ package com.cheise_proj.teacher_feature.ui.send_message
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cheise_proj.presentation.factory.ViewModelFactory
-import com.cheise_proj.presentation.job.UploadReportWorker
 import com.cheise_proj.presentation.model.people.People
 import com.cheise_proj.presentation.model.vo.STATUS
 import com.cheise_proj.presentation.viewmodel.people.PeopleViewModel
 import com.cheise_proj.teacher_feature.AdapterClickListener
-
 import com.cheise_proj.teacher_feature.R
-import com.cheise_proj.teacher_feature.ui.student.StudentFragmentArgs
 import com.cheise_proj.teacher_feature.ui.student.adapter.StudentAdapter
 import dagger.android.support.DaggerDialogFragment
 import kotlinx.android.synthetic.main.fragment_student.*
-import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
 /**

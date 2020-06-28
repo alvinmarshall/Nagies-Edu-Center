@@ -8,7 +8,7 @@ import com.cheise_proj.presentation.notification.ITeacherNotification
 import io.reactivex.Single
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -25,9 +25,8 @@ class UploadReportWorker @Inject constructor(
         val destination = inputData.getInt("destination", -1)
         val file = File(filePath!!)
         val uploadFile: MultipartBody.Part = MultipartBody.Part.Companion.createFormData(
-            "file", file.name, RequestBody.create(
-                "image/jpeg".toMediaTypeOrNull(), file
-            )
+            "file", file.name, file
+                .asRequestBody("image/jpeg".toMediaTypeOrNull())
         )
         val refNoPart: MultipartBody.Part = MultipartBody.Part.Companion.createFormData(
             "studentNo", refNo ?: ""

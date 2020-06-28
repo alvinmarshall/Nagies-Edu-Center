@@ -2,10 +2,6 @@ package com.cheise_proj.local_source.extensions
 
 import com.cheise_proj.data.model.files.FilesData
 import com.cheise_proj.local_source.mapper.files.*
-import com.cheise_proj.local_source.mapper.files.AssignmentLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.BillLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.CircularLocalDataMapper
-import com.cheise_proj.local_source.mapper.files.ReportLocalDataMapper
 import com.cheise_proj.local_source.model.files.*
 
 

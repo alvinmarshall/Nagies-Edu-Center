@@ -51,12 +51,12 @@ class StudentFragment : BaseFragment() {
         data: People,
         path: String
     ) {
-        val builder = AlertDialog.Builder(context!!)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("You're about to send a report to \n${data.name}, Do you wish to continue ?")
         builder.setPositiveButton("yes") { dialog, _ ->
             dialog.dismiss()
             UploadReportWorker.start(
-                context!!,
+                requireContext(),
                 path,
                 data.refNo,
                 data.name,

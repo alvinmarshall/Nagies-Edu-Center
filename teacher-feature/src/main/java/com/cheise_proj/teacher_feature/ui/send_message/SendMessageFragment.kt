@@ -111,7 +111,7 @@ class SendMessageFragment : BaseFragment() {
     }
 
     private fun showRecipientAlert(content: String, receiver: String, identifier: String) {
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle("Recipient Alert")
             .setMessage("Your message recipient is set to \n${getCurrentRecipient()}. \nDo you want to continue ?")
             .setPositiveButton("ok") { dialog, _ ->

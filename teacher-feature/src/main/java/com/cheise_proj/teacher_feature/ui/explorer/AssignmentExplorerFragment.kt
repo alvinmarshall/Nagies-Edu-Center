@@ -8,10 +8,10 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -111,7 +111,7 @@ class AssignmentExplorerFragment : BaseFragment() {
         val view = lay.inflate(R.layout.prev_avatar, root)
         val img = view.findViewById<TouchImageView>(R.id.avatar_image)
         val dialogBuilder = AlertDialog.Builder(context)
-        GlideApp.with(context!!).load(url).centerCrop().into(object : CustomTarget<Drawable>() {
+        GlideApp.with(requireContext()).load(url).centerCrop().into(object : CustomTarget<Drawable>() {
             override fun onLoadCleared(placeholder: Drawable?) {
 
             }
@@ -155,7 +155,7 @@ class AssignmentExplorerFragment : BaseFragment() {
 
     private fun initPermission() {
         permission.initPermissionValues(
-            context!!,
+            requireContext(),
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
             REQUEST_EXTERNAL_STORAGE, permissionDialogListener
         )

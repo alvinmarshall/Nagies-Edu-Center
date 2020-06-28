@@ -1,6 +1,5 @@
 package com.cheise_proj.remote_source.model.dto.people
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class PeopleDto(

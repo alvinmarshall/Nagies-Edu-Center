@@ -2,7 +2,6 @@ package com.cheise_proj.domain.repository
 
 import com.cheise_proj.domain.entity.files.FilesEntity
 import io.reactivex.Observable
-import io.reactivex.Single
 import okhttp3.MultipartBody
 
 interface FilesRepository {

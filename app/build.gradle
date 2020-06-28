@@ -14,6 +14,9 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
     defaultConfig {
         applicationId "com.wNagiesEducationalCenterj_9905"
         minSdkVersion rootProject.minSdkVersion
@@ -25,10 +28,10 @@ android {
     }
     signingConfigs {
         release {
-//            keyAlias 'nagies_mobile_key'
-//            keyPassword 'infordas@2019'
-//            storePassword 'infordas@2019'
-//            storeFile file("D:\\Projects\\Android Proj\\key_store\\nagies_angels_mobile_key.jks")
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
     buildTypes {
