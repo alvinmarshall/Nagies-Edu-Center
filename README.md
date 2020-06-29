@@ -3,6 +3,7 @@
 </p>
 <h1 align="center">Nagies Educational Center </h1>
 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Bik-Krlvn/Nagies-Edu-Center)
 ![Android CI](https://github.com/Bik-Krlvn/Nagies-Edu-Center/workflows/Android%20CI/badge.svg)
 [![GitHub stars](https://img.shields.io/github/stars/Bik-Krlvn/Nagies-Edu-Center)](https://github.com/Bik-Krlvn/Nagies-Edu-Center/stargazers) 
 [![GitHub license](https://img.shields.io/github/license/Bik-Krlvn/Nagies-Edu-Center)](https://github.com/Bik-Krlvn/Nagies-Edu-Center/blob/develop/LICENSE)
