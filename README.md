@@ -10,7 +10,7 @@
 
 This is a school portal application designed for Nagies-Angels with focus on easy to use, continually developed to keep parents informed of their child's
 learning and progression in class.
-Teachers are able to share Report card, assignment, notice, etc to parents. Parents can also communicate easily with various course teachers on their child's performance on in class.
+Teachers are able to share Report card, assignment, notice, etc to parents. Parents can also communicate easily with various course teachers on their child's performance in class.
 
 ## Features
 - [x] InApp messaging
